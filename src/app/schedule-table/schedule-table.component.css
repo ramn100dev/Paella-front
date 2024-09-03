@@ -3,7 +3,7 @@
     padding-left: 1em;
 }
 
-.header {
+.info {
     padding-top: 3em;
     display: flex;
     flex-direction: row;
@@ -25,3 +25,6 @@ mat-icon:hover {
     justify-content:space-between;
 }
 
+.schedule{
+    padding-top: 3em;
+}

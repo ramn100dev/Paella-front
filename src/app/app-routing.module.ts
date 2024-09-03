@@ -14,3 +14,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+//https://ramn100dev.github.io/Paella-front
