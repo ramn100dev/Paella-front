@@ -28,3 +28,16 @@ mat-icon:hover {
 .schedule{
     padding-top: 3em;
 }
+
+td:hover{
+    background-color: rgb(221, 221, 221);
+    cursor: pointer;
+    font-weight:bold;
+}
+
+input {
+    background-color: rgb(243, 243, 243);
+    border-radius: 5px;
+    width: 90%;
+    height: 40px;
+}
