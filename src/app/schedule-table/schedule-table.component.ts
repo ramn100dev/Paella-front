@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { ScheduleService } from '../service/schedule.service';
+import { ScheduleService } from 'src/app/service/schedule.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface Schedule{
   id: number;
@@ -28,7 +28,7 @@ export class ScheduleTableComponent {
   posts:any
   client: any
 
-  constructor(private service: ScheduleService, private route: ActivatedRoute) {
+  constructor(private service: ScheduleService, private route: ActivatedRoute, private router: Router) {
     
     this.client = history.state.client
 
@@ -51,5 +51,9 @@ export class ScheduleTableComponent {
   saveCell(row: Schedule, column: string): void {
     this.editingCell = null;
     this.service.updateSchedule(row.id, row).subscribe();
+  }
+
+  createTicket(day: string){
+    
   }
 }

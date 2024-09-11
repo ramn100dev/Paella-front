@@ -1,0 +1,9 @@
+.content{
+    padding-left: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+mat-form-field{
+    width: 95%;
+}

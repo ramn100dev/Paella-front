@@ -1,8 +1,12 @@
+<div class="top">
+    <mat-form-field>
+        <mat-label>Buscador</mat-label>
+        <input matInput placeholder="" search (keyup)="applyFilter($event)"/>
+    </mat-form-field>
 
-<mat-form-field>
-    <mat-label>Buscador</mat-label>
-    <input matInput placeholder="" search (keyup)="applyFilter($event)"/>
-</mat-form-field>
+    <button mat-button (click)="openClientForm()">Agregar Cliente</button>
+</div>
+
 
 
 <div>

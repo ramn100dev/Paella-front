@@ -15,12 +15,3 @@ mat-form-field{
     cursor: pointer;
     font-weight:bold;
 }
-
-table{
-    background-color: rgb(244, 244, 244);
-    border-radius: 10px auto;
-}
-
-mat-paginator{
-    padding-top: 1em;
-}

@@ -4,25 +4,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TableClientsComponent } from './table-clients/table-clients.component';
-import { HttpClientModule } from '@angular/common/http'
+import { ClientFormComponent } from './client-form/client-form.component';
+import { ScheduleTableComponent } from './schedule-table/schedule-table.component';
 
+import { HttpClientModule } from '@angular/common/http'
 import { MatTableModule} from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatSortModule } from '@angular/material/sort'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule} from '@angular/material/input'
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ScheduleTableComponent } from './schedule-table/schedule-table.component';
-
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TicketGeneratorComponent } from './ticket-generator/ticket-generator.component'
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TableClientsComponent,
-    ScheduleTableComponent
+    ScheduleTableComponent,
+    ClientFormComponent,
+    TicketGeneratorComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +39,9 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     BrowserAnimationsModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
