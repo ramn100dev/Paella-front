@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ScheduleService } from 'src/app/service/schedule.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Client } from '../table-clients/table-clients.component';
 
 export interface Schedule{
   id: number;
@@ -33,10 +34,11 @@ export class ScheduleTableComponent {
     this.client = history.state.client
 
     this.service.getSchedule(this.route.snapshot.paramMap.get('id') || '1').subscribe( data => {
-      console.log(data)
+      //console.log(data)
       this.posts = [data]
 
       this.dataSource = new MatTableDataSource(this.posts)
+      //console.log(this.dataSource)
     })
   }
 
@@ -54,6 +56,9 @@ export class ScheduleTableComponent {
   }
 
   createTicket(day: string){
-    
+    const client:Client = this.client
+    const food = this.posts[0][day]
+    //console.log(client)
+    this.router.navigate(['/ticket', this.client.id], { state: { client, food }})
   }
 }

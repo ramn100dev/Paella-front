@@ -53,7 +53,6 @@ export class TableClientsComponent {
     })
   }
 
-
   loadSchedule(client: any){
     this.router.navigate(['/schedule', client.id], { state: { client } })
   }

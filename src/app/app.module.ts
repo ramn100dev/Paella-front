@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TableClientsComponent } from './table-clients/table-clients.component';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { ScheduleTableComponent } from './schedule-table/schedule-table.component';
+import { TicketGeneratorComponent } from './ticket-generator/ticket-generator.component'
 
 import { HttpClientModule } from '@angular/common/http'
+import { AppRoutingModule } from './app-routing.module';
 import { MatTableModule} from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatSortModule } from '@angular/material/sort'
@@ -17,7 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TicketGeneratorComponent } from './ticket-generator/ticket-generator.component'
+import { MatCardModule } from '@angular/material/card';
+
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { TicketGeneratorComponent } from './ticket-generator/ticket-generator.co
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
