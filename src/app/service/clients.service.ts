@@ -19,4 +19,8 @@ export class ClientsService {
   postClient(client: Client): Observable<Client> {
     return this.http.post<Client>(this.BASE_URL + "/new", client)
   }
+
+  updateClient(id:number, client: Client): Observable<Client> {
+    return this.http.put<Client>(this.BASE_URL + "/modify/" + id, client)
+  }
 }

@@ -1,9 +1,15 @@
 <div class="info">
-    <mat-icon aria-hidden="true" routerLink="/clients">arrow_back</mat-icon>
-    <div class="text">
-        <div>{{client.name}}</div> 
-        <div>{{client.address}}</div>
-        <div>{{client.phone}}</div>
+    <div class="edit">
+        <mat-icon aria-hidden="true" routerLink="/clients" id="back">arrow_back</mat-icon>
+        <div class="text">
+            <div>{{client.name}}</div> 
+            <div>{{client.address}}</div>
+            <div>{{client.phone}}</div>
+        </div>
+    </div>
+    <div class="options">
+        <button mat-button (click)="openClientEdit()">Editar</button>
+        <mat-icon aria-hidden="true" id="delete">delete</mat-icon>
     </div>
 </div>
 

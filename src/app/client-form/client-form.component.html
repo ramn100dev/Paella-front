@@ -1,5 +1,5 @@
 <div class="content">
-  <h2>Agregar Cliente</h2>
+  <h2> {{ isEditMode ? 'Editar Cliente' : 'Agregar Cliente' }}</h2>
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Nombre</mat-label>
@@ -14,6 +14,6 @@
       <input matInput formControlName="phone">
     </mat-form-field>
     <br>
-    <button mat-button type="submit">Agregar</button>
+    <button mat-button type="submit"> {{ isEditMode ? 'Editar' : 'Guardar' }}</button>
   </form>
 </div>

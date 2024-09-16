@@ -40,9 +40,10 @@ export class TableClientsComponent {
     }
   }
 
-
+  
   openClientForm(){
     const dialogRef = this.dialog.open(ClientFormComponent, {
+      data: { isEditMode: false },
       width: '300px',
     })
 

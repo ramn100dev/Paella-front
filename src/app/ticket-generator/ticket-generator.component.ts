@@ -11,9 +11,12 @@ export class TicketGeneratorComponent {
   client: any
   food: any
 
+  day: Date = new Date()
+
   constructor(private route: ActivatedRoute){
     this.client = history.state.client
     this.food = history.state.food
+    
   }
 
 
