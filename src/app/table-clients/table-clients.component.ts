@@ -3,7 +3,7 @@ import { ClientsService } from '../service/clients.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
 
@@ -12,6 +12,7 @@ export interface Client{
   name: string;
   address: string;
   phone: string;
+  preference: 0;
 }
 
 @Component({
@@ -26,9 +27,17 @@ export class TableClientsComponent {
   @ViewChild(MatSort) sort!: MatSort
 
   posts:any
+  prefPosts:any
+  showPref = false
 
   constructor(private service: ClientsService, private router: Router, private dialog: MatDialog) {
     this.getClientList()
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.getClientList()
+      }
+    })
   }
   
   applyFilter(event: Event){
@@ -40,7 +49,6 @@ export class TableClientsComponent {
     }
   }
 
-  
   openClientForm(){
     const dialogRef = this.dialog.open(ClientFormComponent, {
       data: { isEditMode: false },
@@ -60,7 +68,7 @@ export class TableClientsComponent {
 
   getClientList() {
     this.service.getClients().subscribe(data => {
-      console.log(data)
+      //console.log(data)
       this.posts = data
 
       this.dataSource = new MatTableDataSource(this.posts)
@@ -68,5 +76,26 @@ export class TableClientsComponent {
       this.dataSource.sort = this.sort
       this.paginator._intl.itemsPerPageLabel = "Clientes por pagina"
     })
+  }
+
+  getPreferenceClientList() {
+    this.service.getClientsPref().subscribe((data) => {
+      this.prefPosts = data;
+      if (this.showPref) {
+        this.dataSource = new MatTableDataSource(this.prefPosts);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    });
+  }
+
+  toggleClientList() {
+    this.showPref = !this.showPref;
+
+    if (this.showPref) {
+      this.getPreferenceClientList(); // Cargar la lista alternativa
+    } else {
+      this.getClientList(); // Volver a la lista principal
+    }
   }
 }

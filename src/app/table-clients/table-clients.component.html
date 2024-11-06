@@ -1,10 +1,13 @@
 <div class="top">
-    <mat-form-field>
-        <mat-label>Buscador</mat-label>
-        <input matInput placeholder="" search (keyup)="applyFilter($event)"/>
-    </mat-form-field>
+    <div class="side">
+        <mat-form-field>
+            <mat-label>Buscador</mat-label>
+            <input matInput placeholder="" search (keyup)="applyFilter($event)"/>
+        </mat-form-field>
 
-    <button mat-button (click)="openClientForm()">Agregar Cliente</button>
+        <mat-checkbox (change)="toggleClientList()">Fijo</mat-checkbox>
+    </div>
+    <button mat-fab extended (click)="openClientForm()">Agregar Cliente</button>
 </div>
 
 <div>
@@ -29,7 +32,8 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumn" (click)="loadSchedule(row)"></tr>
 
         <tr *matNoDataRow>
-            <td class="mat-cell"> No existe ningún cliente con ese nombre, dirección o numero de telefono</td>
+            <td class="mat-cell" *ngIf="!showPref"> No existe ningún cliente con ese nombre, dirección o numero de telefono</td>
+            <td class="mat-cell" *ngIf="showPref"> No has añadido ningun cliente como fijo</td>
         </tr>
     </table>
 

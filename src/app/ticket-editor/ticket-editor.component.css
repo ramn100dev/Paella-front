@@ -2,9 +2,9 @@
     padding-left: 1em;
     padding-top: 1em;
     padding-bottom: 1em;
-}
-
-mat-form-field{
+    display: flex;
+    flex-direction:column ;
+    align-self: center;
     width: 95%;
 }
 
@@ -12,7 +12,7 @@ button{
     height: 50px;
     font-size: 15px;
     border-radius: 6px;
-    width: 100px;
+    width: 95%;
 }
 
 button:hover{
@@ -21,7 +21,6 @@ button:hover{
     font-weight: 600;
 }
 
-#num {
-    padding-left: 40%;
-    width: 30%;
+mat-form-field{
+    width: 40%;
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from '../table-clients/table-clients.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
+import { TicketEditorComponent } from '../ticket-editor/ticket-editor.component';
 
 export interface Schedule{
   id: number;
@@ -15,6 +16,7 @@ export interface Schedule{
   viernes: string;
   sabado: string;
   domingo: string;
+  client_id: number;
 }
 
 @Component({
@@ -30,41 +32,101 @@ export class ScheduleTableComponent {
 
   posts:any
   client: any
+  multipleSchedule: boolean = false
+  deleteMode: boolean = false
 
-  constructor(private service: ScheduleService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog) {
+  constructor(private service: ScheduleService, private router: Router, private dialog: MatDialog) {
     
     this.client = history.state.client
-
-    this.service.getSchedule(this.route.snapshot.paramMap.get('id') || '1').subscribe( data => {
-      //console.log(data)
-      this.posts = [data]
-
-      this.dataSource = new MatTableDataSource(this.posts)
-      //console.log(this.dataSource)
-    })
+    
+    this.getScheduleList()
   }
 
-  openClientEdit(){
+  openClientEdit() {
+    const isFijo = this.client.preference !== 0;
+
     const dialogRef = this.dialog.open(ClientFormComponent, {
-      data: { isEditMode: true, client: this.client },
+      data: { isEditMode: true, client: this.client, isFijo: isFijo },
       width: '300px'
-    })
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        console.log(result)
-        this.client.name = result.name
-        this.client.address = result.address
-        this.client.phone = result.phone
+      if (result) {
+        console.log(result);
+        this.client.name = result.name;
+        this.client.address = result.address;
+        this.client.phone = result.phone;
+        this.client.preference = result.preference;
+      }
+    });
+}
+
+  createTicket(day: string){
+    const dayValue = []
+    const food = this.posts[0]
+
+    if(this.multipleSchedule){
+      for (let i = 0; i < food.length; i++) {
+        dayValue.push(food[i][day])
+      }
+    } else{
+      dayValue.push(food[0][day])
+    }
+
+    const dialogRef = this.dialog.open(TicketEditorComponent, {
+      data: { client: this.client, dayValue: dayValue, multipleSchedule: this.multipleSchedule },
+      width: '300px'
+    });
+
+    dialogRef.afterClosed().subscribe( result => {
+      if (result) {
+        console.log(result);
       }
     })
   }
 
-  createTicket(day: string){
-    const client:Client = this.client
-    const food = this.posts[0][day]
-    //console.log(client)
-    this.router.navigate(['/ticket', this.client.id], { state: { client, food }})
+  addSchedule(){
+    this.service.addSchedule(this.client.id).subscribe()
+    location.reload()
+  }
+
+  activateDelete(){
+    this.deleteMode = !this.deleteMode
+    if(this.deleteMode){
+      this.displayedColumns.push('delete')
+    } else {
+      this.displayedColumns = this.displayedColumns.filter(column => column !== 'delete');
+    }
+  }
+
+  deleteSchedule(row: Schedule){
+    this.service.deleteSchedule(row.id).subscribe({
+      next: () => {
+        this.getScheduleList()
+      }
+    })
+  }
+
+  getScheduleList(){
+    this.service.getScheduleList(this.client.id).subscribe( data => {
+      
+      this.posts = [data];
+      this.dataSource = new MatTableDataSource(data)
+
+      if([data][0].length > 1){
+        this.multipleSchedule = true
+        
+      } else {
+        this.multipleSchedule = false
+        this.deleteMode = false
+        this.displayedColumns = this.displayedColumns.filter(column => column !== 'delete');
+      }
+    })
+  }
+
+  delete(){
+    this.service.delete(this.client.id).subscribe()
+    this.router.navigate(['/clients'])
   }
 
   /* EXPLICACIÓN A LA LOGICA DE LA EDICIÓN DE CELDAS
@@ -90,6 +152,4 @@ export class ScheduleTableComponent {
     this.editingCell = null;
     this.service.updateSchedule(row.id, row).subscribe();
   }
-
-  
 }

@@ -14,6 +14,14 @@
       <input matInput formControlName="phone">
     </mat-form-field>
     <br>
+
+    <mat-checkbox [checked]="isFijo" (change)="addPreference()">Fijo</mat-checkbox>
+    <mat-form-field *ngIf="isFijo" id="num">
+      <input matInput type="number" formControlName="preference" min="1" step="1"> 
+    </mat-form-field>
+
+    <br>
     <button mat-button type="submit"> {{ isEditMode ? 'Editar' : 'Guardar' }}</button>
+    
   </form>
 </div>

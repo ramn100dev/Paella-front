@@ -24,6 +24,11 @@
     align-items: center;
 }
 
+#edit {
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
 mat-icon {
     transform: scale(2);
 }
@@ -35,6 +40,14 @@ mat-icon {
 
 #delete:hover {
     color: rgb(232, 32, 32);
+    cursor: pointer;
+}
+
+#add{
+    margin-left: 40px;
+}
+#add:hover {
+    color: rgb(255, 221, 0);
     cursor: pointer;
 }
 

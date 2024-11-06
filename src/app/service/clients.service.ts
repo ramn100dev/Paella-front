@@ -23,4 +23,16 @@ export class ClientsService {
   updateClient(id:number, client: Client): Observable<Client> {
     return this.http.put<Client>(this.BASE_URL + "/modify/" + id, client)
   }
+
+  getClientsPref() {
+    return this.http.get(this.BASE_URL + "/preference")
+  }
+
+  checkPref(id: number, preference: number){
+    return this.http.put(this.BASE_URL + "/checkPreference/" + id + "/" + preference, {})
+  }
+
+  getMaxPref(){
+    return this.http.get<number>(this.BASE_URL + "/getMaxPref")
+  }
 }

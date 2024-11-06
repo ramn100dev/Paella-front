@@ -1,0 +1,15 @@
+<div class="content">
+    <h2>Ticket para {{data.client.name}}</h2>
+    <h3>Hora prevista de la entrega:</h3>
+    <mat-form-field>
+        <input matInput [(ngModel)]="time" placeholder="Hora...">
+    </mat-form-field>
+    <div class="Botones" *ngIf="multipleSchedule">
+        <h3>Selecciona que ticket quieres sacar</h3>
+        <div *ngFor="let food of data.dayValue; let i = index">
+            <button mat-button type="submit" (click)="selectFood(data.dayValue[i])">{{ data.dayValue[i] }}</button>
+            <br><br>
+        </div>
+    </div>
+    <button *ngIf="!multipleSchedule" (click)="selectFood(data.dayValue[0])">{{ data.dayValue[0] }}</button>
+</div>
