@@ -31,7 +31,10 @@ export class TableClientsComponent {
   showPref = false
 
   constructor(private service: ClientsService, private router: Router, private dialog: MatDialog) {
+
     this.getClientList()
+
+    this.welcomeAlert()
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -40,8 +43,17 @@ export class TableClientsComponent {
     })
   }
   
+  //Codigo DEMO
+  welcomeAlert(){
+    const hasVisited = localStorage.getItem('hasVisited')
+    if (!hasVisited) {
+      alert("Buenas! Bienvenido a la demo de CaterinGestor, debido a que el backend esta alojado en el plan gratuito de Render es bastante posible que tarde un rato en inicializar las peticiones. Dentro de esta demo puedes añadir clientes, y personalizar sus menus semanales, ademas de imprimir los tickets de cada comida. Tambien quiero destacar que la base de datos es temporal. Ahora si, prueba la demo!")
+      localStorage.setItem('hasVisited', 'true')
+    }
+  }
+
   applyFilter(event: Event){
-    const filterValue = (event.target as HTMLInputElement).value;
+    const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
     
     if (this.dataSource.paginator){
@@ -80,22 +92,22 @@ export class TableClientsComponent {
 
   getPreferenceClientList() {
     this.service.getClientsPref().subscribe((data) => {
-      this.prefPosts = data;
+      this.prefPosts = data
       if (this.showPref) {
-        this.dataSource = new MatTableDataSource(this.prefPosts);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource = new MatTableDataSource(this.prefPosts)
+        this.dataSource.paginator = this.paginator
+        this.dataSource.sort = this.sort
       }
-    });
+    })
   }
 
   toggleClientList() {
-    this.showPref = !this.showPref;
+    this.showPref = !this.showPref
 
     if (this.showPref) {
-      this.getPreferenceClientList(); // Cargar la lista alternativa
+      this.getPreferenceClientList() // Cargar la lista alternativa
     } else {
-      this.getClientList(); // Volver a la lista principal
+      this.getClientList() // Volver a la lista principal
     }
   }
 }

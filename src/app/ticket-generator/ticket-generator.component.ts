@@ -19,8 +19,8 @@ export class TicketGeneratorComponent {
     this.food = history.state.food
     this.time = history.state.time
     setTimeout(() => {
-      window.print();
-      window.history.back();
-    }, 100);
+      window.print()
+      window.history.back()
+    }, 100)
   }
 }

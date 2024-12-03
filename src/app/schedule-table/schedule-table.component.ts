@@ -28,7 +28,7 @@ export class ScheduleTableComponent {
   displayedColumns: string[] = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
   dataSource!: MatTableDataSource<Schedule>
   
-  editingCell: { row: Schedule, column: string } | null = null;
+  editingCell: { row: Schedule, column: string } | null = null
 
   posts:any
   client: any
@@ -36,14 +36,14 @@ export class ScheduleTableComponent {
   deleteMode: boolean = false
 
   constructor(private service: ScheduleService, private router: Router, private dialog: MatDialog) {
-    
+
     this.client = history.state.client
     
     this.getScheduleList()
   }
 
   openClientEdit() {
-    const isFijo = this.client.preference !== 0;
+    const isFijo = this.client.preference !== 0
 
     const dialogRef = this.dialog.open(ClientFormComponent, {
       data: { isEditMode: true, client: this.client, isFijo: isFijo },
@@ -52,11 +52,11 @@ export class ScheduleTableComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
-        this.client.name = result.name;
-        this.client.address = result.address;
-        this.client.phone = result.phone;
-        this.client.preference = result.preference;
+        console.log(result)
+        this.client.name = result.name
+        this.client.address = result.address
+        this.client.phone = result.phone
+        this.client.preference = result.preference
       }
     });
 }
@@ -80,7 +80,7 @@ export class ScheduleTableComponent {
 
     dialogRef.afterClosed().subscribe( result => {
       if (result) {
-        console.log(result);
+        console.log(result)
       }
     })
   }
@@ -119,7 +119,7 @@ export class ScheduleTableComponent {
       } else {
         this.multipleSchedule = false
         this.deleteMode = false
-        this.displayedColumns = this.displayedColumns.filter(column => column !== 'delete');
+        this.displayedColumns = this.displayedColumns.filter(column => column !== 'delete')
       }
     })
   }
@@ -130,7 +130,7 @@ export class ScheduleTableComponent {
   }
 
   /* EXPLICACIÓN A LA LOGICA DE LA EDICIÓN DE CELDAS
-      Sin duda este es el codigo mas complejo de la aplicación, y quiero dedicarle una explcicación, vaya a ser que mi yo del futuro se quiera cambiarlo y me quiera pegar un tiro 
+      Sin duda este es el codigo mas complejo de la aplicación, y quiero dedicarle una explcicación, vaya a ser que mi yo del futuro se quiera cambiarlo y me vuelva loco
 
       Basicamente, en el HTML utilizamos un *ngIf para usar el div o el input segun la variable 'editingCell',
       a partir de aqui estan las funciones
@@ -139,17 +139,17 @@ export class ScheduleTableComponent {
   //Verifica si la celda se esta editando:
   //Basicamente, se compara si la celda selecciona esta en modo edición, comparando los valores row y column, para pasar a editCell()
   isEditing(row: Schedule, column: string): boolean {
-    return this.editingCell?.row === row && this.editingCell?.column === column;
+    return this.editingCell?.row === row && this.editingCell?.column === column
   }
 
   //Activa el input
   editCell(row: Schedule, column: string): void {
-    this.editingCell = { row, column };
+    this.editingCell = { row, column }
   }
 
   //Guarda los cambios, y hace que la celda no se este editando mas
   saveCell(row: Schedule, column: string): void {
     this.editingCell = null;
-    this.service.updateSchedule(row.id, row).subscribe();
+    this.service.updateSchedule(row.id, row).subscribe()
   }
 }

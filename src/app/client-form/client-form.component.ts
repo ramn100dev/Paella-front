@@ -32,7 +32,7 @@ export class ClientFormComponent {
     this.isFijo = !this.isFijo
 
     this.service.getMaxPref().subscribe( data => {
-      this.clientForm.patchValue({ preference: data + 1 });
+      this.clientForm.patchValue({ preference: data + 1 })
     })
   }
 
@@ -47,7 +47,7 @@ export class ClientFormComponent {
         this.service.updateClient(this.data.client.id, this.clientForm.value).subscribe({
           next: res => console.log(res),
           error: err => console.log(err)
-        });
+        })
       } else {
         this.service.postClient(this.clientForm.value).subscribe({
           next: (res: any) => {
@@ -57,13 +57,13 @@ export class ClientFormComponent {
               this.service.checkPref(res.id, this.clientForm.value.preference).subscribe({
                 next: updateRes => console.log(updateRes),
                 error: updateErr => console.log(updateErr)
-              });
+              })
             }
           },
           error: err => console.log(err)
-        });
+        })
       }
-      this.dialogRef.close(this.clientForm.value);
+      this.dialogRef.close(this.clientForm.value)
     }
   }
 }

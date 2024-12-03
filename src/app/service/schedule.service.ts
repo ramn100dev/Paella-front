@@ -28,10 +28,6 @@ export class ScheduleService {
     return this.http.delete(this.BASE_URL + "/delete/" + id)
   }
 
-  createEmptySchedule(clientId: number) {
-    return this.http.post(`/api/schedules/new/${clientId}`, {});  // Enviar un POST sin cuerpo
-  }
-
   addSchedule(id: number){
     return this.http.post<Schedule>(this.BASE_URL + "/new/" + id, {})
   }
