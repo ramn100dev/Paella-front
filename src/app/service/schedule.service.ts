@@ -8,9 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ScheduleService {
 
-  private BASE_URL = "http://localhost:8080/api/schedule"
-
-  //private httpHeaders:HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'})
+  private BASE_URL = "https://cateringestor.onrender.com/api/schedule"
 
   constructor(private http: HttpClient) { }
 

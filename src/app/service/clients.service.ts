@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ClientsService {
   
-  private BASE_URL = "http://localhost:8080/api/client"
+  private BASE_URL = "https://cateringestor.onrender.com/api/client"
 
   constructor(private http: HttpClient) { }
 
