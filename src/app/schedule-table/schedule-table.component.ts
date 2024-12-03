@@ -87,7 +87,7 @@ export class ScheduleTableComponent {
 
   addSchedule(){
     this.service.addSchedule(this.client.id).subscribe()
-    location.reload()
+    this.getScheduleList()
   }
 
   activateDelete(){
