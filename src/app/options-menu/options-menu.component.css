@@ -1,0 +1,17 @@
+.content{
+    padding-left: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    display: flex;
+    flex-direction:column ;
+    align-self: center;
+    width: 95%;
+}
+
+mat-icon{
+    padding-top: 10px;
+}
+
+mat-icon:hover{
+    cursor: pointer;
+}

@@ -3,25 +3,27 @@
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name">
+      <input matInput formControlName="name"/>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Dirección</mat-label>
-      <input matInput formControlName="address">
+      <input matInput formControlName="address"/>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Teléfono</mat-label>
-      <input matInput formControlName="phone">
+      <input matInput formControlName="phone"/>
     </mat-form-field>
     <br>
 
     <mat-checkbox [checked]="isFijo" (change)="addPreference()">Fijo</mat-checkbox>
     <mat-form-field *ngIf="isFijo" id="num">
-      <input matInput type="number" formControlName="preference" min="1" step="1"> 
+      <input matInput type="number" formControlName="preference" min="1" step="1"/>
     </mat-form-field>
+    <br *ngIf="!isFijo"><br>
 
-    <br>
+    <mat-checkbox formControlName="monthly">Mensual</mat-checkbox>
+
+    <br><br>
     <button mat-button type="submit"> {{ isEditMode ? 'Editar' : 'Guardar' }}</button>
-    
   </form>
 </div>

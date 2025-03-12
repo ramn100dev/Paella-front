@@ -1,11 +1,6 @@
-*{
-    padding-right: 1em;
-    padding-left: 1em;
-}
-
 .info {
     width: 97%;
-    padding-top: 3em;
+    padding-top: 2em;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -16,6 +11,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: 2em;
 }
 
 .options{
@@ -24,31 +20,33 @@
     align-items: center;
 }
 
-#edit {
+#editButton {
     margin-right: 40px;
     margin-left: 40px;
 }
 
-mat-icon {
+.topIcons {
     transform: scale(2);
+}
+
+mat-icon{
+    cursor: pointer;
 }
 
 #back:hover {
     color: rgb(97, 97, 97);
-    cursor: pointer;
 }
 
 #delete:hover {
     color: rgb(232, 32, 32);
-    cursor: pointer;
 }
 
 #add{
     margin-left: 40px;
 }
+
 #add:hover {
     color: rgb(255, 221, 0);
-    cursor: pointer;
 }
 
 button{
@@ -68,10 +66,11 @@ button:hover{
     display: flex;
     font-size: 26px;
     justify-content:space-between;
+    margin-left: 1.5em;
 }
 
 .schedule{
-    padding-top: 3em;
+    padding-top: 2em;
 }
 
 td:hover{
@@ -90,4 +89,58 @@ input {
 th:hover{
     background-color: rgb(241, 241, 241);
     cursor:alias;
+}
+
+.mainContent{
+    width: 100%;
+}
+
+  
+/* CSS Drag&Drop*/
+
+.hover-active {
+    background-color: #fffef4; /* Cambia de color durante el hover */
+    transition: background-color 0.3s;
+}
+
+.hover-active:hover {
+    background-color: #fff9ba;
+    transition: background-color 0.3s;
+}
+
+mat-drawer-container { 
+    position: relative;
+    height: 0; /* Tamaño inicial */
+    overflow: hidden; /* Para evitar que el contenido se desborde */
+    transition: height 0.3s ease-in-out;
+}  
+
+.activated-drawer-container {
+    height: var(--drawer-height, 265px);
+}
+   
+.bottom-drawer {
+    position: absolute; /* Posiciona el drawer dentro del contenedor */
+    bottom: 0; /* Lo fija a la parte inferior */
+    width: 100%; /* Lo hace ocupar todo el ancho */
+    background-color: #f9f9f9;
+    transform: translateY(100%); /* Ocultarlo inicialmente (mover hacia abajo) */
+}
+  
+.bottom-drawer.open {
+    transform: translateY(0); /* Mostrar el drawer (volverlo a su posición) */
+}
+
+.dragTableSpace {
+    width: 98%;
+}
+
+.spaceInterlude {
+    display: flex;
+    height: 100%;
+    flex-direction:column;
+    justify-content: space-between;
+    padding-right: 2em;
+    padding-left: 2em;
+    align-items: center;
 }

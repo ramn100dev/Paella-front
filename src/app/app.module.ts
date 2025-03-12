@@ -24,6 +24,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { OptionsMenuComponent } from './options-menu/options-menu.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FoodsDragDropComponent } from './foods-drag-drop/foods-drag-drop.component';
+import { MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
 //import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
@@ -33,7 +39,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ScheduleTableComponent,
     ClientFormComponent,
     TicketGeneratorComponent,
-    TicketEditorComponent
+    TicketEditorComponent,
+    OptionsMenuComponent,
+    FoodsDragDropComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +59,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatDialogModule,
     MatCardModule,
     MatCheckboxModule,
-    //MatButtonModule
+    MatRadioModule,
+    MatTabsModule,
+    DragDropModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]

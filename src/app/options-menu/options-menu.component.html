@@ -1,0 +1,19 @@
+<div class="content">
+  <h2>Menu de Opciones</h2>
+  <div>
+      <h4>A la hora de imprimir un ticket:</h4>
+      <mat-radio-group [(ngModel)]="highlightOption" (change)="highlightOptions($event)">
+        <mat-radio-button value="0">No hacer nada</mat-radio-button>
+        <mat-radio-button value="1">Marcar el cliente temporalmente</mat-radio-button>
+        <mat-radio-button value="2">Marcar el cliente y desmarcar manualmente</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    
+
+    <mat-icon *ngIf="highlightOption == '2'" id="delete" (click)="deleteLocalStorage()">delete</mat-icon>
+
+    <!--TODO: LA IDEA ES CREAR PESTAÑAS, ESTA SERIA LA PESTAÑA DE MARCAR LOS TICKETS IMPRIMIDOS, LA SIGUIENTE
+    PESTAÑA SERA DE PERSONALIZACIÓN. CON EL TIEMPO SE AÑADIRAN MAS Y MAS  https://www.npmjs.com/package/@angular-material-components/color-picker-->
+    <!--<p>Opción seleccionada: {{ highlightOption }}</p>-->
+</div>  

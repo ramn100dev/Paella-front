@@ -18,6 +18,10 @@ export class TicketGeneratorComponent {
     this.client = history.state.client
     this.food = history.state.food
     this.time = history.state.time
+    setTimeout(() => {
+      window.print();
+      window.history.back();
+    }, 200);
   }
 
 

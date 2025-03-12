@@ -39,3 +39,20 @@ button:hover{
 .side{
     width: 80%;
 }
+
+.highlight {
+    background-color: rgb(255, 255, 147); 
+}
+
+.side-right{
+    display: flex;
+    align-items: center;
+}
+
+mat-icon {
+    margin-left: 10px;
+}
+
+mat-icon:hover {
+    cursor: pointer;
+}
