@@ -40,4 +40,8 @@ export class OptionsMenuComponent {
   deleteLocalStorage() {
     localStorage.removeItem('clientsIds');
   }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }

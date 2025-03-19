@@ -69,6 +69,10 @@ button:hover{
     margin-left: 1.5em;
 }
 
+.textContent{
+    margin-left: 25px;
+}
+
 .schedule{
     padding-top: 2em;
 }
@@ -116,7 +120,7 @@ mat-drawer-container {
 }  
 
 .activated-drawer-container {
-    height: var(--drawer-height, 265px);
+    height: var(--drawer-height, 300px);
 }
    
 .bottom-drawer {

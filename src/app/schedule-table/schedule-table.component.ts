@@ -7,18 +7,9 @@ import { ClientFormComponent } from '../client-form/client-form.component';
 import { TicketEditorComponent } from '../ticket-editor/ticket-editor.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDrawer } from '@angular/material/sidenav';
+import { Schedule } from '../models/Schedule';
 
-export interface Schedule{
-  id: number;
-  lunes: string;
-  martes: string;
-  miercoles: string;
-  jueves: string;
-  viernes: string;
-  sabado: string;
-  domingo: string;
-  client_id: number;
-}
+
 
 
 @Component({
@@ -253,6 +244,7 @@ export class ScheduleTableComponent {
   */
 
   @ViewChild('drawer') drawer!: MatDrawer; // Referencia al drawer
+  
   toggleFoodTableState = false; // Control de visibilidad
 
   dragActivated = false; // Booleano para activar el modo Drag
@@ -261,6 +253,8 @@ export class ScheduleTableComponent {
   // Alternar el Drawer (Abrir/Cerrar)
   toggleFoodTable() {
     this.toggleFoodTableState = !this.toggleFoodTableState;
+    const adaptedHeight = 300
+    //document.documentElement.style.setProperty('--drawer-height', `${adaptedHeight}px`);
     if (this.toggleFoodTableState) {
       this.drawer.open(); // Abre el drawer
     } else {

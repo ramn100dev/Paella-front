@@ -7,16 +7,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
 import { OptionsMenuComponent } from '../options-menu/options-menu.component';
+import { Client } from '../models/Client';
 
-//Se que esto deberia de ir en un archivo aparte, luego lo cambio si eso
-export interface Client{
-  name: string;
-  address: string;
-  phone: string;
-  preference: 0;
-  monthly: boolean;
-  highlight: boolean;
-}
+
 
 @Component({
   selector: 'app-table-clients',
@@ -74,7 +67,8 @@ export class TableClientsComponent {
 
   openOptions(){
     const dialogRef = this.dialog.open(OptionsMenuComponent, {
-      width: '400px',
+      width: '70%',
+      height: '60%'
     })
   }
 

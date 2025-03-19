@@ -1,17 +1,65 @@
 .content{
     padding-left: 1em;
     padding-top: 1em;
-    padding-bottom: 1em;
+    padding-right: 1em;
     display: flex;
     flex-direction:column ;
     align-self: center;
-    width: 95%;
+    height: 90%;
 }
 
-mat-icon{
-    padding-top: 10px;
+.contentFood{
+    padding-top: 5px;
+    display: flex;
+    flex-direction:column ;
+    justify-content: space-between;
+    align-self: center;
+    height: 300px;
 }
 
 mat-icon:hover{
     cursor: pointer;
+    color: rgb(232, 32, 32);
+}
+
+.manualSpot{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 1em;
+}
+
+#delete{
+    padding-top: 15px;
+    padding-left: 5px;
+    width: 30px;
+}
+
+
+mat-icon{
+    cursor: pointer;
+    
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    height: 40px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.headerText{
+    margin-left: 10px;
+}
+
+.buttonFood{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 1em;
 }

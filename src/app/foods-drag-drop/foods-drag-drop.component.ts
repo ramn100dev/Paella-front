@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { FoodService } from '../service/food.service';
 
 @Component({
   selector: 'app-foods-drag-drop',
@@ -12,7 +13,20 @@ export class FoodsDragDropComponent {
   foods2 = ['Paella', 'Pechuga de pollo frito', 'Albondigas de carne', 'Fingers de Pollo', 'Hamburguesa', 'Hamburguesa otra vez'];
   foods3 = ['Paella', 'Pechuga de pollo frito', 'Albondigas de carne', 'Fingers de Pollo', 'Hamburguesa', 'Hamburguesa otra vez'];
 
+  data:any
+  categoriesData:any
+
   @Output() foodSelected = new EventEmitter<string>();
+
+
+  constructor(private service: FoodService) { 
+    this.service.getCategories().subscribe(data => {
+      this.data = data
+      console.log(this.data[2])
+    })
+  }
+
+
 
   onDragStart(food: string) {
     console.log(food)

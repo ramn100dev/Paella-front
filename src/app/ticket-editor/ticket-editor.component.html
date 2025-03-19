@@ -8,9 +8,9 @@
         <div class="Botones" *ngIf="multipleSchedule">
             <h3>Selecciona que ticket quieres sacar</h3>
             <div *ngFor="let food of data.dayValue; let i = index">
-                <ng-container *ngIf="data.dayValue[i] != null">
-                  <button mat-button type="submit" (click)="selectFood(data.dayValue[i])">{{ data.dayValue[i] }}</button>
-                  <br><br>
+                <ng-container *ngIf="data.dayValue[i] != null && data.dayValue[i] != ''">
+                    <button mat-button type="submit" (click)="selectFood(data.dayValue[i])">{{ data.dayValue[i] }}</button>
+                    <br><br>
                 </ng-container>
               </div>
               

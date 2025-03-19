@@ -5,8 +5,8 @@
                 <mat-icon aria-hidden="true" class="topIcons" routerLink="/clients" id="back">arrow_back</mat-icon>
                 <div class="text">
                     <div>{{client.name}}</div> 
-                    <div>{{client.address}}</div>
-                    <div>{{client.phone}}</div>
+                    <div class="textContent">{{client.address}}</div>
+                    <div class="textContent">{{client.phone}}</div>
                     <div *ngIf="client.preference != 0">Fijo: {{client.preference}}</div>
                 </div>
             </div>

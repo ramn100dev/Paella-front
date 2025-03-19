@@ -1,41 +1,24 @@
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-    <mat-tab label="Lunes">
-        <div class="containerTab">
-            Primeros:
+<div class="tab-container">
+    <div class="tab-container">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tabs">
+    <div *ngFor="let category of data">
+      <mat-tab label="{{ category.name }}" class="containerTab">
+        <div *ngFor="let subCategory of category.subCategories" class="subCategories">
+          <div class="subCategoryDiv">{{ subCategory.name == 'Default' ? null : subCategory.name }}</div>
+          <div *ngIf="subCategory.foods.length != 0; else noFood">
             <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let food of foods" cdkDrag (cdkDragStarted)="onDragStart(food)" (cdkDragEnded)="onDragEnd()">
-                    {{ food }}
-                </div>
+              <div class="example-box" *ngFor="let food of subCategory.foods" cdkDrag (cdkDragStarted)="onDragStart(food.name)" (cdkDragEnded)="onDragEnd()">
+                {{ food.name }}
+              </div>
             </div>
-            Segundos:
-            <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let food of foods2" cdkDrag (cdkDragStarted)="onDragStart(food)" (cdkDragEnded)="onDragEnd()">
-                    {{ food }}
-                </div>
-            </div>
-            Terceros:
-            <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let food of foods" cdkDrag (cdkDragStarted)="onDragStart(food)" (cdkDragEnded)="onDragEnd()">
-                    {{ food }}
-                </div>
-            </div>
+          </div>
+          <ng-template #noFood><br> No se ha añadido ninguna comida</ng-template>
         </div>
-    </mat-tab>
-    <mat-tab label="Martes" class="containerTab">
-        <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-            <div class="example-box" *ngFor="let food of foods" cdkDrag (cdkDragStarted)="onDragStart(food)" (cdkDragEnded)="onDragEnd()">
-                {{ food }}
-            </div>
-        </div>
-    </mat-tab>
-    <mat-tab label="Miercoles">
-        <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-            <div class="example-box" *ngFor="let food of foods" cdkDrag (cdkDragStarted)="onDragStart(food)" (cdkDragEnded)="onDragEnd()">
-                {{ food }}
-            </div>
-        </div>
-    </mat-tab>
-</mat-tab-group> 
+      </mat-tab>
+    </div>
+  </mat-tab-group>
+</div>
+
 
 <!-- <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
     <div class="example-box" *ngFor="let food of foods" (cdkDragStarted)="onDragStart(food)" (cdkDragEnded)="onDragEnd()" cdkDrag>

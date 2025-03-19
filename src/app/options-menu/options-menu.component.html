@@ -1,19 +1,52 @@
 <div class="content">
-  <h2>Menu de Opciones</h2>
-  <div>
-      <h4>A la hora de imprimir un ticket:</h4>
-      <mat-radio-group [(ngModel)]="highlightOption" (change)="highlightOptions($event)">
-        <mat-radio-button value="0">No hacer nada</mat-radio-button>
-        <mat-radio-button value="1">Marcar el cliente temporalmente</mat-radio-button>
-        <mat-radio-button value="2">Marcar el cliente y desmarcar manualmente</mat-radio-button>
-      </mat-radio-group>
-    </div>
+  <div class="header">
+    <mat-icon aria-hidden="true" class="topIcons" id="back" (click)="closeDialog()">arrow_back</mat-icon>
+    <div class="headerText">Menu de Ajustes</div>
+  </div>
 
+  <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" dynamicHeight="true">
+    <mat-tab label="Comidas">
+      
+      <div class="contentFood">
+          <app-foods-drag-drop></app-foods-drag-drop>
+          <div class="buttonFood"> Hola </div>
+      </div>
+      
+      
+    </mat-tab>
+  
+    <mat-tab label="Marcadores">
+      <div class="content">
+        <h2>Menu de Opciones</h2>
+        <div>
+            <h4>A la hora de imprimir un ticket:</h4>
+            <mat-radio-group [(ngModel)]="highlightOption" (change)="highlightOptions($event)">
+              <mat-radio-button value="0">No hacer nada</mat-radio-button><br>
+              <mat-radio-button value="1">Marcar el cliente temporalmente</mat-radio-button><br>
+              <mat-radio-button value="2">Marcar el cliente y desmarcar manualmente</mat-radio-button> 
+            </mat-radio-group> <br>
+            <mat-icon *ngIf="highlightOption == '2'" id="delete" (click)="deleteLocalStorage()">delete</mat-icon>
+          </div>
+  
+          <!-- Por si se te olvida Ramon, deberias de agregar tambien la opción de marcar las celdas de los clientes que ya 
+           se han imprimido, seguro que es bueno, o minimo sirve de algo-->
+          
+      </div>
+    </mat-tab>
+  
+    <mat-tab label="Personalización">
+  
+      <div class="content">
+        <h2>Proximamente</h2>
+      </div>
+      
+    </mat-tab>
+  
     
+  
+      <!--TODO: LA IDEA ES CREAR PESTAÑAS, ESTA SERIA LA PESTAÑA DE MARCAR LOS TICKETS IMPRIMIDOS, LA SIGUIENTE
+      PESTAÑA SERA DE PERSONALIZACIÓN. CON EL TIEMPO SE AÑADIRAN MAS Y MAS  https://www.npmjs.com/package/@angular-material-components/color-picker-->
+      <!--<p>Opción seleccionada: {{ highlightOption }}</p>-->
+  </mat-tab-group>
+</div>
 
-    <mat-icon *ngIf="highlightOption == '2'" id="delete" (click)="deleteLocalStorage()">delete</mat-icon>
-
-    <!--TODO: LA IDEA ES CREAR PESTAÑAS, ESTA SERIA LA PESTAÑA DE MARCAR LOS TICKETS IMPRIMIDOS, LA SIGUIENTE
-    PESTAÑA SERA DE PERSONALIZACIÓN. CON EL TIEMPO SE AÑADIRAN MAS Y MAS  https://www.npmjs.com/package/@angular-material-components/color-picker-->
-    <!--<p>Opción seleccionada: {{ highlightOption }}</p>-->
-</div>  
