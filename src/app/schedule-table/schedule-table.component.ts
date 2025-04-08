@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { ScheduleService } from 'src/app/service/schedule.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
 import { TicketEditorComponent } from '../ticket-editor/ticket-editor.component';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Schedule } from '../models/Schedule';
 
@@ -136,89 +135,88 @@ export class ScheduleTableComponent {
 
 
   /* EXPLICACIÓN A LA LOGICA DE LA EDICIÓN DE CELDAS
-      Sin duda este es el codigo mas complejo de la aplicación, y quiero dedicarle una explcicación, vaya a ser que mi yo del futuro se quiera cambiarlo y me quiera pegar un tiro 
-
-      Basicamente, en el HTML utilizamos un *ngIf para usar el div o el input segun la variable 'editingCell',
+      En el HTML utilizamos un *ngIf para usar el div o el input segun la variable 'editingCell',
       a partir de aqui estan las funciones
   */ 
 
   //Verifica si la celda se esta editando:
   //Basicamente, se compara si la celda selecciona esta en modo edición, comparando los valores row y column, para pasar a editCell()
   isEditing(row: Schedule, column: string): boolean {
-    return this.editingCell?.row === row && this.editingCell?.column === column;
+    return this.editingCell?.row === row && this.editingCell?.column === column
   }
 
   //Activa el input
   editCell(row: Schedule, column: string): void {
-    this.editingCell = { row, column };
+    this.editingCell = { row, column }
   }
 
   //Guarda los cambios, y hace que la celda no se este editando mas
   saveCell(row: Schedule, column: string): void {
-    this.editingCell = null;
-    this.service.updateSchedule(row.id, row).subscribe();
+    this.editingCell = null
+    this.service.updateSchedule(row.id, row).subscribe()
   }
 
+  
   /*
       LOGICA DEL HORARIO MENSUAL
   */
 
   generateMonthView(month: number, year: number): (number | null)[][] {
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    let firstDayOfMonth = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
+    let firstDayOfMonth = new Date(year, month, 1).getDay()
     if (firstDayOfMonth === 0) {
-      firstDayOfMonth = 6; // Convertir domingo a posición 6
+      firstDayOfMonth = 6 // Convertir domingo a posición 6
     } else {
-      firstDayOfMonth -= 1; // Desplazar días una posición para que lunes sea el primer día
+      firstDayOfMonth -= 1 // Desplazar días una posición para que lunes sea el primer día
     }
   
-    const monthView: (number | null)[][] = [];
-    let week: (number | null)[] = new Array(7).fill(null);
-    let day = 1;
+    const monthView: (number | null)[][] = []
+    let week: (number | null)[] = new Array(7).fill(null)
+    let day = 1
   
     // Llena la primera semana con null hasta el primer día del mes
     for (let i = 0; i < firstDayOfMonth; i++) {
-      week[i] = null;
+      week[i] = null
     }
   
     // Llena la primera semana con los días iniciales del mes
     for (let i = firstDayOfMonth; i < 7; i++) {
       if (day <= daysInMonth) {
-        week[i] = day++;
+        week[i] = day++
       }
     }
     monthView.push(week);
   
     // Llena las semanas subsiguientes
     while (day <= daysInMonth) {
-      week = new Array(7).fill(null);
+      week = new Array(7).fill(null)
       for (let i = 0; i < 7; i++) {
         if (day <= daysInMonth) {
-          week[i] = day++;
+          week[i] = day++
         }
       }
-      monthView.push(week);
+      monthView.push(week)
     }
   
     return monthView;
   }
   
   getDayOfMonth(row: Schedule, column: string): number | null {
-    const rowIndex = this.dataSource.data.indexOf(row);
-    const columnIndex = this.getColumnIndex(column);
-    return this.monthView[rowIndex] ? this.monthView[rowIndex][columnIndex] : null;
+    const rowIndex = this.dataSource.data.indexOf(row)
+    const columnIndex = this.getColumnIndex(column)
+    return this.monthView[rowIndex] ? this.monthView[rowIndex][columnIndex] : null
   }
 
   getColumnIndex(column: string): number {
     switch (column) {
-      case 'lunes': return 0;
-      case 'martes': return 1;
-      case 'miercoles': return 2;
-      case 'jueves': return 3;
-      case 'viernes': return 4;
-      case 'sabado': return 5;
-      case 'domingo': return 6;
-      default: return -1;
+      case 'lunes': return 0
+      case 'martes': return 1
+      case 'miercoles': return 2
+      case 'jueves': return 3
+      case 'viernes': return 4
+      case 'sabado': return 5
+      case 'domingo': return 6
+      default: return -1
     }
   }
 
@@ -243,18 +241,19 @@ export class ScheduleTableComponent {
       LOGICA PARA LA TABLA COMIDAS ARRASTRABLES 
   */
 
-  @ViewChild('drawer') drawer!: MatDrawer; // Referencia al drawer
+  @ViewChild('drawer') drawer!: MatDrawer
   
-  toggleFoodTableState = false; // Control de visibilidad
+  toggleFoodTableState = false
 
-  dragActivated = false; // Booleano para activar el modo Drag
-  draggedFood: string | null = null; // Comida actualmente siendo arrastrada
+  dragActivated = false
+  draggedFood: string | null = null
+  heightToggle: number = 100;
 
   // Alternar el Drawer (Abrir/Cerrar)
   toggleFoodTable() {
     this.toggleFoodTableState = !this.toggleFoodTableState;
-    const adaptedHeight = 300
-    //document.documentElement.style.setProperty('--drawer-height', `${adaptedHeight}px`);
+    console.log(this.heightToggle)
+    document.documentElement.style.setProperty('--drawer-height', `${this.heightToggle}px`)
     if (this.toggleFoodTableState) {
       this.drawer.open(); // Abre el drawer
     } else {
@@ -263,11 +262,11 @@ export class ScheduleTableComponent {
   }
 
   foodGet(food: string) {
-    this.dragActivated = !this.dragActivated;
-    this.draggedFood = food;
+    this.dragActivated = !this.dragActivated
+    this.draggedFood = food
   }
 
-  // Registrar la comida al soltar sobre una celda
+  // Registrar la comida al soltar sobre una celda. Esto funciona gracias a que (mouseup) se activa al dejar de mantener el click, registrando la comida y el estado del drag
   onDropCell(column: string, row: any) {
     if (this.dragActivated && this.draggedFood) {
       console.log(`Comida soltada: ${this.draggedFood} en columna: ${column}`);
@@ -280,11 +279,3 @@ export class ScheduleTableComponent {
     }
   }
 }
-
-
-//Para el Ramon de dentro de unos dias (Espero), la idea es que el drawer se adapte según las filas extras que se añadan,
-//recuerda que al fin y al cabo quieres meter los filtros segun el mat-tab, y tambien otras subcategorias
-//Para ello, se puede hacer un calculo de la cantidad de comidas que se tienen, y adaptar el tamaño del drawer
-
-// const adaptedHeight = 200
-// document.documentElement.style.setProperty('--drawer-height', `${adaptedHeight}px`);

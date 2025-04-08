@@ -1,10 +1,9 @@
-
 td.cdk-drag-preview {
   background: #dddddd;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.example-list {
+.list {
   max-width: 100%;
   border: solid 1px #ccc;
   min-height: 20px;
@@ -15,10 +14,9 @@ td.cdk-drag-preview {
   overflow: hidden;
 }
 
-.example-box {
+.box {
   padding: 12px;
   border-right: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -26,6 +24,21 @@ td.cdk-drag-preview {
   box-sizing: border-box;
   cursor: move;
   background: white;
+  font-size: 14px;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.addBox {
+  padding: 12px;
+  border-right: solid 1px #ccc;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: pointer;
+  background: var(--accent-color);
   font-size: 14px;
   flex-grow: 1;
   flex-basis: 0;
@@ -48,28 +61,15 @@ td.cdk-drag-preview {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.box:last-child {
+  border: none;
+}
+.addBox:last-child {
   border: none;
 }
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-
-.hover-active {
-  background-color: #fffef4; /* Cambia de color durante el hover */
-  transition: background-color 0.3s;
-}
-
-.hover-active:hover {
-  background-color: #fff9ba;
-  transition: background-color 0.3s;
-}
-
-td:hover{
-  cursor: pointer;
-  font-weight: bold;
 }
 
 .containerTab {
@@ -81,6 +81,80 @@ td:hover{
 }
 
 .subCategoryDiv{
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 18px;
+  width: 20%;
+}
+
+.subCategoryDivEdit{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 18px;
+  width: 20%;
+}
+
+.subCategoryDivEdit:hover{
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.subCategoryEditDiv{
+  display: flex;
+  align-items: center;
+}
+
+.categoryContent{
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.deleteFood{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 70px;
+  background-color: rgba(255, 0, 0, 0.7);
+  align-items: center;
+  font-size: 22px;
+}
+
+.deleteFood:hover{
+  cursor: pointer;
+  background-color: rgba(255, 0, 0, 0.95);
+  font-size: 24px;
+  color: white;
+}
+
+button{
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+input {
+  height: 100%;  
+  min-height: 40px;
+  max-width: 150px; 
+  flex-basis: 100px; 
+  box-sizing: border-box; 
+}
+
+mat-icon{
+  margin-left: 5px;
+}
+
+mat-icon:hover{
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.categoryOptions{
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+mat-form-field{
+  margin-right: 1em;
 }

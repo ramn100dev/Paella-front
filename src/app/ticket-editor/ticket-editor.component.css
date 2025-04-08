@@ -9,16 +9,9 @@
 }
 
 button{
-    min-height: 50px;
-    font-size: 15px;
+    padding: 2em;
     border-radius: 6px;
     width: 95%;
-}
-
-button:hover{
-    cursor: pointer;
-    background-color: rgb(224, 224, 224);
-    font-weight: 600;
 }
 
 mat-form-field{

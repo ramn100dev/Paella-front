@@ -8,8 +8,7 @@
     <mat-tab label="Comidas">
       
       <div class="contentFood">
-          <app-foods-drag-drop></app-foods-drag-drop>
-          <div class="buttonFood"> Hola </div>
+          <app-foods-drag-drop [edit]="true"></app-foods-drag-drop>
       </div>
       
       
@@ -20,7 +19,7 @@
         <h2>Menu de Opciones</h2>
         <div>
             <h4>A la hora de imprimir un ticket:</h4>
-            <mat-radio-group [(ngModel)]="highlightOption" (change)="highlightOptions($event)">
+            <mat-radio-group [(ngModel)]="highlightOption" (change)="highlightOptions($event)" color="primary">
               <mat-radio-button value="0">No hacer nada</mat-radio-button><br>
               <mat-radio-button value="1">Marcar el cliente temporalmente</mat-radio-button><br>
               <mat-radio-button value="2">Marcar el cliente y desmarcar manualmente</mat-radio-button> 
@@ -35,11 +34,15 @@
     </mat-tab>
   
     <mat-tab label="Personalización">
-  
       <div class="content">
-        <h2>Proximamente</h2>
+        
+        <h2>Elige tu paleta de colores</h2>
+        <div *ngFor="let theme of themes" class="rectangulo" (click)="changeButton(theme.name)">
+          <div class="circulo" [style.backgroundColor]="theme.colors.primary"></div>
+          <div class="circulo" [style.backgroundColor]="theme.colors.accent"></div>
+          <div class="circulo" [style.backgroundColor]="theme.colors.warn"></div>
+        </div>
       </div>
-      
     </mat-tab>
   
     

@@ -1,17 +1,21 @@
 .info {
-    width: 97%;
-    padding-top: 2em;
+    width: 99%;
+    padding-top: 1.5em;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
+#fijoInfo{
+    padding-left: 30px;
+}
+
 .edit{
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 2em;
+    margin-left: 1em;
 }
 
 .options{
@@ -21,16 +25,12 @@
 }
 
 #editButton {
-    margin-right: 40px;
-    margin-left: 40px;
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
 .topIcons {
     transform: scale(2);
-}
-
-mat-icon{
-    cursor: pointer;
 }
 
 #back:hover {
@@ -46,20 +46,12 @@ mat-icon{
 }
 
 #add:hover {
-    color: rgb(255, 221, 0);
+    filter: brightness(0.80);
 }
 
 button{
-    height: 50px;
-    font-size: 18px;
-    border-radius: 6px;
-    width: 150px;
-}
-
-button:hover{
-    cursor: pointer;
-    background-color: rgb(224, 224, 224);
-    font-weight: 600;
+    border-radius: 30px;
+    padding: 26px;
 }
 
 .text{
@@ -73,14 +65,9 @@ button:hover{
     margin-left: 25px;
 }
 
-.schedule{
-    padding-top: 2em;
-}
-
 td:hover{
-    background-color: rgb(221, 221, 221);
+    background-color: var(--warn-color);
     cursor: pointer;
-    font-weight:bold;
 }
 
 input {
@@ -96,19 +83,38 @@ th:hover{
 }
 
 .mainContent{
-    width: 100%;
+    width: 101%;
 }
 
+.table-fit{
+    margin-top: 1.5em;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+}
+
+table{
+    background-color: rgba(255, 255, 255, 0);
+}
   
+.headerTable{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+mat-icon:hover {
+    cursor: pointer;
+    filter: brightness(0.92);
+}
+
 /* CSS Drag&Drop*/
 
 .hover-active {
-    background-color: #fffef4; /* Cambia de color durante el hover */
+    background-color: rgba(255, 255, 255, 0.8);
     transition: background-color 0.3s;
 }
 
 .hover-active:hover {
-    background-color: #fff9ba;
+    background-color: var(--warn-color);
     transition: background-color 0.3s;
 }
 
@@ -120,14 +126,16 @@ mat-drawer-container {
 }  
 
 .activated-drawer-container {
-    height: var(--drawer-height, 300px);
+    height: var(--drawer-height, 150px);
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
    
 .bottom-drawer {
     position: absolute; /* Posiciona el drawer dentro del contenedor */
     bottom: 0; /* Lo fija a la parte inferior */
     width: 100%; /* Lo hace ocupar todo el ancho */
-    background-color: #f9f9f9;
+    background-color: var(--warn-color);
     transform: translateY(100%); /* Ocultarlo inicialmente (mover hacia abajo) */
 }
   
@@ -137,6 +145,7 @@ mat-drawer-container {
 
 .dragTableSpace {
     width: 98%;
+    margin-top: 10px;
 }
 
 .spaceInterlude {

@@ -1,0 +1,72 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$themes: (
+    default: mat.define-light-theme((
+    color: (
+      primary: mat.define-palette(mat.$gray-palette, 600),
+      accent: mat.define-palette(mat.$gray-palette, 400),
+      warn: mat.define-palette(mat.$gray-palette, 50)
+    )
+  )),
+    pink: mat.define-light-theme((
+        color: (
+        primary: mat.define-palette(mat.$pink-palette, 600),
+        accent: mat.define-palette(mat.$pink-palette, A100),
+        warn: mat.define-palette(mat.$pink-palette, 50)
+        )
+    )),
+    red: mat.define-light-theme((
+        color: (
+        primary: mat.define-palette(mat.$red-palette, 500),
+        accent: mat.define-palette(mat.$red-palette, A200),
+        warn: mat.define-palette(mat.$red-palette, 50)
+        )
+    )),
+    yellow: mat.define-light-theme((
+        color: (
+        primary: mat.define-palette(mat.$yellow-palette, 700),
+        accent: mat.define-palette(mat.$yellow-palette, A400),
+        warn: mat.define-palette(mat.$yellow-palette, 50)
+        )
+    )),
+    orange: mat.define-light-theme((
+        color: (
+        primary: mat.define-palette(mat.$orange-palette, 600),
+        accent: mat.define-palette(mat.$orange-palette, A200),
+        warn: mat.define-palette(mat.$orange-palette, 50)
+        )
+    )),
+    blue: mat.define-light-theme((
+        color: (
+        primary: mat.define-palette(mat.$blue-palette, 600),
+        accent: mat.define-palette(mat.$blue-palette, A200),
+        warn: mat.define-palette(mat.$blue-palette, 50)
+        )
+    )),
+    cyan: mat.define-light-theme((
+        color: (
+        primary: mat.define-palette(mat.$cyan-palette, 600),
+        accent: mat.define-palette(mat.$cyan-palette, A400),
+        warn: mat.define-palette(mat.$cyan-palette, 50)
+        )
+    )),
+    light-green: mat.define-light-theme((
+        color: (
+        primary: mat.define-palette(mat.$light-green-palette, 600),
+        accent: mat.define-palette(mat.$light-green-palette, A200),
+        warn: mat.define-palette(mat.$light-green-palette, 50)
+        )
+    )),
+);
+
+
+@each $theme-name, $theme-config in $themes {
+    .#{$theme-name} {
+      @include mat.all-component-themes($theme-config);
+    }
+}
+
+
+// Sobrescribir la variable en tu propio tema

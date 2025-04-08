@@ -1,6 +1,6 @@
 <div class="top">
     <div class="side">
-        <mat-form-field>
+        <mat-form-field >
             <mat-label>Buscador</mat-label>
             <input matInput placeholder="" search (keyup)="applyFilter($event)"/>
         </mat-form-field>
@@ -8,14 +8,14 @@
         <mat-checkbox (change)="toggleClientList()">Fijo</mat-checkbox>
     </div>
     <div class="side-right">
-        <button  (click)="openClientForm()">Agregar Cliente</button>
-        <mat-icon id="settings" (click)="openOptions()">settings</mat-icon>
+        <button mat-raised-button color="accent" (click)="openClientForm()">Agregar Cliente</button>
+        <mat-icon id="settings" (click)="openOptions()" color="accent">settings</mat-icon>
     </div>
     
 </div>
 
-<div>
-    <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+<div class="mat-elevation-z8 table-fit">
+    <table mat-table matSort [dataSource]="dataSource">
 
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
@@ -32,7 +32,7 @@
             <td mat-cell *matCellDef="let row">{{row.phone}}</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumn" class="headerTable"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumn" (click)="loadSchedule(row)" [ngClass]="{'highlight': isClientHighlighted(row.id)}"></tr>
 
         <tr *matNoDataRow>
@@ -41,5 +41,5 @@
         </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[10, 30, 50]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 30, 50]" color="primary"></mat-paginator>
 </div>

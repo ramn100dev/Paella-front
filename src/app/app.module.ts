@@ -29,8 +29,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FoodsDragDropComponent } from './foods-drag-drop/foods-drag-drop.component';
-import { MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatTabsModule,
     DragDropModule,
     MatSidenavModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

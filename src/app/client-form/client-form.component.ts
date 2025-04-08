@@ -24,15 +24,15 @@ export class ClientFormComponent {
       phone: [data.client ? data.client.phone : ''],
       preference: [data.client ? data.client.preference : ''],
       monthly: [data.client ? data.client.monthly : false]
-    });
+    })
   }
 
   addPreference() {
     this.isFijo = !this.isFijo;
 
     this.service.getMaxPref().subscribe((data) => {
-      this.clientForm.patchValue({ preference: data + 1 });
-    });
+      this.clientForm.patchValue({ preference: data + 1 })
+    })
   }
 
   onSubmit() {

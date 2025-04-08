@@ -67,8 +67,8 @@ export class TableClientsComponent {
 
   openOptions(){
     const dialogRef = this.dialog.open(OptionsMenuComponent, {
-      width: '70%',
-      height: '60%'
+      width: '80%',
+      height: '80%'
     })
   }
 
