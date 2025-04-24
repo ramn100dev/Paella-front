@@ -24,13 +24,6 @@ $themes: (
         warn: mat.define-palette(mat.$red-palette, 50)
         )
     )),
-    yellow: mat.define-light-theme((
-        color: (
-        primary: mat.define-palette(mat.$yellow-palette, 700),
-        accent: mat.define-palette(mat.$yellow-palette, A400),
-        warn: mat.define-palette(mat.$yellow-palette, 50)
-        )
-    )),
     orange: mat.define-light-theme((
         color: (
         primary: mat.define-palette(mat.$orange-palette, 600),

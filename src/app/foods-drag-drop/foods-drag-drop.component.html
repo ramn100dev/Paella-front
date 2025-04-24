@@ -95,6 +95,8 @@
           
           <mat-form-field appearance="fill">
             <mat-label>Elige una categoría</mat-label>
+
+            
             <mat-select [(value)]="editingCategoryId">
               <mat-option *ngFor="let category of data" [value]="category.id">
                 {{ category.name }}

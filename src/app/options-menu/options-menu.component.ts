@@ -48,7 +48,6 @@ export class OptionsMenuComponent {
     { name: 'default', colors: { primary: '#757575', accent: '#BDBDBD', warn: '#FAFAFA' } },
     { name: 'pink', colors: { primary: '#D81B60', accent: '#FF80AB', warn: '#FCE4EC' } },
     { name: 'red', colors: { primary: '#F44336', accent: '#FF5252', warn: '#FFEBEE' } },
-    { name: 'yellow', colors: { primary: '#FBC02D', accent: '#FFEA00', warn: '#FFFDE7' } },
     { name: 'orange', colors: { primary: '#FB8C00', accent: '#FFD740', warn: '#FFF3E0' } },
     { name: 'blue', colors: { primary: '#1E88E5', accent: '#448AFF', warn: '#E3F2FD' } },
     { name: 'cyan', colors: { primary: '#00ACC1', accent: '#00E5FF', warn: '#E0F7FA' } },

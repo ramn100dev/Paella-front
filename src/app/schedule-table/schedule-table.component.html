@@ -89,11 +89,10 @@
             </table>
         </div>
     </div>
-    <!-- Botón para controlar la visibilidad del drawer -->
+
     <div class="dragTableSpace">
         <mat-icon (click)="toggleFoodTable()">{{ toggleFoodTableState ? 'keyboard_double_arrow_down' : 'keyboard_double_arrow_up' }}</mat-icon>
     
-        <!-- Contenedor del Drawer -->
         <mat-drawer-container [ngClass]=" { 'activated-drawer-container' : toggleFoodTableState}" class="mat-elevation-z8">
             <mat-drawer #drawer mode="over" class="bottom-drawer">
               <app-foods-drag-drop (foodSelected)="foodGet($event)" (maxSubcategoryLength)="heightToggle = 150 + ($event - 1) * 90"></app-foods-drag-drop>

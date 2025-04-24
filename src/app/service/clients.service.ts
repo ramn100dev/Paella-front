@@ -13,7 +13,7 @@ export class ClientsService {
   constructor(private http: HttpClient) { }
 
   getClients() {
-    return this.http.get(this.BASE_URL + "/all")
+    return this.http.get<Client[]>(this.BASE_URL + "/all")
   }
 
   postClient(client: Client): Observable<Client> {
@@ -25,7 +25,7 @@ export class ClientsService {
   }
 
   getClientsPref() {
-    return this.http.get(this.BASE_URL + "/preference")
+    return this.http.get<Client[]>(this.BASE_URL + "/preference")
   }
 
   checkPref(id: number, preference: number){
@@ -34,5 +34,21 @@ export class ClientsService {
 
   getMaxPref(){
     return this.http.get<number>(this.BASE_URL + "/getMaxPref")
+  }
+
+  getClientsByDay(day: string){
+    return this.http.get<Client[]>(this.BASE_URL + "/filter-by-day/" + day)
+  }
+
+  getObservationsClients(){
+    return this.http.get<Client[]>(this.BASE_URL + "/observations")
+  }
+
+  getClientsByFood(food: string){
+    return this.http.get<Client[]>(this.BASE_URL + "/filter-by-food/" + food)
+  }
+
+  getClientsByFoodAndDay(food: string, day: string){
+    return this.http.get<Client[]>(this.BASE_URL + "/filter-food-and-day/" + food + "/" + day)
   }
 }
