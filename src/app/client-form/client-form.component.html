@@ -19,11 +19,15 @@
     <mat-form-field *ngIf="isFijo" id="num">
       <input matInput type="number" formControlName="preference" min="1" step="1"/>
     </mat-form-field>
-    <br *ngIf="!isFijo"><br>
+    <br *ngIf="!isFijo">
 
-    <mat-checkbox formControlName="monthly">Mensual</mat-checkbox>
-
+    <mat-checkbox [checked]="hasObservation" (change)="manageObservations()">Observaciones</mat-checkbox>
+    <mat-checkbox formControlName="monthly" id="monthly">Mensual</mat-checkbox>
     <br><br>
+    <mat-form-field *ngIf="hasObservation">
+      <mat-label>Escribe tus observaciones</mat-label>
+      <textarea matInput formControlName="observation"></textarea>
+    </mat-form-field>
     <button mat-raised-button color="accent" type="submit"> {{ isEditMode ? 'Editar' : 'Guardar' }}</button>
   </form>
 </div>

@@ -32,6 +32,7 @@ import { FoodsDragDropComponent } from './foods-drag-drop/foods-drag-drop.compon
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { MatSelectModule } from '@angular/material/select';
     DragDropModule,
     MatSidenavModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

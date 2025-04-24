@@ -58,7 +58,8 @@ button{
     display: flex;
     font-size: 26px;
     justify-content:space-between;
-    margin-left: 1.5em;
+    margin-left: 1.25em;
+    align-items: center;
 }
 
 .textContent{

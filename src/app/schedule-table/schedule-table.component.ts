@@ -7,6 +7,7 @@ import { ClientFormComponent } from '../client-form/client-form.component';
 import { TicketEditorComponent } from '../ticket-editor/ticket-editor.component';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Schedule } from '../models/Schedule';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 
 
@@ -29,7 +30,7 @@ export class ScheduleTableComponent {
   isMonthly: boolean = false
   monthView: (number | null)[][] = []
 
-  constructor(private service: ScheduleService, private router: Router, private dialog: MatDialog) {
+  constructor(private service: ScheduleService, private router: Router, private dialog: MatDialog, private snackBar: MatSnackBar) {
     
     this.client = history.state.client
     
@@ -64,7 +65,7 @@ export class ScheduleTableComponent {
 
     const dialogRef = this.dialog.open(ClientFormComponent, {
       data: { isEditMode: true, client: this.client, isFijo: isFijo },
-      width: '300px'
+      width: '350px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -75,6 +76,7 @@ export class ScheduleTableComponent {
         this.client.phone = result.phone;
         this.client.preference = result.preference;
         this.client.monthly = result.monthly;
+        this.client.observation = result.observation;
       
         this.isMonthly = result.monthly
         this.monthlyErrorProof()
@@ -236,7 +238,6 @@ export class ScheduleTableComponent {
     }
   }
 
-
   /* 
       LOGICA PARA LA TABLA COMIDAS ARRASTRABLES 
   */
@@ -251,13 +252,13 @@ export class ScheduleTableComponent {
 
   // Alternar el Drawer (Abrir/Cerrar)
   toggleFoodTable() {
-    this.toggleFoodTableState = !this.toggleFoodTableState;
+    this.toggleFoodTableState = !this.toggleFoodTableState
     console.log(this.heightToggle)
     document.documentElement.style.setProperty('--drawer-height', `${this.heightToggle}px`)
     if (this.toggleFoodTableState) {
-      this.drawer.open(); // Abre el drawer
+      this.drawer.open()
     } else {
-      this.drawer.close(); // Cierra el drawer
+      this.drawer.close()
     }
   }
 
@@ -269,13 +270,33 @@ export class ScheduleTableComponent {
   // Registrar la comida al soltar sobre una celda. Esto funciona gracias a que (mouseup) se activa al dejar de mantener el click, registrando la comida y el estado del drag
   onDropCell(column: string, row: any) {
     if (this.dragActivated && this.draggedFood) {
-      console.log(`Comida soltada: ${this.draggedFood} en columna: ${column}`);
       if (row[column]) {
         row[column] += `, ${this.draggedFood}`; // Añadir al contenido existente
       } else {
         row[column] = this.draggedFood; // Asignar si está vacío
       }
       this.saveCell(row, column)
+    }
+  }
+
+
+  /* Observaciones */
+
+  observationSnackBar: any
+
+  showObservation(){
+    if (this.observationSnackBar) {
+      this.observationSnackBar.dismiss()
+    } else {
+      this.observationSnackBar = this.snackBar.open(this.client.observation, 'Editar')
+
+      this.observationSnackBar.onAction().subscribe(() => {
+        this.openClientEdit()
+      })
+
+      this.observationSnackBar.afterDismissed().subscribe(() => {
+        this.observationSnackBar = null;
+      });
     }
   }
 }

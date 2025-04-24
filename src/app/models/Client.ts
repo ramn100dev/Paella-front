@@ -7,4 +7,5 @@ export interface Client{
   preference: 0;
   monthly: boolean;
   highlight: boolean;
+  observation: string;
 }

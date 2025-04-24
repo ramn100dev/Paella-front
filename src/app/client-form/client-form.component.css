@@ -2,6 +2,7 @@
     padding-left: 1em;
     padding-top: 1em;
     padding-bottom: 1em;
+    width: 95%;
 }
 
 mat-form-field{
@@ -18,3 +19,6 @@ button{
     width: 30%;
 }
 
+#monthly{
+    padding-left: 30px;
+}

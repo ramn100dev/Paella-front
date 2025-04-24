@@ -9,21 +9,30 @@ import { ClientsService } from '../service/clients.service';
   styleUrls: ['./client-form.component.css']
 })
 export class ClientFormComponent {
-  clientForm: FormGroup;
-  isEditMode: boolean;
-  isFijo: boolean;
+
+  clientForm: FormGroup
+  isEditMode: boolean
+  isFijo: boolean
+  hasObservation: boolean = false
 
   constructor(private service: ClientsService, private fb: FormBuilder, private dialogRef: MatDialogRef<ClientFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     
     this.isEditMode = data.isEditMode;
     this.isFijo = data.isFijo;
 
+    if(this.isEditMode){
+      if(data.client.observation != ""){
+        this.hasObservation = true
+      } 
+    }
+
     this.clientForm = this.fb.group({
       name: [data.client ? data.client.name : ''],
       address: [data.client ? data.client.address : ''],
       phone: [data.client ? data.client.phone : ''],
       preference: [data.client ? data.client.preference : ''],
-      monthly: [data.client ? data.client.monthly : false]
+      monthly: [data.client ? data.client.monthly : false],
+      observation: [data.client ? data.client.observation: '']
     })
   }
 
@@ -33,6 +42,14 @@ export class ClientFormComponent {
     this.service.getMaxPref().subscribe((data) => {
       this.clientForm.patchValue({ preference: data + 1 })
     })
+  }
+
+  manageObservations(){
+    this.hasObservation = !this.hasObservation
+
+    if(!this.hasObservation){
+      this.clientForm.patchValue({ observation: ''})
+    }
   }
 
   onSubmit() {

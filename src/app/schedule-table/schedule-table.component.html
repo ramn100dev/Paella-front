@@ -8,6 +8,7 @@
                     <div class="textContent">{{client.address}}</div>
                     <div class="textContent">{{client.phone}}</div>
                     <div *ngIf="client.preference != 0" id="fijoInfo">Fijo: {{client.preference}}</div>
+                    <mat-icon color="primary" class="textContent" (click)="showObservation()" *ngIf="client.observation">info</mat-icon>
                 </div>
             </div>
             
