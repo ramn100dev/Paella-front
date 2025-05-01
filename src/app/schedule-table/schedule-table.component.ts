@@ -271,7 +271,7 @@ export class ScheduleTableComponent {
   onDropCell(column: string, row: any) {
     if (this.dragActivated && this.draggedFood) {
       if (row[column]) {
-        row[column] += `, ${this.draggedFood}`; // Añadir al contenido existente
+        row[column] += ` + ${this.draggedFood}`; // Añadir al contenido existente
       } else {
         row[column] = this.draggedFood; // Asignar si está vacío
       }
@@ -297,6 +297,13 @@ export class ScheduleTableComponent {
       this.observationSnackBar.afterDismissed().subscribe(() => {
         this.observationSnackBar = null;
       });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.observationSnackBar) {
+      this.observationSnackBar.dismiss();
+      this.observationSnackBar = null;
     }
   }
 }

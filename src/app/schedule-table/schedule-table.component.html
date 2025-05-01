@@ -76,7 +76,7 @@
                         <div *ngIf="!isEditing(row, 'domingo')">{{ isMonthly && getDayOfMonth(row, 'domingo') ? ' ' + (getDayOfMonth(row, 'domingo')  + '.--') : '' }} {{ row.domingo }}</div>
                         <input *ngIf="isEditing(row, 'domingo')" [(ngModel)]="row.domingo" (blur)="saveCell(row, 'domingo')" (keydown.enter)="saveCell(row, 'domingo')"/>
                     </td>    
-                </ng-container> 
+                </ng-container>
         
                 <ng-container matColumnDef="delete" *ngIf="deleteMode">
                     <th mat-header-cell *matHeaderCellDef>Eliminar</th>

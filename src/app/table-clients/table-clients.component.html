@@ -1,6 +1,6 @@
 <!-- <div class="content"> -->
 <mat-drawer-container>
-    <mat-drawer #drawer mode="side" class="mat-elevation-z8">
+    <mat-drawer [opened]="isDrawerOpen" mode="side" class="mat-elevation-z8">
         <div class="drawerContent">
             <mat-form-field >
                 <mat-label>Buscador</mat-label>
@@ -8,7 +8,7 @@
             </mat-form-field>
     
             <mat-checkbox (change)="toggleFilterCheckbox($event, 1)" [(ngModel)]="prefFilter">Fijo</mat-checkbox>
-            <mat-checkbox (change)="toggleFilterCheckbox($event, 2)">Observaciones</mat-checkbox><br>
+            <mat-checkbox (change)="toggleFilterCheckbox($event, 2)" [(ngModel)]="observationState">Observaciones</mat-checkbox><br>
             <div class="sideDiv">
                 <h3>Filtrar por dias</h3> <mat-icon color="primary" (click)="deleteDayFilters(true)" *ngIf="day">delete</mat-icon>
             </div>
@@ -37,7 +37,7 @@
                 </mat-select>   
             </mat-form-field>
 
-            <mat-form-field *ngIf="isCategorySelected && subcategories.length != 0">
+            <mat-form-field *ngIf="isCategorySelected && subcategories?.length != 0">
                 <mat-label>Elige una subcategoria</mat-label>
                 <mat-select [(value)]="subCategory" (selectionChange)="filterBySubCategory($event)">
                     <mat-option *ngFor="let subCategory of subcategories; let i = index" [value]="i">
@@ -50,7 +50,7 @@
                 <div *ngIf="subcategories.length == 0"> No existen subcategorias </div>
             </div>
 
-            <mat-form-field *ngIf="isSubCategorySelected && foods.length != 0">
+            <mat-form-field *ngIf="isSubCategorySelected && foods?.length != 0">
                 <mat-label>Elige una comida</mat-label>
                 <mat-select [(value)]="food" (selectionChange)="filterByFood($event)">
                     <mat-option *ngFor="let food of foods" [value]="food.name">
