@@ -40,7 +40,7 @@ export class TableClientsComponent {
 
     setTimeout(() => {   
       this.manageFilters()
-    }, 100)
+    }, 500)
     
   }
 
@@ -363,7 +363,7 @@ export class TableClientsComponent {
       this.posts 
     );
   
-    this.filteredClients.sort((a, b) => a.preference - b.preference);
+    this.filteredClients.sort((a, b) => a.preference - b.preference)
   
     this.dataSource = new MatTableDataSource(this.filteredClients)
     this.dataSource.paginator = this.paginator
