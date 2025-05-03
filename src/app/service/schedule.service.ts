@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Schedule } from '../schedule-table/schedule-table.component';
 import { Observable } from 'rxjs';
+import { Schedule } from '../models/Schedule';
 
 @Injectable({
   providedIn: 'root'

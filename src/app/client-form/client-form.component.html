@@ -3,25 +3,31 @@
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name">
+      <input matInput formControlName="name"/>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Dirección</mat-label>
-      <input matInput formControlName="address">
+      <input matInput formControlName="address"/>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Teléfono</mat-label>
-      <input matInput formControlName="phone">
+      <input matInput formControlName="phone"/>
     </mat-form-field>
     <br>
 
     <mat-checkbox [checked]="isFijo" (change)="addPreference()">Fijo</mat-checkbox>
     <mat-form-field *ngIf="isFijo" id="num">
-      <input matInput type="number" formControlName="preference" min="1" step="1"> 
+      <input matInput type="number" formControlName="preference" min="1" step="1"/>
     </mat-form-field>
+    <br *ngIf="!isFijo">
 
-    <br>
-    <button mat-button type="submit"> {{ isEditMode ? 'Editar' : 'Guardar' }}</button>
-    
+    <mat-checkbox [checked]="hasObservation" (change)="manageObservations()">Observaciones</mat-checkbox>
+    <mat-checkbox formControlName="monthly" id="monthly">Mensual</mat-checkbox>
+    <br><br>
+    <mat-form-field *ngIf="hasObservation">
+      <mat-label>Escribe tus observaciones</mat-label>
+      <textarea matInput formControlName="observation"></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit"> {{ isEditMode ? 'Editar' : 'Guardar' }}</button>
   </form>
 </div>

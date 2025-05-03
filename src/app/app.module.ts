@@ -24,7 +24,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-//import { MatButtonModule } from '@angular/material/button';
+import { OptionsMenuComponent } from './options-menu/options-menu.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FoodsDragDropComponent } from './foods-drag-drop/foods-drag-drop.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 @NgModule({
   declarations: [
@@ -33,7 +41,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ScheduleTableComponent,
     ClientFormComponent,
     TicketGeneratorComponent,
-    TicketEditorComponent
+    TicketEditorComponent,
+    OptionsMenuComponent,
+    FoodsDragDropComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +61,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatDialogModule,
     MatCardModule,
     MatCheckboxModule,
-    //MatButtonModule
+    MatRadioModule,
+    MatTabsModule,
+    DragDropModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

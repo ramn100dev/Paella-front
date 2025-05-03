@@ -1,41 +1,114 @@
-<div class="top">
-    <div class="side">
-        <mat-form-field>
-            <mat-label>Buscador</mat-label>
-            <input matInput placeholder="" search (keyup)="applyFilter($event)"/>
-        </mat-form-field>
+<!-- <div class="content"> -->
+<mat-drawer-container>
+    <mat-drawer [opened]="isDrawerOpen" mode="side" class="mat-elevation-z8">
+        <div class="drawerContent">
+            <mat-form-field >
+                <mat-label>Buscador</mat-label>
+                <input matInput placeholder="" search (keyup)="applyFilter($event)" [(ngModel)]="searchValue"/>
+            </mat-form-field>
+    
+            <mat-checkbox (change)="toggleFilterCheckbox($event, 1)" [(ngModel)]="prefFilter">Fijo</mat-checkbox>
+            <mat-checkbox (change)="toggleFilterCheckbox($event, 2)" [(ngModel)]="observationState">Observaciones</mat-checkbox><br>
+            <div class="sideDiv">
+                <h3>Filtrar por dias</h3> <mat-icon color="primary" (click)="deleteDayFilters(true)" *ngIf="day">delete</mat-icon>
+            </div>
+            
 
-        <mat-checkbox (change)="toggleClientList()">Fijo</mat-checkbox>
+            <mat-form-field>
+                <mat-label>Elige un día</mat-label>
+                <mat-select [(value)]="day" (selectionChange)="filterByDay($event)">
+                  <mat-option *ngFor="let day of days" [value]="day">
+                    {{ day }}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+              
+
+            <div class="sideDiv">
+                <h3>Filtrar comidas</h3> <mat-icon color="primary" (click)="deleteFoodFilters(true)" *ngIf="isCategorySelected">delete</mat-icon>
+            </div>
+
+            <mat-form-field>
+                <mat-label>Elige una categoría</mat-label>
+                <mat-select [(value)]="category" (selectionChange)="filterByCategory($event)">
+                    <mat-option *ngFor="let category of categories; let i = index" [value]="i">
+                        {{ category.name }}
+                    </mat-option>
+                </mat-select>   
+            </mat-form-field>
+
+            <mat-form-field *ngIf="isCategorySelected && subcategories?.length != 0">
+                <mat-label>Elige una subcategoria</mat-label>
+                <mat-select [(value)]="subCategory" (selectionChange)="filterBySubCategory($event)">
+                    <mat-option *ngFor="let subCategory of subcategories; let i = index" [value]="i">
+                        {{ subCategory.name }}
+                    </mat-option>
+                </mat-select>   
+            </mat-form-field>
+
+            <div *ngIf="isCategorySelected"><!--Tengo que hacerlo anidado porque si pongo subcategories.length explota por algún motivo xd-->
+                <div *ngIf="subcategories.length == 0"> No existen subcategorias </div>
+            </div>
+
+            <mat-form-field *ngIf="isSubCategorySelected && foods?.length != 0">
+                <mat-label>Elige una comida</mat-label>
+                <mat-select [(value)]="food" (selectionChange)="filterByFood($event)">
+                    <mat-option *ngFor="let food of foods" [value]="food.name">
+                        {{ food.name }}
+                    </mat-option>
+                </mat-select>   
+            </mat-form-field>
+
+            <div *ngIf="isSubCategorySelected">
+                <div *ngIf="foods.length == 0"> No existen comidas </div>
+            </div>
+        </div>
+    </mat-drawer>
+    
+    
+        <div class="top">
+            <mat-icon color="primary" (click)="toggleDrawer()" id="mainIcon">tune</mat-icon>
+            <div class="side" [ngClass]="{ 'hidden': isDrawerOpen }" >
+                <mat-form-field class="defaultSearch">
+                    <mat-label>Buscador</mat-label>
+                    <input matInput placeholder="" search (keyup)="applyFilter($event)" [(ngModel)]="searchValue"/>
+                </mat-form-field>
+        
+                <mat-checkbox (change)="toggleFilterCheckbox($event, 1)" [(ngModel)]="prefFilter">Fijo</mat-checkbox>
+            </div>
+            <div class="side-right">
+                <button mat-raised-button color="accent" (click)="openClientForm()">Agregar Cliente</button>
+                <mat-icon id="mainIcon" (click)="openOptions()" color="accent">settings</mat-icon>
+            </div>
+            
+        </div>
+        
+        <div class="mat-elevation-z8 table-fit">
+            <table mat-table matSort [dataSource]="dataSource">
+        
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                    <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                </ng-container>
+        
+                <ng-container matColumnDef="address">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Dirección</th>
+                    <td mat-cell *matCellDef="let row">{{row.address}}</td>
+                    </ng-container>
+        
+                <ng-container matColumnDef="phone">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
+                    <td mat-cell *matCellDef="let row">{{row.phone}}</td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumn" class="headerTable"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumn" (click)="loadSchedule(row)" [ngClass]="{'highlight': isClientHighlighted(row.id)}"></tr>
+        
+                <tr *matNoDataRow>
+                    <td class="mat-cell"> <br> No existe ningún cliente que coincida con la búsqueda</td>
+                </tr>
+        </table>
+        
+        <mat-paginator [pageSizeOptions]="[10, 30, 50]" color="primary"></mat-paginator>
     </div>
-    <button mat-fab extended (click)="openClientForm()">Agregar Cliente</button>
-</div>
-
-<div>
-    <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
-
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-            <td mat-cell *matCellDef="let row">{{row.name}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="address">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Dirección</th>
-            <td mat-cell *matCellDef="let row">{{row.address}}</td>
-        </ng-container>
-
-        <<ng-container matColumnDef="phone">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
-            <td mat-cell *matCellDef="let row">{{row.phone}}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumn" (click)="loadSchedule(row)"></tr>
-
-        <tr *matNoDataRow>
-            <td class="mat-cell" *ngIf="!showPref"> No existe ningún cliente con ese nombre, dirección o numero de telefono</td>
-            <td class="mat-cell" *ngIf="showPref"> No has añadido ningun cliente como fijo</td>
-        </tr>
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[10, 30, 50]"></mat-paginator>
-</div>
+</mat-drawer-container>

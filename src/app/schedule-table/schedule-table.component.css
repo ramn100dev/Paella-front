@@ -1,21 +1,21 @@
-*{
-    padding-right: 1em;
-    padding-left: 1em;
-}
-
 .info {
-    width: 97%;
-    padding-top: 3em;
+    width: 99%;
+    padding-top: 1.5em;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
+#fijoInfo{
+    padding-left: 30px;
+}
+
 .edit{
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: 1em;
 }
 
 .options{
@@ -24,60 +24,51 @@
     align-items: center;
 }
 
-#edit {
-    margin-right: 40px;
-    margin-left: 40px;
+#editButton {
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
-mat-icon {
+.topIcons {
     transform: scale(2);
 }
 
 #back:hover {
     color: rgb(97, 97, 97);
-    cursor: pointer;
 }
 
 #delete:hover {
     color: rgb(232, 32, 32);
-    cursor: pointer;
 }
 
 #add{
     margin-left: 40px;
 }
+
 #add:hover {
-    color: rgb(255, 221, 0);
-    cursor: pointer;
+    filter: brightness(0.80);
 }
 
 button{
-    height: 50px;
-    font-size: 18px;
-    border-radius: 6px;
-    width: 150px;
-}
-
-button:hover{
-    cursor: pointer;
-    background-color: rgb(224, 224, 224);
-    font-weight: 600;
+    border-radius: 30px;
+    padding: 26px;
 }
 
 .text{
     display: flex;
     font-size: 26px;
     justify-content:space-between;
+    margin-left: 1.25em;
+    align-items: center;
 }
 
-.schedule{
-    padding-top: 3em;
+.textContent{
+    margin-left: 25px;
 }
 
 td:hover{
-    background-color: rgb(221, 221, 221);
+    background-color: var(--warn-color);
     cursor: pointer;
-    font-weight:bold;
 }
 
 input {
@@ -91,3 +82,81 @@ th:hover{
     background-color: rgb(241, 241, 241);
     cursor:alias;
 }
+
+.mainContent{
+    width: 101%;
+}
+
+.table-fit{
+    margin-top: 1.5em;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+}
+
+table{
+    background-color: rgba(255, 255, 255, 0);
+}
+  
+.headerTable{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+mat-icon:hover {
+    cursor: pointer;
+    filter: brightness(0.92);
+}
+
+.spaceInterlude {
+    display: flex;
+    height: 100%;
+    flex-direction:column;
+    justify-content: space-between;
+    padding-right: 2em;
+    padding-left: 2em;
+    align-items: center;
+}
+
+
+/* CSS Drag&Drop*/
+
+.hover-active {
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.3s;
+}
+
+.hover-active:hover {
+    background-color: var(--warn-color);
+    transition: background-color 0.3s;
+}
+
+mat-drawer-container { 
+    position: relative;
+    height: 0; /* Tamaño inicial */
+    overflow: hidden; /* Para evitar que el contenido se desborde */
+    transition: height 0.3s ease-in-out;
+}  
+
+.activated-drawer-container {
+    height: var(--drawer-height, 150px);
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+   
+.bottom-drawer {
+    position: absolute; /* Posiciona el drawer dentro del contenedor */
+    bottom: 0; /* Lo fija a la parte inferior */
+    width: 100%; /* Lo hace ocupar todo el ancho */
+    background-color: var(--warn-color);
+    transform: translateY(100%); /* Ocultarlo inicialmente (mover hacia abajo) */
+}
+  
+.bottom-drawer.open {
+    transform: translateY(0); /* Mostrar el drawer (volverlo a su posición) */
+}
+
+.dragTableSpace {
+    width: 98%;
+    margin-top: 10px;
+}
+

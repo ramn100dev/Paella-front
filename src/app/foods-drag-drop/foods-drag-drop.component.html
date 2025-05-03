@@ -1,0 +1,126 @@
+<div>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tabs">
+    <div *ngFor="let category of data">
+      <mat-tab label="{{ category.name }}" class="containerTab">
+      
+        <div class="categoryContent">
+          <div *ngFor="let subCategory of category.subCategories" class="subCategories" >
+            
+            <div [ngClass]="{'subCategoryDivEdit': edit}" class="subCategoryDiv" (click)="toggleSubCategoryEdit(subCategory.id)" *ngIf="!editingSubCategory[subCategory.id]">{{ subCategory.name == 'Default' ? null : subCategory.name }}</div>
+            <div *ngIf="editingSubCategory[subCategory.id]" class="subCategoryEditDiv">
+              <input class="editInput" (blur)="editSubcategory($event, subCategory.id)" (keydown.enter)="editSubcategory($event, subCategory.id)">
+              <mat-icon (click)="deleteSubCategory(subCategory.id)" >delete</mat-icon>
+            </div>
+            
+
+            <div *ngIf="subCategory.foods.length != 0; else noFood">
+              <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="list" (cdkDropListDropped)="drop($event, subCategory.foods)">
+                <div class="box" *ngFor="let food of subCategory.foods" cdkDrag (cdkDragStarted)="onDragStart(food.name, food.id)" (cdkDragEnded)="onDragEnd()">
+                  {{ food.name }}
+                </div>
+
+                <div class="addBox" (cdkDragEnded)="onDragEnd()" (click)="toggleAddingFood(subCategory.id)" *ngIf="!addingFoodMap[subCategory.id] && edit && !addingFood">Añadir +</div>
+                <div *ngIf="addingFoodMap[subCategory.id] && edit">
+                  <input (blur)="saveFood($event, subCategory.id, category.id)" (keydown.enter)="saveFood($event, subCategory.id, category.id)"/>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noFood>
+              <div *ngIf="!edit">No se ha añadido ninguna comida</div>
+              <div *ngIf="edit">
+                <div class="addBox" (cdkDragEnded)="onDragEnd()" (click)="toggleAddingFood(subCategory.id)" *ngIf="!addingFoodMap[subCategory.id] && edit && !addingFood">Añadir +</div>
+                <div *ngIf="addingFoodMap[subCategory.id] && edit">
+                  <input (blur)="saveFood($event, subCategory.id, category.id)" (keydown.enter)="saveFood($event, subCategory.id, category.id)"/>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+
+          <div *ngIf="edit">
+            <br>
+            <button *ngIf="!addingSubCategory" mat-button color="primary" (click)="addingSubCategory = !addingSubCategory">Añadir Sub-Categoria</button>
+            <input class="editInput" *ngIf="addingSubCategory" (blur)="saveSubCategory($event, category.id)" (keydown.enter)="saveSubCategory($event, category.id)">
+          </div>
+          
+        </div>
+        <div *ngIf="category.subCategories.length == 0 && !edit">
+          No se ha añadido ninguna sub-categoria
+        </div>
+        
+      </mat-tab>
+      
+    </div>
+    <mat-tab *ngIf="edit && showForm" label="Opciones Categorias">
+      <div class="categoryOptions">
+        <div class="formDiv">
+          <h2>Crear nueva Categoria</h2>
+          <form [formGroup]="categoryForm" (ngSubmit)="onSubmitCategory()">
+            <mat-form-field>
+              <mat-label>Título de la categoría</mat-label>
+              <input matInput formControlName="name" />
+            </mat-form-field> <br>
+          
+            <mat-checkbox formControlName="copySubCategories" *ngIf="data != 0">Copiar subcategorias</mat-checkbox> <br *ngIf="data != 0">
+            <mat-form-field appearance="fill" *ngIf="categoryForm.get('copySubCategories')?.value && data != 0">
+              <mat-label>Categoria a copiar</mat-label>
+              <mat-select formControlName="copyCategory">
+                <mat-option *ngFor="let category of data" [value]="category.name">{{ category.name }}</mat-option>
+              </mat-select>
+            </mat-form-field><br *ngIf="data != 0">
+          
+            <button mat-raised-button color="primary" type="submit">Crear Categoría</button>
+          </form>
+        </div>
+
+
+        <div class="formDiv" *ngIf="data.length > 0">
+          <h2>Eliminar Categoria</h2>
+          
+          <mat-form-field appearance="fill">
+            <mat-label>Elige una categoría</mat-label>
+            <mat-select [(value)]="deletingCategoryId">
+              <mat-option *ngFor="let category of data" [value]="category.id">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field><br>
+          
+          <button mat-raised-button color="primary" (click)="deleteCategory()">Eliminar Categoría</button>
+        </div>
+
+
+        <div class="formDiv" *ngIf="data.length > 0">
+          <h2>Editar Categoria</h2>
+          
+          <mat-form-field appearance="fill">
+            <mat-label>Elige una categoría</mat-label>
+
+            
+            <mat-select [(value)]="editingCategoryId">
+              <mat-option *ngFor="let category of data" [value]="category.id">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field><br>
+
+          <mat-form-field *ngIf="editingCategoryId != null" appearance="fill">
+            <mat-label>Nombre de la categoria</mat-label>
+            <input matInput [(ngModel)]="categoryEditName" (blur)="editingCategory()" (keydown.enter)="editingCategory()"/>
+          </mat-form-field> <br *ngIf="editingCategoryId != null">
+          
+          <button mat-raised-button color="primary" (click)="editingCategory()">Editar Categoría</button>
+        </div>
+      </div>
+      
+      
+      
+    </mat-tab>
+  </mat-tab-group>
+
+  
+</div>
+<div *ngIf="edit && deletingFood" class="deleteFood" (mouseup)="deleteFood()">
+  
+  Eliminar
+</div> 

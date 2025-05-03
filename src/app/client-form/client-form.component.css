@@ -2,6 +2,7 @@
     padding-left: 1em;
     padding-top: 1em;
     padding-bottom: 1em;
+    width: 95%;
 }
 
 mat-form-field{
@@ -9,19 +10,15 @@ mat-form-field{
 }
 
 button{
-    height: 50px;
-    font-size: 15px;
-    border-radius: 6px;
-    width: 100px;
-}
-
-button:hover{
-    cursor: pointer;
-    background-color: rgb(224, 224, 224);
-    font-weight: 600;
+    border-radius: 30px;
+    padding: 26px;
 }
 
 #num {
     padding-left: 40%;
     width: 30%;
+}
+
+#monthly{
+    padding-left: 30px;
 }

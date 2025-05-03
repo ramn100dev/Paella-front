@@ -1,90 +1,104 @@
-<div class="info">
-    <div class="edit">
-        <mat-icon aria-hidden="true" routerLink="/clients" id="back">arrow_back</mat-icon>
-        <div class="text">
-            <div>{{client.name}}</div> 
-            <div>{{client.address}}</div>
-            <div>{{client.phone}}</div>
-            <div *ngIf="client.preference != 0">Fijo: {{client.preference}}</div>
+<div class="spaceInterlude">
+    <div class="mainContent">
+        <div class="info">
+            <div class="edit">
+                <mat-icon aria-hidden="true" class="topIcons" routerLink="/clients" id="back">arrow_back</mat-icon>
+                <div class="text">
+                    <div>{{client.name}}</div> 
+                    <div class="textContent">{{client.address}}</div>
+                    <div class="textContent">{{client.phone}}</div>
+                    <div *ngIf="client.preference != 0" id="fijoInfo">Fijo: {{client.preference}}</div>
+                    <mat-icon color="primary" class="textContent" (click)="showObservation()" *ngIf="client.observation">info</mat-icon>
+                </div>
+            </div>
+            
+            <div class="options">
+                <mat-icon id="add" class="topIcons" (click)="activateDelete()" *ngIf="multipleSchedule && !isMonthly" color="accent">remove</mat-icon>
+                <mat-icon id="add" class="topIcons" (click)="addSchedule()" *ngIf="!isMonthly" color="accent">add</mat-icon>
+                <button id="editButton" mat-raised-button color="accent" (click)="openClientEdit()">Editar Cliente</button>
+                <mat-icon id="delete"  class="topIcons" (click)="delete()" color="accent">delete</mat-icon>
+            </div>
+        </div>
+
+        <div class="mat-elevation-z8 table-fit">
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="lunes">
+                    <th mat-header-cell *matHeaderCellDef (click)="createTicket('lunes')">Lunes</th>
+                    <td mat-cell *matCellDef="let row" (click)="editCell(row, 'lunes')" [ngClass]="{'hover-active': dragActivated}" (mouseup)="onDropCell('lunes', row)">
+                        <div *ngIf="!isEditing(row, 'lunes')">{{ isMonthly && getDayOfMonth(row, 'lunes') ? ' ' + (getDayOfMonth(row, 'lunes') + '.--') : '' }} {{ row.lunes }}</div>
+                        <input *ngIf="isEditing(row, 'lunes')" [(ngModel)]="row.lunes" (blur)="saveCell(row, 'lunes')" (keydown.enter)="saveCell(row, 'lunes')"/>
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="martes">
+                    <th mat-header-cell *matHeaderCellDef (click)="createTicket('martes')">Martes</th>
+                    <td mat-cell *matCellDef="let row" (click)="editCell(row, 'martes')" [ngClass]="{'hover-active': dragActivated}" (mouseup)="onDropCell('martes', row)">
+                        <div *ngIf="!isEditing(row, 'martes')">{{ isMonthly && getDayOfMonth(row, 'martes') ? ' ' + (getDayOfMonth(row, 'martes') + '.--') : '' }} {{ row.martes }}</div>
+                        <input *ngIf="isEditing(row, 'martes')" [(ngModel)]="row.martes" (blur)="saveCell(row, 'martes')" (keydown.enter)="saveCell(row, 'martes')"/>
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="miercoles">
+                    <th mat-header-cell *matHeaderCellDef (click)="createTicket('miercoles')">Miercoles</th>
+                    <td mat-cell *matCellDef="let row" (click)="editCell(row, 'miercoles')" [ngClass]="{'hover-active': dragActivated}" (mouseup)="onDropCell('miercoles', row)">
+                        <div *ngIf="!isEditing(row, 'miercoles')">{{ isMonthly && getDayOfMonth(row, 'miercoles') ? ' ' + (getDayOfMonth(row, 'miercoles') + '.--') : '' }} {{ row.miercoles }}</div>
+                        <input *ngIf="isEditing(row, 'miercoles')" [(ngModel)]="row.miercoles" (blur)="saveCell(row, 'miercoles')" (keydown.enter)="saveCell(row, 'miercoles')"/>
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="jueves">
+                    <th mat-header-cell *matHeaderCellDef (click)="createTicket('jueves')">Jueves</th>
+                    <td mat-cell *matCellDef="let row" (click)="editCell(row, 'jueves')" [ngClass]="{'hover-active': dragActivated}" (mouseup)="onDropCell('jueves', row)">
+                        <div *ngIf="!isEditing(row, 'jueves')">{{ isMonthly && getDayOfMonth(row, 'jueves') ? ' ' + (getDayOfMonth(row, 'jueves') + '.--') : '' }} {{ row.jueves }}</div>
+                        <input *ngIf="isEditing(row, 'jueves')" [(ngModel)]="row.jueves" (blur)="saveCell(row, 'jueves')" (keydown.enter)="saveCell(row, 'jueves')"/>
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="viernes">
+                    <th mat-header-cell *matHeaderCellDef (click)="createTicket('viernes')">Viernes</th>
+                    <td mat-cell *matCellDef="let row" (click)="editCell(row, 'viernes')" [ngClass]="{'hover-active': dragActivated}" (mouseup)="onDropCell('viernes', row)">
+                        <div *ngIf="!isEditing(row, 'viernes')">{{ isMonthly && getDayOfMonth(row, 'viernes') ? ' ' + (getDayOfMonth(row, 'viernes') + '.--') : '' }} {{ row.viernes }}</div>
+                        <input *ngIf="isEditing(row, 'viernes')" [(ngModel)]="row.viernes" (blur)="saveCell(row, 'viernes')" (keydown.enter)="saveCell(row, 'viernes')"/>
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="sabado">
+                    <th mat-header-cell *matHeaderCellDef (click)="createTicket('sabado')">Sabado</th>
+                    <td mat-cell *matCellDef="let row" (click)="editCell(row, 'sabado')" [ngClass]="{'hover-active': dragActivated}" (mouseup)="onDropCell('sabado', row)">
+                        <div *ngIf="!isEditing(row, 'sabado')">{{ isMonthly && getDayOfMonth(row, 'sabado') ? ' ' + (getDayOfMonth(row, 'sabado') + '.--') : '' }} {{ row.sabado }}</div>
+                        <input *ngIf="isEditing(row, 'sabado')" [(ngModel)]="row.sabado" (blur)="saveCell(row, 'sabado')" (keydown.enter)="saveCell(row, 'sabado')"/>
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="domingo">
+                    <th mat-header-cell *matHeaderCellDef (click)="createTicket('domingo')">Domingo</th>
+                    <td mat-cell *matCellDef="let row" (click)="editCell(row, 'domingo')" [ngClass]="{'hover-active': dragActivated}" (mouseup)="onDropCell('domingo', row)">
+                        <div *ngIf="!isEditing(row, 'domingo')">{{ isMonthly && getDayOfMonth(row, 'domingo') ? ' ' + (getDayOfMonth(row, 'domingo')  + '.--') : '' }} {{ row.domingo }}</div>
+                        <input *ngIf="isEditing(row, 'domingo')" [(ngModel)]="row.domingo" (blur)="saveCell(row, 'domingo')" (keydown.enter)="saveCell(row, 'domingo')"/>
+                    </td>    
+                </ng-container>
+        
+                <ng-container matColumnDef="delete" *ngIf="deleteMode">
+                    <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                    <td mat-cell *matCellDef="let row" (click)="deleteSchedule(row)">
+                        <mat-icon color="primary" class="topIcons" >delete</mat-icon>
+                    </td>
+                </ng-container> 
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="headerTable"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
         </div>
     </div>
+
+    <div class="dragTableSpace">
+        <mat-icon (click)="toggleFoodTable()">{{ toggleFoodTableState ? 'keyboard_double_arrow_down' : 'keyboard_double_arrow_up' }}</mat-icon>
     
-    <div class="options">
-        <mat-icon id="add" (click)="activateDelete()" *ngIf="multipleSchedule">remove</mat-icon>
-        <mat-icon id="add" (click)="addSchedule()">add</mat-icon>
-        <button id="edit" (click)="openClientEdit()">Editar</button>
-        <mat-icon id="delete" (click)="delete()">delete</mat-icon>
+        <mat-drawer-container [ngClass]=" { 'activated-drawer-container' : toggleFoodTableState}" class="mat-elevation-z8">
+            <mat-drawer #drawer mode="over" class="bottom-drawer">
+              <app-foods-drag-drop (foodSelected)="foodGet($event)" (maxSubcategoryLength)="heightToggle = 150 + ($event - 1) * 90"></app-foods-drag-drop>
+            </mat-drawer>
+        </mat-drawer-container>
     </div>
-</div>
 
-
-<div class="schedule">
-    
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="lunes">
-            <th mat-header-cell *matHeaderCellDef (click)="createTicket('lunes')">Lunes</th>
-            <td mat-cell *matCellDef="let row" (click)="editCell(row, 'lunes')">
-                <div *ngIf="!isEditing(row, 'lunes')">{{row.lunes}}</div>
-                <input *ngIf="isEditing(row, 'lunes')" [(ngModel)]="row.lunes" (blur)="saveCell(row, 'lunes')" (keydown.enter)="saveCell(row, 'lunes')"/>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="martes">
-            <th mat-header-cell *matHeaderCellDef (click)="createTicket('martes')">Martes</th>
-            <td mat-cell *matCellDef="let row" (click)="editCell(row, 'martes')">
-                <div *ngIf="!isEditing(row, 'martes')">{{row.martes}}</div>
-                <input *ngIf="isEditing(row, 'martes')" [(ngModel)]="row.martes" (blur)="saveCell(row, 'martes')" (keydown.enter)="saveCell(row, 'martes')"/>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="miercoles">
-            <th mat-header-cell *matHeaderCellDef (click)="createTicket('miercoles')">Miercoles</th>
-            <td mat-cell *matCellDef="let row" (click)="editCell(row, 'miercoles')">
-                <div *ngIf="!isEditing(row, 'miercoles')">{{row.miercoles}}</div>
-                <input *ngIf="isEditing(row, 'miercoles')" [(ngModel)]="row.miercoles" (blur)="saveCell(row, 'miercoles')" (keydown.enter)="saveCell(row, 'miercoles')"/>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="jueves">
-            <th mat-header-cell *matHeaderCellDef (click)="createTicket('jueves')">Jueves</th>
-            <td mat-cell *matCellDef="let row" (click)="editCell(row, 'jueves')">
-                <div *ngIf="!isEditing(row, 'jueves')">{{row.jueves}}</div>
-                <input *ngIf="isEditing(row, 'jueves')" [(ngModel)]="row.jueves" (blur)="saveCell(row, 'jueves')" (keydown.enter)="saveCell(row, 'jueves')"/>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="viernes">
-            <th mat-header-cell *matHeaderCellDef (click)="createTicket('viernes')">Viernes</th>
-            <td mat-cell *matCellDef="let row" (click)="editCell(row, 'viernes')">
-                <div *ngIf="!isEditing(row, 'viernes')">{{row.viernes}}</div>
-                <input *ngIf="isEditing(row, 'viernes')" [(ngModel)]="row.viernes" (blur)="saveCell(row, 'viernes')" (keydown.enter)="saveCell(row, 'viernes')"/>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="sabado">
-            <th mat-header-cell *matHeaderCellDef (click)="createTicket('sabado')">Sabado</th>
-            <td mat-cell *matCellDef="let row" (click)="editCell(row, 'sabado')">
-                <div *ngIf="!isEditing(row, 'sabado')">{{row.sabado}}</div>
-                <input *ngIf="isEditing(row, 'sabado')" [(ngModel)]="row.sabado" (blur)="saveCell(row, 'sabado')" (keydown.enter)="saveCell(row, 'sabado')"/>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="domingo">
-            <th mat-header-cell *matHeaderCellDef (click)="createTicket('domingo')">Domingo</th>
-            <td mat-cell *matCellDef="let row" (click)="editCell(row, 'domingo')">
-                <div *ngIf="!isEditing(row, 'domingo')">{{row.domingo}}</div>
-                <input *ngIf="isEditing(row, 'domingo')" [(ngModel)]="row.domingo" (blur)="saveCell(row, 'domingo')" (keydown.enter)="saveCell(row, 'domingo')"/>
-            </td>    
-        </ng-container> 
-
-        <ng-container matColumnDef="delete" *ngIf="deleteMode">
-            <th mat-header-cell *matHeaderCellDef>Eliminar</th>
-            <td mat-cell *matCellDef="let row">
-                <mat-icon color="warn" (click)="deleteSchedule(row)">delete</mat-icon>
-            </td>
-        </ng-container> 
-        
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
 </div>
