@@ -9,7 +9,7 @@ import { SubCategory } from '../models/SubCategory';
 })
 export class FoodService {
 
-  private BASE_URL = "http://localhost:8080/api/food/"
+  private BASE_URL = "https://cateringestor.onrender.com/api/food/"
 
   constructor(private http: HttpClient) { }
 

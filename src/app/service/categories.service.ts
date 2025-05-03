@@ -9,7 +9,7 @@ import { Category } from '../models/Category';
 })
 export class CategoriesService {
 
-  private BASE_URL = "http://localhost:8080/api/categories"
+  private BASE_URL = "https://cateringestor.onrender.com/api/categories"
 
   constructor(private http: HttpClient) { }
 
