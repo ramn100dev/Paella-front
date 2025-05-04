@@ -31,5 +31,7 @@ export class AppComponent {
       document.documentElement.style.setProperty('--warn-color', savedTheme.colors.warn);
       document.documentElement.style.setProperty('--primary-color', savedTheme.colors.primary);
     }
+
+    window.alert("Hola, bienvenido a la DEMO de CateringGestor, el backend tarda 1 min aproximadamente en funcionar, necesitas esperar a que la tabla muestre texto para poder utilzar el programa")
   }
 }
