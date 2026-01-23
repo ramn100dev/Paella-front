@@ -2,26 +2,26 @@
     <div class="top">
         <img src="./assets/logo.png">
         <div class="sectop">
-            <p id="hora">Hora<br>Entrega:</p>
+            <div *ngIf="ticketType == 'Menu'"><p id="hora">Hora<br>Entrega:</p></div>
             <p class="p">{{time}}</p>
             <div>Fecha: {{ day | date: 'dd/MM' }}</div>
         </div>
     </div>
     <div class="mid">
         <div class="data">
-            Cliente:‎ ‎ 
-            <p class="p">{{client.name}}</p>
+            Cliente:‎ ‎
+            <p class="p">{{clientReform.name}}</p>
         </div>
         <div class="data">
-            Dirección:‎ ‎ 
-            <p class="p">{{client.address}}</p>
+            Dirección:‎ ‎
+            <p class="p">{{clientReform.address}}</p>
         </div>
         <div class="data">
-            Telef:‎ ‎ 
-            <p class="p">{{client.phone}}</p>
+            Telef:‎ ‎
+            <p class="p">{{clientReform.phone}}</p>
         </div>
-        <h1>Menú</h1>
-        <p class="food">{{food}}</p>
+        <h1>{{ ticketType }} <div *ngIf="ticketType == 'Menu diario'"> {{ client[1] }} </div></h1>
+        <p class="food" [innerHTML]="food"></p>
     </div>
     <br><br>-
 </div>

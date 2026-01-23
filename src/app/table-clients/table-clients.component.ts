@@ -10,8 +10,10 @@ import { OptionsMenuComponent } from '../options-menu/options-menu.component';
 import { Client } from '../models/Client';
 import { MatDrawer } from '@angular/material/sidenav';
 import { CategoriesService } from '../service/categories.service';
-import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { FiltersServiceService } from '../service/filters-service.service';
+import { FormsServiceService } from '../service/forms-service.service';
+import { FormsTicketsComponent } from '../forms-tickets/forms-tickets.component';
 
 
 
@@ -29,7 +31,7 @@ export class TableClientsComponent {
   posts: Client[] = []
   highlightMode = localStorage.getItem('highlightOption')
 
-  constructor(private service: ClientsService, private categoriesService: CategoriesService, private router: Router, private dialog: MatDialog, private filterService: FiltersServiceService) {
+  constructor(private service: ClientsService, private categoriesService: CategoriesService, private router: Router, private dialog: MatDialog, private filterService: FiltersServiceService, private formsService: FormsServiceService) {
     this.getClientList()
 
     this.router.events.subscribe(event => {
@@ -38,16 +40,15 @@ export class TableClientsComponent {
       }
     })
 
-    setTimeout(() => {   
+    setTimeout(() => {
       this.manageFilters()
     }, 500)
-    
   }
 
   getClientList() {
     this.service.getClients().subscribe(data => {
       this.posts = data
-      //console.log(data)
+      //console.log(this.posts)
 
       this.dataSource = new MatTableDataSource(this.posts)
       this.dataSource.paginator = this.paginator
@@ -79,12 +80,19 @@ export class TableClientsComponent {
       height: '80%'
     })
   }
-  
+
+  openForms(){
+    const dialogRef = this.dialog.open(FormsTicketsComponent, {
+      width: '60%',
+      height: '80%'
+    })
+  }
+
   applyFilter(event: Event){
     const filterValue = (event.target as HTMLInputElement).value
     this.searchValue = filterValue
     this.dataSource.filter = filterValue.trim().toLowerCase()
-    
+
     if (this.dataSource.paginator){
       this.dataSource.paginator.firstPage()
     }
@@ -93,15 +101,15 @@ export class TableClientsComponent {
   //sessionStorageHighlight
   isClientHighlighted(clientId: string): boolean {
     const storage = this.getStorage()
-  
+
     if (!storage) {
       return false
     }
-  
+
     const storedIds = JSON.parse(storage.getItem('clientsIds') || '[]')
     return storedIds.includes(clientId)
   }
-  
+
   getStorage() {
     if (this.highlightMode == '1') {
       return sessionStorage;
@@ -119,14 +127,14 @@ export class TableClientsComponent {
   categories: any
   subcategories: any[] = []
   foods: any[] = []
-  
+
   searchValue = ""
   prefFilter = false
   observationState = false
   selectByDay = false
   isCategorySelected = false
   isSubCategorySelected = false
-  
+
   activeFilters: any[][] = []
   filteredClients: any[] = []
   selectByDayFilter: any[] | null = null
@@ -145,19 +153,19 @@ export class TableClientsComponent {
       this.isDrawerOpen = this.filterService.getDrawerState()
 
       if(this.filterService.getPrefState()){
-       
+
           this.prefFilter = this.filterService.getPrefState()
-          this.service.getClientsPref().subscribe((data) => { 
+          this.service.getClientsPref().subscribe((data) => {
             this.filterCheckbox(data, {checked: true} as MatCheckboxChange)
-            
+
           })
       }
 
       if(this.filterService.getObservationState()){
           this.observationState = this.filterService.getObservationState()
-          this.service.getObservationsClients().subscribe((data) => { 
+          this.service.getObservationsClients().subscribe((data) => {
             this.filterCheckbox(data, {checked: true} as MatCheckboxChange)
-            
+
           })
       }
 
@@ -181,7 +189,7 @@ export class TableClientsComponent {
     }
 
   }
-  
+
   toggleDrawer(){
     this.isDrawerOpen = !this.isDrawerOpen
     this.filterService.setDrawerState(this.isDrawerOpen)
@@ -195,7 +203,7 @@ export class TableClientsComponent {
     switch(box) {
       case 1: //Fijos
       this.filterService.setPrefState(this.prefFilter)
-      this.service.getClientsPref().subscribe((data) => { 
+      this.service.getClientsPref().subscribe((data) => {
         console.log(data)
         this.filterCheckbox(data, event)
       })
@@ -209,15 +217,15 @@ export class TableClientsComponent {
   }
 
   filterCheckbox(data: any, event: MatCheckboxChange){
-    
+
     if (event.checked){
       this.activeFilters.push(data)
       this.recalculateFilters()
     } else {
-      this.activeFilters = this.activeFilters.filter(active => 
+      this.activeFilters = this.activeFilters.filter(active =>
         JSON.stringify(active) !== JSON.stringify(data)
       )
-      
+
       this.recalculateFilters()
     }
   }
@@ -231,11 +239,11 @@ export class TableClientsComponent {
       this.filterByFoodAndDay(this.food, event.value)
     } else {
       this.service.getClientsByDay(event.value).subscribe((data) => {
-        
-        if (this.selectByDayFilter) { 
+
+        if (this.selectByDayFilter) {
           this.deleteDayFilters(false)
         }
-      
+
         this.selectByDayFilter = data
         this.activeFilters.push(data)
         this.recalculateFilters()
@@ -244,20 +252,20 @@ export class TableClientsComponent {
   }
 
   deleteDayFilters(reset: boolean){ //En el caso de cambiar el select, reset false. Si le das al boton del HTML true
-    this.activeFilters = this.activeFilters.filter(active => 
+    this.activeFilters = this.activeFilters.filter(active =>
       JSON.stringify(active) !== JSON.stringify(this.selectedByFoodAndDayFilter)
     )
     this.selectedByFoodAndDayFilter = null
-  
-    this.activeFilters = this.activeFilters.filter(active => 
+
+    this.activeFilters = this.activeFilters.filter(active =>
       JSON.stringify(active) !== JSON.stringify(this.selectByDayFilter)
     )
     this.selectByDayFilter = null
-  
+
     if (reset) {
       this.day = ""
     }
-  
+
     if (this.food) {
       this.service.getClientsByFood(this.food).subscribe((data) => {
         this.selectByFoodFilter = data
@@ -268,18 +276,18 @@ export class TableClientsComponent {
       this.recalculateFilters()
     }
   }
-  
+
 
   filterByCategory(event: any){
     if(this.foods){
       this.isSubCategorySelected = false
-      this.isCategorySelected = false 
+      this.isCategorySelected = false
       this.subCategory = ""
     }
-    setTimeout(() => { 
+    setTimeout(() => {
       this.isCategorySelected = true
     }, 10)
-    
+
     this.subcategories = this.categories[event.value].subCategories
     this.deleteFoodFilters(false)
     //console.log(this.subcategories)
@@ -295,7 +303,7 @@ export class TableClientsComponent {
     this.filterService.setCategory(this.category)
     this.filterService.setSubCategory(this.subCategory)
     this.filterService.setFood(this.food)
-    
+
     if(this.day){
       this.filterByFoodAndDay(event.value, this.day)
     } else {
@@ -303,7 +311,7 @@ export class TableClientsComponent {
         if (this.selectByFoodFilter) {
           this.deleteFoodFilters(false)
         }
-  
+
         this.selectByFoodFilter = data
         this.activeFilters.push(data)
         this.recalculateFilters()
@@ -313,16 +321,16 @@ export class TableClientsComponent {
 
   deleteFoodFilters(reset: boolean){
 
-    this.activeFilters = this.activeFilters.filter(active => 
+    this.activeFilters = this.activeFilters.filter(active =>
       JSON.stringify(active) !== JSON.stringify(this.selectedByFoodAndDayFilter)
     )
     this.selectedByFoodAndDayFilter = null
-  
-    this.activeFilters = this.activeFilters.filter(active => 
+
+    this.activeFilters = this.activeFilters.filter(active =>
       JSON.stringify(active) !== JSON.stringify(this.selectByFoodFilter)
     )
     this.selectByFoodFilter = null
-  
+
     if (reset) {
       this.food = ""
       this.category = ""
@@ -330,7 +338,7 @@ export class TableClientsComponent {
       this.isSubCategorySelected = false
       this.isCategorySelected = false
     }
-  
+
     if (this.day) {
       this.service.getClientsByDay(this.day).subscribe((data) => {
         this.selectByDayFilter = data
@@ -346,7 +354,7 @@ export class TableClientsComponent {
   filterByFoodAndDay(food: string, day: string){
     this.service.getClientsByFoodAndDay(food, day).subscribe((data) => {
       if (this.selectedByFoodAndDayFilter) {
-        this.activeFilters = this.activeFilters.filter(active => 
+        this.activeFilters = this.activeFilters.filter(active =>
           JSON.stringify(active) !== JSON.stringify(this.selectedByFoodAndDayFilter)
         )
       }
@@ -360,14 +368,14 @@ export class TableClientsComponent {
   recalculateFilters(){
     this.filteredClients = this.activeFilters.reduce((acc, filter) =>
       acc.filter(client => filter.some(filteredClient => filteredClient.id === client.id)),
-      this.posts 
+      this.posts
     );
-  
+
     this.filteredClients.sort((a, b) => a.preference - b.preference)
-  
+
     this.dataSource = new MatTableDataSource(this.filteredClients)
     this.dataSource.paginator = this.paginator
     this.dataSource.sort = this.sort
   }
-  
+
 }

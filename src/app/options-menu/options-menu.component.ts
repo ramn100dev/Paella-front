@@ -11,10 +11,7 @@ export class OptionsMenuComponent {
   highlightMode = localStorage.getItem('highlightOption')
   highlightOption: string = this.highlightMode ? this.highlightMode : '0'
 
-
-  constructor(private dialogRef: MatDialogRef<OptionsMenuComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private renderer: Renderer2) {
-    
-  }
+  constructor(private dialogRef: MatDialogRef<OptionsMenuComponent>, private renderer: Renderer2) {}
 
   // MARCADORES Y GESTION DEL STORAGE
   highlightOptions(event: any) {
@@ -63,7 +60,7 @@ export class OptionsMenuComponent {
 
     if (selectedTheme) {
       this.renderer.addClass(document.body, themeName);
-  
+
       this.renderer.setStyle(document.body, 'background-color', selectedTheme.colors.warn);
       localStorage.setItem('background-color', selectedTheme.colors.warn)
       document.documentElement.style.setProperty('--accent-color', selectedTheme.colors.accent);
@@ -73,10 +70,8 @@ export class OptionsMenuComponent {
 
     this.currentTheme = themeName;
     localStorage.setItem('theme', themeName);
-    
+
   }
-
-
 
   //CLOSE
   closeDialog() {

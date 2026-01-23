@@ -1,0 +1,86 @@
+.content{
+    padding-left: 1em;
+    padding-top: 1em;
+    padding-right: 1em;
+    display: flex;
+    flex-direction:column ;
+    align-self: center;
+    height: 95%;
+}
+
+mat-icon:hover{
+    cursor: pointer;
+    filter: brightness(0.85);
+}
+
+mat-icon{
+    cursor: pointer;
+}
+
+button{
+    border-radius: 30px;
+    padding: 26px;
+}
+
+.header2{
+    display: flex;
+    flex-direction: row;
+    font-size: 22px;
+    height: 40px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 22px;
+    height: 40px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.headerText{
+    margin-left: 10px;
+}
+
+.rectangulo {
+  margin: 10px;
+  min-height: 140px;
+  font-size: 22px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.35);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 3px 3px -4px rgba(0, 0, 0, 1), 0px 8px 10px 1px rgba(0, 0, 0, 0.02), 0px 1px 14px 2px rgba(0, 0, 0, 0.02);
+}
+
+.rec-content{
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.test{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#mainIcon {
+    margin-right: 50px;
+    scale: 3;
+    padding-right: 5px;
+}
+
+#iconHistory {
+    margin-right: 20px;
+    scale: 2;
+    margin-top: 10px;
+    padding-right: 10px;
+}

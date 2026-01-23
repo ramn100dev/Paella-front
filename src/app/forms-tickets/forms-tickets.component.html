@@ -1,0 +1,155 @@
+<div class="content">
+  <div class="header2">
+    <div class="header">
+      <mat-icon aria-hidden="true" class="topIcons" id="back" (click)="closeDialog()">arrow_back</mat-icon>
+      <div class="headerText">Pedidos de formularios</div>
+    </div>
+
+    <div *ngIf="historyList.length != 0">
+      <mat-icon color="primary" id="iconHistory" (click)="deleteHistory()" *ngIf="historyMode">delete</mat-icon>
+      <mat-icon color="primary" id="iconHistory" (click)="historyMode = !historyMode">history</mat-icon>
+    </div>
+
+  </div>
+
+  <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" dynamicHeight="true"
+    (selectedTabChange)="onTabChange($event)" *ngIf="!historyMode">
+    <mat-tab label="Paellas">
+      <div class="content">
+
+        <div *ngIf="paellas">
+          <div *ngFor="let paella of paellas; let i = index" class="rectangulo">
+            <div class="test">
+              <div class="rec-content">
+                Paella: {{ paella[1] }} <br>
+                Personas: {{ paella[2] }} <br>
+                Entrega: {{ paella[3] }} {{ paella[4] }}
+              </div>
+              <div class="rec-content">
+                Nombre: {{ paella[5] }} <br>
+                Dirección: {{ paella[6] }} <br>
+                Teléfono: {{ paella[7] }}
+              </div>
+            </div>
+
+            <mat-icon id="mainIcon" color="primary" (click)="selectFormTicket('Paella', paella, i)">print</mat-icon>
+          </div>
+        </div>
+        <div *ngIf="paellas.length <= 0">No hay ningún envio de paella</div>
+
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Raciones">
+      <div class="content">
+
+        <div *ngIf="raciones">
+          <div *ngFor="let racion of raciones; let i = index" class="rectangulo">
+            <div class="test">
+              <div class="rec-content">
+                Nombre: {{ racion[5] }} <br>
+                Direccion: {{ racion[3] }} <br>
+                Teléfono: {{ racion[4] }} <br>
+                Entrega: {{ racion[2] }} {{ racion[1] }}
+              </div>
+              <div class="rec-content">
+                <div *ngFor="let item of filteredRaciones[i] | keyvalue">
+                  -{{ item.key }}: {{ item.value }}
+                </div>
+              </div>
+            </div>
+
+            <mat-icon id="mainIcon" color="primary" (click)="selectFormTicket('Raciones', racion, i)">print</mat-icon>
+          </div>
+        </div>
+        <div *ngIf="raciones.length <= 0">No hay ningún envio de raciones</div>
+
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Menus diarios">
+      <div class="content">
+
+        <div *ngIf="diarios">
+          <div *ngFor="let diario of diarios; let i = index" class="rectangulo">
+            <div class="test">
+              <div class="rec-content">
+                Menu: {{ diario[1] }} a las {{ diario[2] }}<br>
+                Primero: {{ diario[6] }} <br>
+                Segundo: {{ diario[7] }} <br>
+                Postre: {{ diario[8] }}
+              </div>
+              <div class="rec-content">
+                <div *ngIf="!isNumeric(diario[9])">Bebida: {{diario[9]}}</div>
+                Nombre: {{ diario[3] }} <br>
+                Dirección: {{ diario[4] }} <br>
+                Teléfono: {{ diario[5] }}<br>
+                <div *ngIf="diario[10]">Repetir {{ diario[10]}} veces</div>
+                <div *ngIf="isNumeric(diario[9])">Repetir {{ diario[9]}} veces</div>
+              </div>
+            </div>
+
+            <mat-icon id="mainIcon" color="primary"
+              (click)="selectFormTicket('Menu diario', diario, i)">print</mat-icon>
+          </div>
+
+          <div *ngIf="diarios.length <= 0">No hay ningun envio de menu diario</div>
+        </div>
+
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div *ngIf="historyMode">
+    <h2>Historial de pedidos</h2>
+    <div *ngFor="let form of historyList; let i = index" class="rectangulo">
+      <div *ngIf="form.type == 'Paella'">
+        <div class="test">
+              <div class="rec-content">
+                Paella: {{ form.data.food }} <br>
+                Personas: {{ form.data.people }} <br>
+                Entrega: {{ form.time }}
+              </div>
+              <div class="rec-content">
+                Nombre: {{ form.name }} <br>
+                Dirección: {{ form.address }} <br>
+                Teléfono: {{ form.phone }}
+              </div>
+        </div>
+      </div>
+
+      <div *ngIf="form.type == 'Raciones'">
+        <div class="test">
+              <div class="rec-content">
+                Nombre: {{ form.name }} <br>
+                Direccion: {{ form.address }} <br>
+                Teléfono: {{ form.phone }} <br>
+                Entrega: {{ form.time }}
+              </div>
+              <div class="rec-content">
+                <div [innerHTML]="form.data.food" class="food-list"></div>
+              </div>
+        </div>
+      </div>
+
+      <div *ngIf="form.type == 'Menu diario'">
+        <div class="test">
+              <div class="rec-content">
+                Menu: {{ form.time }}<br>
+                <div [innerHTML]="form.data.food" class="food-list"></div>
+              </div>
+              <div class="rec-content">
+                Nombre: {{ form.name }} <br>
+                Dirección: {{ form.address }} <br>
+                Teléfono: {{ form.phone }}<br>
+                <div *ngIf="form.data.repetition">
+                  Repetir {{ form.data.repetition }} veces
+                </div>
+              </div>
+            </div>
+      </div>
+      <mat-icon id="mainIcon" color="primary" (click)="reprint(form)">print</mat-icon>
+
+    </div>
+  </div>
+</div>

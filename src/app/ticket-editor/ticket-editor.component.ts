@@ -15,9 +15,9 @@ export class TicketEditorComponent {
 
   ids: any
   highlightMode = localStorage.getItem('highlightOption')
-  
+
   constructor(private dialogRef: MatDialogRef<TicketEditorComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router){
-    console.log(data.dayValue.length + " fasfaf" + data.dayValue)
+    //console.log(data.dayValue.length + " fasfaf" + data.dayValue)
     this.multipleSchedule = data.multipleSchedule
 
     const storage = this.getStorage();
@@ -28,18 +28,18 @@ export class TicketEditorComponent {
 
   selectFood(food: string){
     if (this.getStorage()) {
-      console.log(this.getStorage())
+      //console.log(this.getStorage())
       this.sessionStoragePref()
     }
-    
-    this.router.navigate(['/ticket', this.data.client.id], { state: { client: this.data.client, food, time: this.time}})
+
+    this.router.navigate(['/ticket', this.data.client.id], { state: { client: this.data.client, food, time: this.time, ticketType: 'Menu'}})
     this.dialogRef.close()
   }
 
   sessionStoragePref(){
     // Obtiene los IDs de clientes almacenados en sessionStorage y los convierte de JSON a un array.
     let clientsIds = this.ids ? JSON.parse(this.ids): []
-    
+
     if (!clientsIds.includes(this.data.client.id)) {
       clientsIds.push(this.data.client.id);
       // Actualiza sessionStorage con el nuevo array de IDs convertido a JSON.

@@ -27,7 +27,7 @@
 }
 
 .side.hidden {
-    transform: scale(0.01); 
+    transform: scale(0.01);
 }
 
 button{
@@ -50,10 +50,15 @@ button{
     padding-right: 5px;
 }
 
+#formsIcon {
+    scale: 2;
+    padding-right: 25px;
+}
+
 mat-icon:hover {
     cursor: pointer;
     filter: brightness(0.92);
-    
+
 }
 
 .table-fit{

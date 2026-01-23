@@ -32,7 +32,9 @@ import { FoodsDragDropComponent } from './foods-drag-drop/foods-drag-drop.compon
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsTicketsComponent } from './forms-tickets/forms-tickets.component'
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     TicketGeneratorComponent,
     TicketEditorComponent,
     OptionsMenuComponent,
-    FoodsDragDropComponent
+    FoodsDragDropComponent,
+    FormsTicketsComponent
   ],
   imports: [
     BrowserModule,

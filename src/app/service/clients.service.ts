@@ -7,7 +7,7 @@ import { Client } from '../models/Client';
   providedIn: 'root'
 })
 export class ClientsService {
-  
+
   private BASE_URL = "http://localhost:8080/api/client"
 
   constructor(private http: HttpClient) { }

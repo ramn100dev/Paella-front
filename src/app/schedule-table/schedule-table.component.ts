@@ -20,7 +20,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 export class ScheduleTableComponent {
   displayedColumns: string[] = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
   dataSource!: MatTableDataSource<Schedule>
-  
+
   editingCell: { row: Schedule, column: string } | null = null;
 
   posts:any
@@ -31,12 +31,12 @@ export class ScheduleTableComponent {
   monthView: (number | null)[][] = []
 
   constructor(private service: ScheduleService, private router: Router, private dialog: MatDialog, private snackBar: MatSnackBar) {
-    
+
     this.client = history.state.client
-    
+
     const today = new Date();
     this.monthView = this.generateMonthView(today.getMonth(), today.getFullYear());
-    
+
     this.getScheduleList()
   }
 
@@ -44,7 +44,7 @@ export class ScheduleTableComponent {
     this.service.getScheduleList(this.client.id).subscribe(data => {
       this.posts = [data];
       this.dataSource = new MatTableDataSource(data);
-  
+
       if (data.length > 1){
         this.multipleSchedule = true;
       } else {
@@ -52,10 +52,10 @@ export class ScheduleTableComponent {
         this.deleteMode = false;
         this.displayedColumns = this.displayedColumns.filter(column => column !== 'delete');
       }
-  
+
       if (this.client.monthly != 0) {
         this.isMonthly = true;
-      } 
+      }
       console.log(data)
     });
   }
@@ -77,7 +77,7 @@ export class ScheduleTableComponent {
         this.client.preference = result.preference;
         this.client.monthly = result.monthly;
         this.client.observation = result.observation;
-      
+
         this.isMonthly = result.monthly
         this.monthlyErrorProof()
       }
@@ -130,8 +130,11 @@ export class ScheduleTableComponent {
 
   //Borrar cliente
   delete(){
-    this.service.delete(this.client.id).subscribe()
-    this.router.navigate(['/clients'])
+    const res = window.confirm("¿Quieres eliminar a este cliente?")
+    if (res) {
+      this.service.delete(this.client.id).subscribe()
+      this.router.navigate(['/clients'])
+    }
   }
 
 
@@ -139,7 +142,7 @@ export class ScheduleTableComponent {
   /* EXPLICACIÓN A LA LOGICA DE LA EDICIÓN DE CELDAS
       En el HTML utilizamos un *ngIf para usar el div o el input segun la variable 'editingCell',
       a partir de aqui estan las funciones
-  */ 
+  */
 
   //Verifica si la celda se esta editando:
   //Basicamente, se compara si la celda selecciona esta en modo edición, comparando los valores row y column, para pasar a editCell()
@@ -158,7 +161,7 @@ export class ScheduleTableComponent {
     this.service.updateSchedule(row.id, row).subscribe()
   }
 
-  
+
   /*
       LOGICA DEL HORARIO MENSUAL
   */
@@ -171,16 +174,16 @@ export class ScheduleTableComponent {
     } else {
       firstDayOfMonth -= 1 // Desplazar días una posición para que lunes sea el primer día
     }
-  
+
     const monthView: (number | null)[][] = []
     let week: (number | null)[] = new Array(7).fill(null)
     let day = 1
-  
+
     // Llena la primera semana con null hasta el primer día del mes
     for (let i = 0; i < firstDayOfMonth; i++) {
       week[i] = null
     }
-  
+
     // Llena la primera semana con los días iniciales del mes
     for (let i = firstDayOfMonth; i < 7; i++) {
       if (day <= daysInMonth) {
@@ -188,7 +191,7 @@ export class ScheduleTableComponent {
       }
     }
     monthView.push(week);
-  
+
     // Llena las semanas subsiguientes
     while (day <= daysInMonth) {
       week = new Array(7).fill(null)
@@ -199,10 +202,10 @@ export class ScheduleTableComponent {
       }
       monthView.push(week)
     }
-  
+
     return monthView;
   }
-  
+
   getDayOfMonth(row: Schedule, column: string): number | null {
     const rowIndex = this.dataSource.data.indexOf(row)
     const columnIndex = this.getColumnIndex(column)
@@ -238,12 +241,12 @@ export class ScheduleTableComponent {
     }
   }
 
-  /* 
-      LOGICA PARA LA TABLA COMIDAS ARRASTRABLES 
+  /*
+      LOGICA PARA LA TABLA COMIDAS ARRASTRABLES
   */
 
   @ViewChild('drawer') drawer!: MatDrawer
-  
+
   toggleFoodTableState = false
 
   dragActivated = false
