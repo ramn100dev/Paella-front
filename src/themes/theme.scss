@@ -60,6 +60,3 @@ $themes: (
       @include mat.all-component-themes($theme-config);
     }
 }
-
-
-// Sobrescribir la variable en tu propio tema
