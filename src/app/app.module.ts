@@ -7,10 +7,13 @@ import { ClientFormComponent } from './client-form/client-form.component';
 import { ScheduleTableComponent } from './schedule-table/schedule-table.component';
 import { TicketGeneratorComponent } from './ticket-generator/ticket-generator.component';
 import { TicketEditorComponent } from './ticket-editor/ticket-editor.component';
+import { OptionsMenuComponent } from './options-menu/options-menu.component';
+import { FoodsDragDropComponent } from './foods-drag-drop/foods-drag-drop.component';
+import { FormsTicketsComponent } from './forms-tickets/forms-tickets.component';
 
 //Angular
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -24,55 +27,54 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { OptionsMenuComponent } from './options-menu/options-menu.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { FoodsDragDropComponent } from './foods-drag-drop/foods-drag-drop.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { FormsTicketsComponent } from './forms-tickets/forms-tickets.component'
-import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TableClientsComponent,
-    ScheduleTableComponent,
-    ClientFormComponent,
-    TicketGeneratorComponent,
-    TicketEditorComponent,
-    OptionsMenuComponent,
-    FoodsDragDropComponent,
-    FormsTicketsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    BrowserAnimationsModule,
-    MatIconModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatTabsModule,
-    DragDropModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatSnackBarModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        // TUS COMPONENTES VUELVEN AQUI
+        AppComponent,
+        TableClientsComponent,
+        ScheduleTableComponent,
+        ClientFormComponent,
+        TicketGeneratorComponent,
+        TicketEditorComponent,
+        OptionsMenuComponent,
+        FoodsDragDropComponent,
+        FormsTicketsComponent
+    ],
+    imports: [
+        // SOLO MODULOS AQUI
+        BrowserModule,
+        AppRoutingModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        MatIconModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        MatTabsModule,
+        DragDropModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatSnackBarModule
+    ],
+    providers: [
+        provideHttpClient(withInterceptorsFromDi())
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
