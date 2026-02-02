@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "paella-front:build:production"
+              "buildTarget": "paella-front:build:production"
             },
             "development": {
-              "browserTarget": "paella-front:build:development"
+              "buildTarget": "paella-front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "paella-front:build"
+            "buildTarget": "paella-front:build"
           }
         },
         "test": {
