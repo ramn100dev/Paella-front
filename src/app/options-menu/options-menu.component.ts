@@ -1,5 +1,6 @@
-import { Component, Inject, Renderer2 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, inject, Renderer2 } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-options-menu',
@@ -11,10 +12,11 @@ export class OptionsMenuComponent {
   highlightMode = localStorage.getItem('highlightOption')
   highlightOption: string = this.highlightMode ? this.highlightMode : '0'
 
-  constructor(private dialogRef: MatDialogRef<OptionsMenuComponent>, private renderer: Renderer2) {}
+  private dialogRef = inject(MatDialogRef<OptionsMenuComponent>)
+  private renderer = inject(Renderer2)
 
   // MARCADORES Y GESTION DEL STORAGE
-  highlightOptions(event: any) {
+  highlightOptions(event: MatRadioChange) {
     this.highlightOption = event.value;
     console.log('Opción seleccionada:', this.highlightOption)
     localStorage.setItem('highlightOption', this.highlightOption)

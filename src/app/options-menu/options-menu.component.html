@@ -22,7 +22,9 @@
               <mat-radio-button value="1">Marcar el cliente temporalmente</mat-radio-button><br>
               <mat-radio-button value="2">Marcar el cliente y desmarcar manualmente</mat-radio-button>
             </mat-radio-group> <br>
-            <mat-icon *ngIf="highlightOption == '2'" id="delete" (click)="deleteLocalStorage()">delete</mat-icon>
+            @if (highlightOption === '2') {
+              <mat-icon id="delete" (click)="deleteLocalStorage()">delete</mat-icon>
+            }
           </div>
       </div>
     </mat-tab>
@@ -31,11 +33,13 @@
       <div class="content">
 
         <h2>Elige tu paleta de colores</h2>
-        <div *ngFor="let theme of themes" class="rectangulo" (click)="changeButton(theme.name)">
-          <div class="circulo" [style.backgroundColor]="theme.colors.primary"></div>
-          <div class="circulo" [style.backgroundColor]="theme.colors.accent"></div>
-          <div class="circulo" [style.backgroundColor]="theme.colors.warn"></div>
-        </div>
+        @for (theme of themes; track theme.name) {
+          <div class="rectangulo" (click)="changeButton(theme.name)">
+            <div class="circulo" [style.backgroundColor]="theme.colors.primary"></div>
+            <div class="circulo" [style.backgroundColor]="theme.colors.accent"></div>
+            <div class="circulo" [style.backgroundColor]="theme.colors.warn"></div>
+          </div>
+        }
       </div>
     </mat-tab>
   </mat-tab-group>
