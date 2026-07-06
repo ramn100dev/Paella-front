@@ -1,9 +1,19 @@
-import { ThisReceiver } from '@angular/compiler';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { Router } from '@angular/router';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatFormField,
+    FormsModule,
+    MatInput,
+    MatButton
+  ],
   selector: 'app-ticket-editor',
   templateUrl: './ticket-editor.component.html',
   styleUrls: ['./ticket-editor.component.css']
@@ -13,12 +23,16 @@ export class TicketEditorComponent {
   multipleSchedule: boolean
   time = ''
 
-  ids: any
+  ids: string | null = null
   highlightMode = localStorage.getItem('highlightOption')
 
-  constructor(private dialogRef: MatDialogRef<TicketEditorComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router){
+  private dialogRef = inject(MatDialogRef<TicketEditorComponent>)
+  private router = inject(Router)
+  data = inject(MAT_DIALOG_DATA)
+
+  constructor(){
     //console.log(data.dayValue.length + " fasfaf" + data.dayValue)
-    this.multipleSchedule = data.multipleSchedule
+    this.multipleSchedule = this.data.multipleSchedule
 
     const storage = this.getStorage();
     if (storage) {
@@ -38,7 +52,7 @@ export class TicketEditorComponent {
 
   sessionStoragePref(){
     // Obtiene los IDs de clientes almacenados en sessionStorage y los convierte de JSON a un array.
-    let clientsIds = this.ids ? JSON.parse(this.ids): []
+    const clientsIds = this.ids ? JSON.parse(this.ids): []
 
     if (!clientsIds.includes(this.data.client.id)) {
       clientsIds.push(this.data.client.id);

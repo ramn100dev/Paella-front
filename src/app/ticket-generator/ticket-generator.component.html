@@ -2,7 +2,9 @@
     <div class="top">
         <img src="./assets/logo.png">
         <div class="sectop">
-            <div *ngIf="ticketType == 'Menu'"><p id="hora">Hora<br>Entrega:</p></div>
+            @if (ticketType === 'Menu') {
+                <div><p id="hora">Hora<br>Entrega:</p></div>
+            }
             <p class="p">{{time}}</p>
             <div>Fecha: {{ day | date: 'dd/MM' }}</div>
         </div>
@@ -20,7 +22,9 @@
             Telef:‎ ‎
             <p class="p">{{clientReform.phone}}</p>
         </div>
-        <h1>{{ ticketType }} <div *ngIf="ticketType == 'Menu diario'"> {{ client[1] }} </div></h1>
+        @if (ticketType === 'Menu diario') {
+            <h1>{{ ticketType }} <div> {{ client[1] }} </div></h1>
+        }
         <p class="food" [innerHTML]="food"></p>
     </div>
     <br><br>-

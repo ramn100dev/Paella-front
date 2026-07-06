@@ -41,15 +41,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         AppComponent,
         TableClientsComponent,
         ScheduleTableComponent,
-        ClientFormComponent,
-        TicketGeneratorComponent,
-        TicketEditorComponent,
-        OptionsMenuComponent,
         FormsTicketsComponent
     ],
     imports: [
         // SOLO MODULOS AQUI
         FoodsDragDropComponent,
+        OptionsMenuComponent,
+        ClientFormComponent,
+        TicketEditorComponent,
+        TicketGeneratorComponent,
         BrowserModule,
         AppRoutingModule,
         MatTableModule,

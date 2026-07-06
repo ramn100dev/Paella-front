@@ -1,8 +1,22 @@
 import { Component, inject, Renderer2 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatIcon } from '@angular/material/icon';
+import { MatRadioButton, MatRadioChange, MatRadioGroup } from '@angular/material/radio';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { FoodsDragDropComponent } from '../foods-drag-drop/foods-drag-drop.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatIcon,
+    MatRadioGroup,
+    MatTab,
+    MatTabGroup,
+    MatRadioButton,
+    FoodsDragDropComponent,
+    FormsModule
+  ],
   selector: 'app-options-menu',
   templateUrl: './options-menu.component.html',
   styleUrls: ['./options-menu.component.css']

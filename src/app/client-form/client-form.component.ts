@@ -1,9 +1,22 @@
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ClientsService } from '../service/clients.service';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatButton } from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatFormField,
+    MatInput,
+    MatCheckbox,
+    MatButton,
+    MatLabel,
+    ReactiveFormsModule
+  ],
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.css']
@@ -15,24 +28,29 @@ export class ClientFormComponent {
   isFijo: boolean
   hasObservation: boolean = false
 
-  constructor(private service: ClientsService, private fb: FormBuilder, private dialogRef: MatDialogRef<ClientFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  private service = inject(ClientsService)
+  private fb =  inject(FormBuilder)
+  private dialogRef = inject(MatDialogRef<ClientFormComponent>)
+  data = inject(MAT_DIALOG_DATA)
+
+  constructor() {
     
-    this.isEditMode = data.isEditMode;
-    this.isFijo = data.isFijo;
+    this.isEditMode = this.data.isEditMode;
+    this.isFijo = this.data.isFijo;
 
     if(this.isEditMode){
-      if(data.client.observation != ""){
+      if(this.data.client.observation != ""){
         this.hasObservation = true
       } 
     }
 
     this.clientForm = this.fb.group({
-      name: [data.client ? data.client.name : ''],
-      address: [data.client ? data.client.address : ''],
-      phone: [data.client ? data.client.phone : ''],
-      preference: [data.client ? data.client.preference : ''],
-      monthly: [data.client ? data.client.monthly : false],
-      observation: [data.client ? data.client.observation: '']
+      name: [this.data.client ? this.data.client.name : ''],
+      address: [this.data.client ? this.data.client.address : ''],
+      phone: [this.data.client ? this.data.client.phone : ''],
+      preference: [this.data.client ? this.data.client.preference : ''],
+      monthly: [this.data.client ? this.data.client.monthly : false],
+      observation: [this.data.client ? this.data.client.observation: '']
     })
   }
 

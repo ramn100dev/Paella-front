@@ -1,22 +1,33 @@
 <div class="content">
-    <div *ngIf="checkDayValue()" class="checker">
-        <h2>Ticket para {{data.client.name}}</h2>
-        <h3>Hora prevista de la entrega:</h3>
-        <mat-form-field>
-            <input matInput [(ngModel)]="time" placeholder="Hora...">
-        </mat-form-field>
-        <div class="Botones" *ngIf="multipleSchedule">
-            <h3>Selecciona que ticket quieres sacar</h3>
-            <div *ngFor="let food of data.dayValue; let i = index">
-                <ng-container *ngIf="data.dayValue[i] != null && data.dayValue[i] != ''">
-                    <button mat-raised-button color="accent" type="submit" (click)="selectFood(data.dayValue[i])">{{ data.dayValue[i] }}</button>
-                    <br><br>
-                </ng-container>
-              </div>
-              
+    @if (checkDayValue()) {
+        <div class="checker">
+            <h2>Ticket para {{data.client.name}}</h2>
+            <h3>Hora prevista de la entrega:</h3>
+            <mat-form-field>
+                <input matInput [(ngModel)]="time" placeholder="Hora...">
+            </mat-form-field>
+            @if (multipleSchedule) {
+                <div class="Botones">
+                    <h3>Selecciona que ticket quieres sacar</h3>
+                    @for (food of data.dayValue; track $index) {
+                        <div>
+                            @if (food != null && food != '') {
+                                <ng-container>
+                                    <button mat-raised-button color="accent" type="submit" (click)="selectFood(food)">{{ food }}</button>
+                                    <br><br>
+                                </ng-container>
+                            }
+                            
+                        </div>
+                    }
+                    
+                </div>
+            }
+            @if (!multipleSchedule) {
+                <button mat-raised-button color="accent" (click)="selectFood(data.dayValue[0])">{{ data.dayValue[0] }}</button>
+            }
         </div>
-        <button mat-raised-button color="accent" *ngIf="!multipleSchedule" (click)="selectFood(data.dayValue[0])">{{ data.dayValue[0] }}</button>
-    </div>
-    
-    <h3 *ngIf="!checkDayValue()">No hay ningun ticket para <br>imprimir este día</h3>
+    } @else {
+        <h3>No hay ningun ticket para <br>imprimir este día</h3>
+    }
 </div>

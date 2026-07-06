@@ -1,5 +1,5 @@
+import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 export interface ClientReform {
   name: string,
@@ -8,6 +8,10 @@ export interface ClientReform {
 }
 
 @Component({
+  standalone: true,
+  imports: [
+    DatePipe
+  ],
   selector: 'app-ticket-generator',
   templateUrl: './ticket-generator.component.html',
   styleUrls: ['./ticket-generator.component.css']
@@ -17,20 +21,24 @@ export class TicketGeneratorComponent implements AfterViewInit{
   clientReform: ClientReform;
 
   ticketType: string
+
+  //Hay que cambiar esta mierda del any
   client: any
   food: string
-  time: any
-  confirm: any
+  time: string
+  confirm: boolean
 
   day: Date = new Date()
 
-  constructor(private route: ActivatedRoute){
+  constructor(){
+    //Posible tipado
     this.ticketType = history.state.ticketType
     this.client = history.state.client
     this.food = history.state.food
     this.time = history.state.time
     this.confirm = history.state.confirm
 
+    //Revisar, no reescribe, solo iguala
     this.clientReform = this.client
 
     this.manageTypes()
