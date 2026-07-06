@@ -1,24 +1,41 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ScheduleService } from 'src/app/service/schedule.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
 import { TicketEditorComponent } from '../ticket-editor/ticket-editor.component';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
 import { Schedule } from '../models/Schedule';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { NgClass, TitleCasePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { FoodsDragDropComponent } from '../foods-drag-drop/foods-drag-drop.component';
 
-
-
+type DayKey = 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo';
 
 @Component({
+  standalone: true,
+  imports: [
+    RouterLink,
+    MatIcon,
+    MatButton,
+    MatTableModule,
+    NgClass,
+    FormsModule,
+    FoodsDragDropComponent,
+    MatSidenavModule,
+    TitleCasePipe
+  ],
   selector: 'app-schedule-table',
   templateUrl: './schedule-table.component.html',
   styleUrls: ['./schedule-table.component.css']
 })
 export class ScheduleTableComponent {
   displayedColumns: string[] = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
+  days: DayKey[] = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
   dataSource!: MatTableDataSource<Schedule>
 
   editingCell: { row: Schedule, column: string } | null = null;
@@ -30,7 +47,12 @@ export class ScheduleTableComponent {
   isMonthly: boolean = false
   monthView: (number | null)[][] = []
 
-  constructor(private service: ScheduleService, private router: Router, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  private service = inject(ScheduleService)
+  private router = inject(Router)
+  private dialog = inject(MatDialog)
+  private snackBar = inject(MatSnackBar)
+
+  constructor() {
 
     this.client = history.state.client
 
@@ -140,7 +162,7 @@ export class ScheduleTableComponent {
 
 
   /* EXPLICACIÓN A LA LOGICA DE LA EDICIÓN DE CELDAS
-      En el HTML utilizamos un *ngIf para usar el div o el input segun la variable 'editingCell',
+      En el HTML utilizamos un @if para usar el div o el input segun la variable 'editingCell',
       a partir de aqui estan las funciones
   */
 

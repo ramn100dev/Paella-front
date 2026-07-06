@@ -40,7 +40,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         // TUS COMPONENTES VUELVEN AQUI
         AppComponent,
         TableClientsComponent,
-        ScheduleTableComponent,
         FormsTicketsComponent
     ],
     imports: [
@@ -50,6 +49,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         ClientFormComponent,
         TicketEditorComponent,
         TicketGeneratorComponent,
+        ScheduleTableComponent,
         BrowserModule,
         AppRoutingModule,
         MatTableModule,
