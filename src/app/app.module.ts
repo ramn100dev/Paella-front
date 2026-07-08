@@ -38,13 +38,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
     declarations: [
         // TUS COMPONENTES VUELVEN AQUI
-        AppComponent,
-        TableClientsComponent
+        AppComponent
     ],
     imports: [
         // SOLO MODULOS AQUI
         FoodsDragDropComponent,
         FormsTicketsComponent,
+        TableClientsComponent,
         OptionsMenuComponent,
         ClientFormComponent,
         TicketEditorComponent,

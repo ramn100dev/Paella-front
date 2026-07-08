@@ -1,23 +1,45 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ClientsService } from '../service/clients.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
 import { OptionsMenuComponent } from '../options-menu/options-menu.component';
 import { Client } from '../models/Client';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { CategoriesService } from '../service/categories.service';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { FiltersServiceService } from '../service/filters-service.service';
 import { FormsServiceService } from '../service/forms-service.service';
 import { FormsTicketsComponent } from '../forms-tickets/forms-tickets.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
+  ],
   selector: 'app-table-clients',
   templateUrl: './table-clients.component.html',
   styleUrls: ['./table-clients.component.css'],
@@ -31,7 +53,14 @@ export class TableClientsComponent {
   posts: Client[] = []
   highlightMode = localStorage.getItem('highlightOption')
 
-  constructor(private service: ClientsService, private categoriesService: CategoriesService, private router: Router, private dialog: MatDialog, private filterService: FiltersServiceService, private formsService: FormsServiceService) {
+  private service = inject(ClientsService)
+  private categoriesService = inject(CategoriesService)
+  private router = inject(Router)
+  private dialog = inject(MatDialog)
+  private filterService = inject(FiltersServiceService)
+  private formsService =  inject(FormsServiceService)
+
+  constructor() {
     this.getClientList()
 
     this.router.events.subscribe(event => {
