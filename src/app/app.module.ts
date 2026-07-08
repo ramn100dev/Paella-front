@@ -39,12 +39,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     declarations: [
         // TUS COMPONENTES VUELVEN AQUI
         AppComponent,
-        TableClientsComponent,
-        FormsTicketsComponent
+        TableClientsComponent
     ],
     imports: [
         // SOLO MODULOS AQUI
         FoodsDragDropComponent,
+        FormsTicketsComponent,
         OptionsMenuComponent,
         ClientFormComponent,
         TicketEditorComponent,

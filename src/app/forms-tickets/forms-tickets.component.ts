@@ -1,24 +1,25 @@
 import { HistoryItem } from './../models/HistoryItem';
-import { map } from 'rxjs';
-import { Component, Renderer2 } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormsServiceService } from '../service/forms-service.service';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatIcon,
+    MatTabGroup,
+    MatTab,
+    CommonModule
+  ],
   selector: 'app-forms-tickets',
   templateUrl: './forms-tickets.component.html',
   styleUrls: ['./forms-tickets.component.css']
 })
 export class FormsTicketsComponent {
-
-  isNaN(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
-  Number(arg0: any): any {
-    throw new Error('Method not implemented.');
-  }
 
   headerRaciones: string[] = []
   raciones: any[][] = []
@@ -27,11 +28,14 @@ export class FormsTicketsComponent {
   paellas: any[][] = []
 
   historyList: HistoryItem[] = []
-  historyItems: any
 
   historyMode = false
 
-  constructor(private dialogRef: MatDialogRef<FormsTicketsComponent>, private renderer: Renderer2, private service: FormsServiceService, private router: Router) {
+  private dialogRef = inject(MatDialogRef<FormsTicketsComponent>)
+  private service = inject(FormsServiceService)
+  private router = inject(Router)
+
+  constructor() {
 
     const storedHistory = localStorage.getItem('ticketHistory')
     console.log(this.historyList)
@@ -100,7 +104,7 @@ export class FormsTicketsComponent {
             console.log(this.diarios)
 
             if (this.diarios[9]) {
-              let check = this.Number(this.diarios[9])
+              let check = Number(this.diarios[9])
               console.log(!isNaN(check))
             }
           })
