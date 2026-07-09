@@ -32,7 +32,7 @@
                 </mat-select>
             </mat-form-field>
 
-            @if (isCategorySelected && subcategories?.length != 0) {
+            @if (isCategorySelected && subcategories.length != 0) {
                 <mat-form-field>
                     <mat-label>Elige una subcategoria</mat-label>
                     <mat-select [(value)]="subCategory" (selectionChange)="filterBySubCategory($event)">
@@ -50,7 +50,7 @@
                 @if (subcategories.length == 0) { <div> No existen subcategorias </div> }
             }
 
-            @if (isSubCategorySelected && foods?.length != 0) {
+            @if (isSubCategorySelected && foods.length != 0) {
                 <mat-form-field>
                     <mat-label>Elige una comida</mat-label>
                     <mat-select [(value)]="food" (selectionChange)="filterByFood($event)">

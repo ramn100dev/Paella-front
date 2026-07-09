@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { FoodService } from '../service/food.service';
 import { Food } from '../models/Food';
 import { CategoriesService } from '../service/categories.service';
@@ -60,8 +61,12 @@ export class FoodsDragDropComponent {
   @Output() maxSubcategoryLength = new EventEmitter<number>()
   @Input() edit: boolean = false
 
-  constructor(private service: FoodService, private categoriesService: CategoriesService, private fb: FormBuilder) { 
-    
+  private service = inject(FoodService)
+  private categoriesService = inject(CategoriesService)
+  private fb = inject(FormBuilder)
+
+  constructor() {
+
     this.categoryForm = this.fb.group({
       name: [''], // Campo para el nombre
       copySubCategories: [false], // Estado del checkbox
@@ -221,7 +226,7 @@ export class FoodsDragDropComponent {
           };
           console.log(newSubCategory)
   
-          await this.categoriesService.postSubCategory(newSubCategory).toPromise()
+          await firstValueFrom(this.categoriesService.postSubCategory(newSubCategory))
         }
   
         this.loadList()
