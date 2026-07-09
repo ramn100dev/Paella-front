@@ -6,6 +6,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatButton } from '@angular/material/button';
+import { ClientsNotifierService } from '../service/clients-notifier.service';
 
 @Component({
   standalone: true,
@@ -29,6 +30,7 @@ export class ClientFormComponent {
   hasObservation: boolean = false
 
   private service = inject(ClientsService)
+  private notifier = inject(ClientsNotifierService)
   private fb =  inject(FormBuilder)
   private dialogRef = inject(MatDialogRef<ClientFormComponent>)
   data = inject(MAT_DIALOG_DATA)
@@ -81,6 +83,7 @@ export class ClientFormComponent {
         this.service.updateClient(this.data.client.id, this.clientForm.value).subscribe({
           next: (res) => {
             console.log(res)
+            this.notifier.notifyClientsChanged()
             //this.data.client.monthly = res.monthly 
           },
           error: (err) => console.log(err),
@@ -92,9 +95,14 @@ export class ClientFormComponent {
 
             if (this.isFijo && this.clientForm.value.preference > 0) {
               this.service.checkPref(res.id, this.clientForm.value.preference).subscribe({
-                next: (updateRes) => console.log(updateRes),
+                next: (updateRes) => {
+                  console.log(updateRes)
+                  this.notifier.notifyClientsChanged()
+                },
                 error: (updateErr) => console.log(updateErr),
               });
+            } else {
+              this.notifier.notifyClientsChanged()
             }
           },
           error: (err) => console.log(err),

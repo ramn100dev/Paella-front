@@ -3,7 +3,7 @@ import { ClientsService } from '../service/clients.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
 import { OptionsMenuComponent } from '../options-menu/options-menu.component';
@@ -11,8 +11,6 @@ import { Client } from '../models/Client';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { CategoriesService } from '../service/categories.service';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { FiltersServiceService } from '../service/filters-service.service';
-import { FormsServiceService } from '../service/forms-service.service';
 import { FormsTicketsComponent } from '../forms-tickets/forms-tickets.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { ClientsNotifierService } from '../service/clients-notifier.service';
 
 
 
@@ -57,21 +56,13 @@ export class TableClientsComponent {
   private categoriesService = inject(CategoriesService)
   private router = inject(Router)
   private dialog = inject(MatDialog)
-  private filterService = inject(FiltersServiceService)
-  private formsService =  inject(FormsServiceService)
+  private notifier = inject(ClientsNotifierService)
 
-  constructor() {
+  constructor() { 
     this.getClientList()
-
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.getClientList()
-      }
+    this.notifier.clientsChanged.subscribe(() => {
+      this.getClientList()
     })
-
-    setTimeout(() => {
-      this.manageFilters()
-    }, 500)
   }
 
   getClientList() {
@@ -79,9 +70,14 @@ export class TableClientsComponent {
       this.posts = data
       //console.log(this.posts)
 
-      this.dataSource = new MatTableDataSource(this.posts)
-      this.dataSource.paginator = this.paginator
-      this.dataSource.sort = this.sort
+      if (this.activeFilters.length > 0) {
+        this.recalculateFilters()
+      } else {
+        this.dataSource = new MatTableDataSource(this.posts)
+        this.dataSource.paginator = this.paginator
+        this.dataSource.sort = this.sort
+      }
+
       this.paginator._intl.itemsPerPageLabel = "Clientes por pagina"
     })
   }
@@ -94,12 +90,6 @@ export class TableClientsComponent {
     const dialogRef = this.dialog.open(ClientFormComponent, {
       data: { isEditMode: false },
       width: '350px',
-    })
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.getClientList()
-      }
     })
   }
 
@@ -168,6 +158,8 @@ export class TableClientsComponent {
   filteredClients: any[] = []
   selectByDayFilter: any[] | null = null
   selectByFoodFilter: any[] | null = null
+  selectByPrefFilter: any[] | null = null
+  selectByObservationFilter: any[] | null = null
 
   day = ""
   food = ""
@@ -175,53 +167,8 @@ export class TableClientsComponent {
   subCategory = ""
   selectedByFoodAndDayFilter: any[] | null = null
 
-  manageFilters(){
-
-    if(this.filterService.getDrawerState()){
-
-      this.isDrawerOpen = this.filterService.getDrawerState()
-
-      if(this.filterService.getPrefState()){
-
-          this.prefFilter = this.filterService.getPrefState()
-          this.service.getClientsPref().subscribe((data) => {
-            this.filterCheckbox(data, {checked: true} as MatCheckboxChange)
-
-          })
-      }
-
-      if(this.filterService.getObservationState()){
-          this.observationState = this.filterService.getObservationState()
-          this.service.getObservationsClients().subscribe((data) => {
-            this.filterCheckbox(data, {checked: true} as MatCheckboxChange)
-
-          })
-      }
-
-      if(this.filterService.getDay()){
-        this.filterByDay({ value: this.filterService.getDay() })
-      }
-
-      this.categoriesService.getCategories().subscribe(data => {
-        this.categories = data
-
-        if(this.filterService.getFood()){
-          this.category = this.filterService.getCategory()
-          this.food = this.filterService.getFood()
-          this.filterByCategory({ value: this.filterService.getCategory() })
-          this.subCategory = this.filterService.getSubCategory()
-          this.filterBySubCategory({ value: this.filterService.getSubCategory() })
-
-          this.filterByFood({ value: this.filterService.getFood() })
-        }
-      })
-    }
-
-  }
-
   toggleDrawer(){
     this.isDrawerOpen = !this.isDrawerOpen
-    this.filterService.setDrawerState(this.isDrawerOpen)
 
     this.categoriesService.getCategories().subscribe(data => {
       this.categories = data
@@ -231,38 +178,43 @@ export class TableClientsComponent {
   toggleFilterCheckbox(event: MatCheckboxChange, box: number){
     switch(box) {
       case 1: //Fijos
-      this.filterService.setPrefState(this.prefFilter)
-      this.service.getClientsPref().subscribe((data) => {
-        console.log(data)
-        this.filterCheckbox(data, event)
-      })
-      break
+        if (event.checked) {
+          this.service.getClientsPref().subscribe((data) => {
+            this.selectByPrefFilter = data
+            this.activeFilters.push(data)
+            this.recalculateFilters()
+          })
+        } else {
+          this.removeActiveFilter(this.selectByPrefFilter)
+          this.selectByPrefFilter = null
+        }
+        break
       case 2: //Observaciones
-      this.filterService.setObservationState(this.observationState)
-        this.service.getObservationsClients().subscribe((data) => {
-          this.filterCheckbox(data, event)
-        })
+        if (event.checked) {
+          this.service.getObservationsClients().subscribe((data) => {
+            this.selectByObservationFilter = data
+            this.activeFilters.push(data)
+            this.recalculateFilters()
+          })
+        } else {
+          this.removeActiveFilter(this.selectByObservationFilter)
+          this.selectByObservationFilter = null
+        }
     }
   }
 
-  filterCheckbox(data: any, event: MatCheckboxChange){
-
-    if (event.checked){
-      this.activeFilters.push(data)
-      this.recalculateFilters()
-    } else {
-      this.activeFilters = this.activeFilters.filter(active =>
-        JSON.stringify(active) !== JSON.stringify(data)
-      )
-
-      this.recalculateFilters()
+  removeActiveFilter(filter: any[] | null){
+    if (!filter) {
+      return
     }
+
+    this.activeFilters = this.activeFilters.filter(active => active !== filter)
+    this.recalculateFilters()
   }
 
 
   filterByDay(event: any){
     this.day = event.value
-    this.filterService.setDay(this.day)
 
     if(this.food) { //Para aplicar el filtro de dias y comidas, se revisa si ya esta uno o otro
       this.filterByFoodAndDay(this.food, event.value)
@@ -329,9 +281,6 @@ export class TableClientsComponent {
 
   filterByFood(event:any){
     this.food = event.value
-    this.filterService.setCategory(this.category)
-    this.filterService.setSubCategory(this.subCategory)
-    this.filterService.setFood(this.food)
 
     if(this.day){
       this.filterByFoodAndDay(event.value, this.day)

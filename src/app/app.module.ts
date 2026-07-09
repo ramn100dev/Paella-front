@@ -17,6 +17,9 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
+
 //Material
 import { MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -73,7 +76,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatSnackBarModule
     ],
     providers: [
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy }
     ],
     bootstrap: [AppComponent]
 })

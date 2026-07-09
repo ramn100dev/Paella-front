@@ -13,6 +13,7 @@ import { MatButton } from '@angular/material/button';
 import { NgClass, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FoodsDragDropComponent } from '../foods-drag-drop/foods-drag-drop.component';
+import { ClientsNotifierService } from '../service/clients-notifier.service';
 
 type DayKey = 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo';
 
@@ -51,6 +52,7 @@ export class ScheduleTableComponent {
   private router = inject(Router)
   private dialog = inject(MatDialog)
   private snackBar = inject(MatSnackBar)
+  private notifier = inject(ClientsNotifierService)
 
   constructor() {
 
@@ -154,8 +156,10 @@ export class ScheduleTableComponent {
   delete(){
     const res = window.confirm("¿Quieres eliminar a este cliente?")
     if (res) {
-      this.service.delete(this.client.id).subscribe()
-      this.router.navigate(['/clients'])
+      this.service.delete(this.client.id).subscribe(() => {
+        this.notifier.notifyClientsChanged()
+        this.router.navigate(['/clients'])
+      })
     }
   }
 
