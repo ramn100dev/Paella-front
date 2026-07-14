@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
+import { TicketHistoryService } from '../service/ticket-history.service';
 
 export interface ClientReform {
   name: string,
@@ -17,6 +18,8 @@ export interface ClientReform {
   styleUrls: ['./ticket-generator.component.css']
 })
 export class TicketGeneratorComponent implements AfterViewInit{
+
+  private historyService = inject(TicketHistoryService)
 
   clientReform: ClientReform;
 
@@ -43,6 +46,17 @@ export class TicketGeneratorComponent implements AfterViewInit{
 
     this.manageTypes()
 
+    // Es una reimpresión, ya está guardado en el historial
+    if (!history.state.isReprint) {
+      this.historyService.add({
+        type: this.ticketType,
+        name: this.clientReform.name,
+        address: this.clientReform.address,
+        phone: this.clientReform.phone,
+        time: this.time,
+        data: { food: this.food }
+      })
+    }
   }
 
 

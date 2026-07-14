@@ -8,9 +8,9 @@
     @if (historyList.length != 0) {
       <div>
         @if (historyMode) {
-          <mat-icon color="primary" id="iconHistory" (click)="deleteHistory()">delete</mat-icon>
+          <mat-icon color="primary" [class.delete-active]="historyDeleteMode" id="iconHistory" (click)="toggleHistoryDeleteMode()">delete</mat-icon>
         }
-        <mat-icon color="primary" id="iconHistory" (click)="historyMode = !historyMode">history</mat-icon>
+        <mat-icon color="primary" id="iconHistory" (click)="historyMode = !historyMode; historyDeleteMode = false">history</mat-icon>
       </div>
     }
   </div>
@@ -121,58 +121,67 @@
   
 
   @if (historyMode) {
-    <div>
+    <div class="history-wrapper">
       <h2>Historial de pedidos</h2>
-      @for (form of historyList; track $index) {
-        <div class="rectangulo">
-          @if (form.type == 'Paella') {
-            <div class="test">
-                  <div class="rec-content">
-                    Paella: {{ form.data.food }} <br>
-                    Personas: {{ form.data.people }} <br>
-                    Entrega: {{ form.time }}
-                  </div>
-                  <div class="rec-content">
-                    Nombre: {{ form.name }} <br>
-                    Dirección: {{ form.address }} <br>
-                    Teléfono: {{ form.phone }}
-                  </div>
-            </div>
-          }
 
-          @if (form.type == 'Raciones') {
-            <div class="test">
-                  <div class="rec-content">
-                    Nombre: {{ form.name }} <br>
-                    Direccion: {{ form.address }} <br>
-                    Teléfono: {{ form.phone }} <br>
-                    Entrega: {{ form.time }}
-                  </div>
-                  <div class="rec-content">
-                    <div [innerHTML]="form.data.food" class="food-list"></div>
-                  </div>
-            </div>
-          }
+      <div class="history-filters">
+        <label>
+          Desde
+          <input type="date" [(ngModel)]="fromDate">
+        </label>
+        <label>
+          Hasta
+          <input type="date" [(ngModel)]="toDate">
+        </label>
 
-          @if (form.type == 'Menu diario') {
-            <div class="test">
-                  <div class="rec-content">
-                    Menu: {{ form.time }}<br>
-                    <div [innerHTML]="form.data.food" class="food-list"></div>
-                  </div>
-                  <div class="rec-content">
-                    Nombre: {{ form.name }} <br>
-                    Dirección: {{ form.address }} <br>
-                    Teléfono: {{ form.phone }}<br>
-                    @if (form.data.repetition) {
-                      <div>Repetir {{ form.data.repetition }} veces</div>
-                    }
-                  </div>
-                </div>
-          }
-          <mat-icon id="mainIcon" color="primary" (click)="reprint(form)">print</mat-icon>
-
+        <div class="history-actions">
+          <div class="history-action" (click)="exportFilteredHistory()">
+            <mat-icon color="primary">download</mat-icon>
+            <span>Exportar CSV</span>
+          </div>
+          <div class="history-action" (click)="deleteFilteredHistory()">
+            <mat-icon color="primary">delete</mat-icon>
+            <span>Eliminar franja</span>
+          </div>
         </div>
+      </div>
+
+      @if (historyList.length == 0) {
+        <div>No hay ningún ticket en el historial</div>
+      } @else {
+        <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" dynamicHeight="true">
+          @for (tab of historyTabs; track tab.type) {
+            <mat-tab [label]="tab.label">
+              <div class="content">
+                @if (historyByType(tab.type).length == 0) {
+                  <div>No hay ningún ticket de {{ tab.label }} en el historial</div>
+                } @else {
+                  @for (form of historyByType(tab.type); track form.id) {
+                    <div class="rectangulo" [class.selectable]="historyDeleteMode" (click)="historyDeleteMode && deleteHistoryItem(form)">
+                      <div class="test">
+                        <div class="rec-content">
+                          Entrega: {{ form.time }}<br>
+                          <div [innerHTML]="form.data.food" class="food-list"></div>
+                        </div>
+                        <div class="rec-content">
+                          Nombre: {{ form.name }} <br>
+                          Dirección: {{ form.address }} <br>
+                          Teléfono: {{ form.phone }}
+                        </div>
+                      </div>
+
+                      @if (historyDeleteMode) {
+                        <mat-icon id="mainIcon" class="delete-active">delete</mat-icon>
+                      } @else {
+                        <mat-icon id="mainIcon" color="primary" (click)="reprint(form)">print</mat-icon>
+                      }
+                    </div>
+                  }
+                }
+              </div>
+            </mat-tab>
+          }
+        </mat-tab-group>
       }
     </div>
   }

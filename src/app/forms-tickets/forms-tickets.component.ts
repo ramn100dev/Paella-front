@@ -6,6 +6,10 @@ import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TicketHistoryService } from '../service/ticket-history.service';
+
+type HistoryTabType = 'Paella' | 'Raciones' | 'Menu diario' | 'Menu';
 
 @Component({
   standalone: true,
@@ -13,7 +17,8 @@ import { CommonModule } from '@angular/common';
     MatIcon,
     MatTabGroup,
     MatTab,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   selector: 'app-forms-tickets',
   templateUrl: './forms-tickets.component.html',
@@ -28,28 +33,59 @@ export class FormsTicketsComponent {
   paellas: any[][] = []
 
   historyList: HistoryItem[] = []
+  historyTabs: { label: string, type: HistoryTabType }[] = [
+    { label: 'Paellas', type: 'Paella' },
+    { label: 'Raciones', type: 'Raciones' },
+    { label: 'Menús diarios', type: 'Menu diario' },
+    { label: 'Local', type: 'Menu' }
+  ]
 
   historyMode = false
+  historyDeleteMode = false
+
+  fromDate: string | null = null
+  toDate: string | null = null
 
   private dialogRef = inject(MatDialogRef<FormsTicketsComponent>)
   private service = inject(FormsServiceService)
   private router = inject(Router)
+  private historyService = inject(TicketHistoryService)
 
   constructor() {
 
-    const storedHistory = localStorage.getItem('ticketHistory')
-    console.log(this.historyList)
-
-    if(storedHistory){
-      this.historyList = JSON.parse(storedHistory)
-    } else {
-      this.historyList = []
-    }
-
+    this.historyList = this.historyService.getAll()
 
     this.service.getForm('Paella_Form').subscribe(data => {
       this.paellas = data.slice(1)
     })
+  }
+
+  historyByType(type: HistoryTabType): HistoryItem[] {
+    return this.historyInRange().filter(item => item.type === type)
+  }
+
+  historyInRange(): HistoryItem[] {
+    return this.historyService.getInRange(this.parseFromDate(), this.parseToDate())
+  }
+
+  private parseFromDate(): Date | null {
+    return this.fromDate ? new Date(`${this.fromDate}T00:00:00`) : null
+  }
+
+  private parseToDate(): Date | null {
+    return this.toDate ? new Date(`${this.toDate}T23:59:59.999`) : null
+  }
+
+  exportFilteredHistory() {
+    this.historyService.exportAsCsv(this.historyInRange())
+  }
+
+  deleteFilteredHistory() {
+    const res = window.confirm("¿Quieres eliminar el historial de tickets en la franja seleccionada? Esta acción no se puede deshacer.")
+    if (res) {
+      this.historyService.removeInRange(this.parseFromDate(), this.parseToDate())
+      this.historyList = this.historyService.getAll()
+    }
   }
 
   onTabChange(event: MatTabChangeEvent): void {
@@ -115,91 +151,27 @@ export class FormsTicketsComponent {
 
   selectFormTicket(type: string, form: any, index: number) {
 
-    let historyItem: HistoryItem
-
     switch (type) {
       case 'Paella':
-
         this.router.navigate(['/ticket', form[0]], { state: { client: form, food: form[1] + " para " + form[2] + " personas", time: form[4].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[3], ticketType: type, confirm: true } })
-
-        historyItem = {
-          type: type,
-          name: form[5],
-          address: form[6],
-          phone: form[7],
-          time: form[4].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[3],
-          data: {
-            food: form[1],
-            people: form[2]
-          }
-        }
-
         this.service.deleteRow("Paella_Form", index + 1).subscribe()
         break;
 
       case 'Raciones':
         const pedido = this.filteredRaciones[index]
-
         const food = Object.keys(pedido).map(key => `-${key}: ${pedido[key]}`).join('<br>')
 
         this.router.navigate(['/ticket', form[0]], { state: { client: form, food: food, time: form[1].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[2], ticketType: type, confirm: true } })
-
-        historyItem = {
-          type: type,
-          name: form[5],
-          address: form[3],
-          phone: form[4],
-          time: form[1].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[2],
-          data: {
-            food: food
-          }
-        }
-
         this.service.deleteRow("Raciones_Form", index + 1).subscribe()
         break;
 
       case 'Menu diario':
-        let repeticiones = null
-        let bebida = ''
         let numeric = this.isNumeric(form[9])
-
-        if (numeric) {
-          repeticiones = form[9]
-        } else {
-          bebida = form[9]
-        }
-
-        if (form[10]) {
-          repeticiones = form[10];
-        }
 
         if (form[9] && !numeric) {
           this.router.navigate(['/ticket', form[0]], { state: { client: form, food: `Primero: ${form[6]}<br>Segundo: ${form[7]}<br>Postre: ${form[8]}<br>Bebida: ${form[9]}`, time: form[2].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[1], ticketType: type, confirm: true } })
-          historyItem = {
-            type: type,
-            name: form[3],
-            address: form[4],
-            phone: form[5],
-            time: form[2].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[1],
-            data: {
-              food: `Primero: ${form[6]}<br>Segundo: ${form[7]}<br>Postre: ${form[8]}<br>Bebida: ${bebida}`,
-              repetir: repeticiones
-            }
-          }
         } else {
           this.router.navigate(['/ticket', form[0]], { state: { client: form, food: `Primero: ${form[6]}<br>Segundo: ${form[7]}<br>Postre: ${form[8]}`, time: form[2].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[1], ticketType: type, confirm: true } })
-
-          historyItem = {
-            type: type,
-            name: form[3],
-            address: form[4],
-            phone: form[5],
-            time: form[2].replace(/:\d{2}(?=\s[AP]M)/, "") + " Para el " + form[1],
-            data: {
-              food: `Primero: ${form[6]}<br>Segundo: ${form[7]}<br>Postre: ${form[8]}`,
-              repetir: repeticiones
-            }
-          }
         }
 
         this.service.deleteRow("Menu_Form", index + 1).subscribe()
@@ -209,47 +181,53 @@ export class FormsTicketsComponent {
         return;
     }
 
-    this.historyList.unshift(historyItem)
-    localStorage.setItem('ticketHistory', JSON.stringify(this.historyList))
-
     this.dialogRef.close()
   }
 
-  reprint(form: any){
-    let mockClientArray = [];
+  reprint(form: HistoryItem){
+    let mockClient: any = {};
 
     switch(form.type){
       case 'Paella':
-        mockClientArray[5] = form.name
-        mockClientArray[6] = form.address
-        mockClientArray[7] = form.phone
+        mockClient = []
+        mockClient[5] = form.name
+        mockClient[6] = form.address
+        mockClient[7] = form.phone
         break
 
       case 'Raciones':
-        mockClientArray[5] = form.name
-        mockClientArray[3] = form.address
-        mockClientArray[4] = form.phone
+        mockClient = []
+        mockClient[5] = form.name
+        mockClient[3] = form.address
+        mockClient[4] = form.phone
         break
 
       case 'Menu diario':
-        mockClientArray[3] = form.name
-        mockClientArray[4] = form.address
-        mockClientArray[5] = form.phone
+        mockClient = []
+        mockClient[3] = form.name
+        mockClient[4] = form.address
+        mockClient[5] = form.phone
+        break;
+
+      case 'Menu':
+        mockClient.name = form.name
+        mockClient.address = form.address
+        mockClient.phone = form.phone
         break;
     }
 
-    this.router.navigate(['/ticket', 'PaellaReprint'], { state: { client: mockClientArray, food: form.data.food, time: form.time, ticketType: form.type, confirm: true } })
+    this.router.navigate(['/ticket', 'reprint'], { state: { client: mockClient, food: form.data.food, time: form.time, ticketType: form.type, confirm: true, isReprint: true } })
 
     this.dialogRef.close()
   }
 
-  deleteHistory(){
-    const res = window.confirm("¿Quieres eliminar todo el historial?")
-    if (res) {
-      localStorage.removeItem('ticketHistory')
-      this.historyList = []
-      this.historyMode = !this.historyMode
-    }
+  toggleHistoryDeleteMode(){
+    this.historyDeleteMode = !this.historyDeleteMode
+  }
+
+  deleteHistoryItem(item: HistoryItem){
+    this.historyService.remove([item.id])
+    this.historyList = this.historyList.filter(h => h.id !== item.id)
   }
 
   isNumeric(value: any): boolean {

@@ -7,6 +7,7 @@
     padding-left: 1em;
     padding-top: 1em;
     padding-right: 1em;
+    padding-bottom: 1.5em;
     display: flex;
     flex-direction:column ;
     align-self: center;
@@ -88,4 +89,59 @@ button{
     scale: 2;
     margin-top: 10px;
     padding-right: 10px;
+}
+
+.delete-active {
+    color: #f44336 !important;
+}
+
+.history-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.history-filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.history-filters label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+.history-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.history-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    background-color: rgb(243, 243, 243);
+    box-shadow: 0px 3px 3px -4px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.07), 0px 1px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.history-action:hover {
+    cursor: pointer;
+    background-color: rgb(235, 235, 235);
+}
+
+.selectable {
+    cursor: pointer;
+}
+
+.selectable:hover {
+    background-color: rgba(244, 67, 54, 0.25);
 }
