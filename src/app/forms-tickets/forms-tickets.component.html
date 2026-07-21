@@ -137,11 +137,11 @@
         <div class="history-actions">
           <div class="history-action" (click)="exportFilteredHistory()">
             <mat-icon color="primary">download</mat-icon>
-            <span>Exportar CSV</span>
+            <span>Exportar CSV ({{ historyTabs[activeHistoryTabIndex].label }})</span>
           </div>
           <div class="history-action" (click)="deleteFilteredHistory()">
             <mat-icon color="primary">delete</mat-icon>
-            <span>Eliminar franja</span>
+            <span>Eliminar {{ historyTabs[activeHistoryTabIndex].label }}</span>
           </div>
         </div>
       </div>
@@ -149,7 +149,8 @@
       @if (historyList.length == 0) {
         <div>No hay ningún ticket en el historial</div>
       } @else {
-        <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" dynamicHeight="true">
+        <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" dynamicHeight="true"
+          [(selectedIndex)]="activeHistoryTabIndex">
           @for (tab of historyTabs; track tab.type) {
             <mat-tab [label]="tab.label">
               <div class="content">

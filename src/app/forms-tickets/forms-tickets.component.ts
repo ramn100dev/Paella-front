@@ -46,6 +46,8 @@ export class FormsTicketsComponent {
   fromDate: string | null = null
   toDate: string | null = null
 
+  activeHistoryTabIndex = 0
+
   private dialogRef = inject(MatDialogRef<FormsTicketsComponent>)
   private service = inject(FormsServiceService)
   private router = inject(Router)
@@ -77,13 +79,17 @@ export class FormsTicketsComponent {
   }
 
   exportFilteredHistory() {
-    this.historyService.exportAsCsv(this.historyInRange())
+    const activeType = this.historyTabs[this.activeHistoryTabIndex].type
+    this.historyService.exportAsCsv(this.historyByType(activeType))
   }
 
   deleteFilteredHistory() {
-    const res = window.confirm("¿Quieres eliminar el historial de tickets en la franja seleccionada? Esta acción no se puede deshacer.")
+    const activeTab = this.historyTabs[this.activeHistoryTabIndex]
+
+    const res = window.confirm(`¿Quieres eliminar el historial de ${activeTab.label} en la franja seleccionada? Esta acción no se puede deshacer.`)
     if (res) {
-      this.historyService.removeInRange(this.parseFromDate(), this.parseToDate())
+      const ids = this.historyByType(activeTab.type).map(item => item.id)
+      this.historyService.remove(ids)
       this.historyList = this.historyService.getAll()
     }
   }

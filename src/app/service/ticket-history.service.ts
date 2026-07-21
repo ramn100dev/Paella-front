@@ -35,21 +35,11 @@ export class TicketHistoryService {
     });
   }
 
-  removeInRange(from: Date | null, to: Date | null): void {
-    const ids = this.getInRange(from, to).map(item => item.id);
-    this.remove(ids);
-  }
-
-  clear(): void {
-    localStorage.removeItem(STORAGE_KEY);
-  }
-
   exportAsCsv(items?: HistoryItem[]): void {
     const history = items ?? this.getAll();
 
-    const header = ['Tipo', 'Nombre', 'Direccion', 'Telefono', 'Entrega', 'Detalle'];
+    const header = ['Nombre', 'Direccion', 'Telefono', 'Entrega', 'Detalle'];
     const rows = history.map(item => [
-      item.type,
       item.name,
       item.address,
       item.phone,
