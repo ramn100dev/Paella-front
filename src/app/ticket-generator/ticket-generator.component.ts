@@ -9,13 +9,12 @@ export interface ClientReform {
 }
 
 @Component({
-  standalone: true,
-  imports: [
-    DatePipe
-  ],
-  selector: 'app-ticket-generator',
-  templateUrl: './ticket-generator.component.html',
-  styleUrls: ['./ticket-generator.component.css']
+    imports: [
+        DatePipe
+    ],
+    selector: 'app-ticket-generator',
+    templateUrl: './ticket-generator.component.html',
+    styleUrls: ['./ticket-generator.component.css']
 })
 export class TicketGeneratorComponent implements AfterViewInit{
 

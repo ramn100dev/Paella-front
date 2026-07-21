@@ -24,24 +24,23 @@ import { ClientsNotifierService } from '../service/clients-notifier.service';
 
 
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatSidenavModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule
-  ],
-  selector: 'app-table-clients',
-  templateUrl: './table-clients.component.html',
-  styleUrls: ['./table-clients.component.css'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatSidenavModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule
+    ],
+    selector: 'app-table-clients',
+    templateUrl: './table-clients.component.html',
+    styleUrls: ['./table-clients.component.css']
 })
 export class TableClientsComponent {
   displayedColumn:string[] = ['name', 'address', 'phone']

@@ -9,18 +9,17 @@ import { MatButton } from '@angular/material/button';
 import { ClientsNotifierService } from '../service/clients-notifier.service';
 
 @Component({
-  standalone: true,
-  imports: [
-    MatFormField,
-    MatInput,
-    MatCheckbox,
-    MatButton,
-    MatLabel,
-    ReactiveFormsModule
-  ],
-  selector: 'app-client-form',
-  templateUrl: './client-form.component.html',
-  styleUrls: ['./client-form.component.css']
+    imports: [
+        MatFormField,
+        MatInput,
+        MatCheckbox,
+        MatButton,
+        MatLabel,
+        ReactiveFormsModule
+    ],
+    selector: 'app-client-form',
+    templateUrl: './client-form.component.html',
+    styleUrls: ['./client-form.component.css']
 })
 export class ClientFormComponent {
 

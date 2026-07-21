@@ -17,23 +17,22 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DragDropModule,
-    MatTabsModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatButtonModule,
-  ],
-  selector: 'app-foods-drag-drop',
-  templateUrl: './foods-drag-drop.component.html',
-  styleUrls: ['./foods-drag-drop.component.css']
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DragDropModule,
+        MatTabsModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatButtonModule,
+    ],
+    selector: 'app-foods-drag-drop',
+    templateUrl: './foods-drag-drop.component.html',
+    styleUrls: ['./foods-drag-drop.component.css']
 })
 export class FoodsDragDropComponent {
 

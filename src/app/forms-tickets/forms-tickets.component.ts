@@ -12,17 +12,16 @@ import { TicketHistoryService } from '../service/ticket-history.service';
 type HistoryTabType = 'Paella' | 'Raciones' | 'Menu diario' | 'Menu';
 
 @Component({
-  standalone: true,
-  imports: [
-    MatIcon,
-    MatTabGroup,
-    MatTab,
-    CommonModule,
-    FormsModule
-  ],
-  selector: 'app-forms-tickets',
-  templateUrl: './forms-tickets.component.html',
-  styleUrls: ['./forms-tickets.component.css']
+    imports: [
+        MatIcon,
+        MatTabGroup,
+        MatTab,
+        CommonModule,
+        FormsModule
+    ],
+    selector: 'app-forms-tickets',
+    templateUrl: './forms-tickets.component.html',
+    styleUrls: ['./forms-tickets.component.css']
 })
 export class FormsTicketsComponent {
 

@@ -7,16 +7,15 @@ import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
 
 @Component({
-  standalone: true,
-  imports: [
-    MatFormField,
-    FormsModule,
-    MatInput,
-    MatButton
-  ],
-  selector: 'app-ticket-editor',
-  templateUrl: './ticket-editor.component.html',
-  styleUrls: ['./ticket-editor.component.css']
+    imports: [
+        MatFormField,
+        FormsModule,
+        MatInput,
+        MatButton
+    ],
+    selector: 'app-ticket-editor',
+    templateUrl: './ticket-editor.component.html',
+    styleUrls: ['./ticket-editor.component.css']
 })
 export class TicketEditorComponent {
 

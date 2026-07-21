@@ -7,19 +7,18 @@ import { FoodsDragDropComponent } from '../foods-drag-drop/foods-drag-drop.compo
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  standalone: true,
-  imports: [
-    MatIcon,
-    MatRadioGroup,
-    MatTab,
-    MatTabGroup,
-    MatRadioButton,
-    FoodsDragDropComponent,
-    FormsModule
-  ],
-  selector: 'app-options-menu',
-  templateUrl: './options-menu.component.html',
-  styleUrls: ['./options-menu.component.css']
+    imports: [
+        MatIcon,
+        MatRadioGroup,
+        MatTab,
+        MatTabGroup,
+        MatRadioButton,
+        FoodsDragDropComponent,
+        FormsModule
+    ],
+    selector: 'app-options-menu',
+    templateUrl: './options-menu.component.html',
+    styleUrls: ['./options-menu.component.css']
 })
 export class OptionsMenuComponent {
 

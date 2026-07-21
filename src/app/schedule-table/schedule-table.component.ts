@@ -18,21 +18,20 @@ import { ClientsNotifierService } from '../service/clients-notifier.service';
 type DayKey = 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo';
 
 @Component({
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatIcon,
-    MatButton,
-    MatTableModule,
-    NgClass,
-    FormsModule,
-    FoodsDragDropComponent,
-    MatSidenavModule,
-    TitleCasePipe
-  ],
-  selector: 'app-schedule-table',
-  templateUrl: './schedule-table.component.html',
-  styleUrls: ['./schedule-table.component.css']
+    imports: [
+        RouterLink,
+        MatIcon,
+        MatButton,
+        MatTableModule,
+        NgClass,
+        FormsModule,
+        FoodsDragDropComponent,
+        MatSidenavModule,
+        TitleCasePipe
+    ],
+    selector: 'app-schedule-table',
+    templateUrl: './schedule-table.component.html',
+    styleUrls: ['./schedule-table.component.css']
 })
 export class ScheduleTableComponent {
   displayedColumns: string[] = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
