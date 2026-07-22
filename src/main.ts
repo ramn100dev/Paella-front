@@ -1,3 +1,4 @@
+import { provideZoneChangeDetection } from "@angular/core";
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -9,7 +10,7 @@ import { CustomRouteReuseStrategy } from './app/custom-route-reuse-strategy';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes),
+    provideZoneChangeDetection(),provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
     { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy }
