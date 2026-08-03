@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { ScheduleService } from 'src/app/service/schedule.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientFormComponent } from '../client-form/client-form.component';
 import { TicketEditorComponent } from '../ticket-editor/ticket-editor.component';
@@ -14,6 +14,7 @@ import { NgClass, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FoodsDragDropComponent } from '../foods-drag-drop/foods-drag-drop.component';
 import { ClientsNotifierService } from '../service/clients-notifier.service';
+import { ClientsService } from '../service/clients.service';
 
 type DayKey = 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo';
 
@@ -49,18 +50,22 @@ export class ScheduleTableComponent {
 
   private service = inject(ScheduleService)
   private router = inject(Router)
+  private route = inject(ActivatedRoute)
   private dialog = inject(MatDialog)
   private snackBar = inject(MatSnackBar)
   private notifier = inject(ClientsNotifierService)
+  private clientsService = inject(ClientsService)
 
   constructor() {
 
-    this.client = history.state.client
+    const id = Number(this.route.snapshot.paramMap.get('id'))
+    this.clientsService.getClient(id).subscribe(client => {
+      this.client = client
+      this.getScheduleList()
+    })
 
     const today = new Date();
     this.monthView = this.generateMonthView(today.getMonth(), today.getFullYear());
-
-    this.getScheduleList()
   }
 
   getScheduleList(){

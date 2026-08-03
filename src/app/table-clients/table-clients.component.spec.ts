@@ -8,7 +8,7 @@ describe('TableClientsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TableClientsComponent]
+      imports: [TableClientsComponent]
     });
     fixture = TestBed.createComponent(TableClientsComponent);
     component = fixture.componentInstance;

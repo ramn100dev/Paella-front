@@ -3,13 +3,15 @@
         <div class="info">
             <div class="edit">
                 <mat-icon aria-hidden="true" class="topIcons" routerLink="/clients" id="back">arrow_back</mat-icon>
-                <div class="text">
-                    <div>{{client.name}}</div>
-                    <div class="textContent">{{client.address}}</div>
-                    <div class="textContent">{{client.phone}}</div>
-                    @if (client.preference != 0) { <div id="fijoInfo">Fijo: {{client.preference}}</div> }
-                    @if (client.observation) { <mat-icon color="primary" class="textContent" (click)="showObservation()">info</mat-icon> }
-                </div>
+                @if (client) {
+                    <div class="text">
+                        <div>{{client.name}}</div>
+                        <div class="textContent">{{client.address}}</div>
+                        <div class="textContent">{{client.phone}}</div>
+                        @if (client.preference != 0) { <div id="fijoInfo">Fijo: {{client.preference}}</div> }
+                        @if (client.observation) { <mat-icon color="primary" class="textContent" (click)="showObservation()">info</mat-icon> }
+                    </div>
+                }
             </div>
 
             <div class="options">

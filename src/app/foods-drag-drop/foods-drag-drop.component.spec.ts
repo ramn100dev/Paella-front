@@ -8,7 +8,7 @@ describe('FoodsDragDropComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FoodsDragDropComponent]
+      imports: [FoodsDragDropComponent]
     });
     fixture = TestBed.createComponent(FoodsDragDropComponent);
     component = fixture.componentInstance;

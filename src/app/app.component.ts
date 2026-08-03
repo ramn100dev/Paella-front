@@ -8,8 +8,6 @@ import { RouterOutlet } from '@angular/router';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'paella-front';
-
   themes = [
     { name: 'default', colors: { primary: '#757575', accent: '#BDBDBD', warn: '#FAFAFA' } },
     { name: 'pink', colors: { primary: '#D81B60', accent: '#FF80AB', warn: '#FCE4EC' } },
