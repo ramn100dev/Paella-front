@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SubCategory } from '../models/SubCategory';
+import { SubCategory, NewSubCategory } from '../models/SubCategory';
 import { Observable } from 'rxjs';
 import { Category } from '../models/Category';
 
@@ -14,7 +14,7 @@ export class CategoriesService {
   constructor(private http: HttpClient) { }
 
   getCategories() {
-    return this.http.get(this.BASE_URL + "/all/category")
+    return this.http.get<Category[]>(this.BASE_URL + "/all/category")
   }
 
   postCategory(category: Category): Observable<Category> {
@@ -30,11 +30,11 @@ export class CategoriesService {
   }
 
   //SubCategories
-  postSubCategory(sub_category: SubCategory): Observable<SubCategory> {
+  postSubCategory(sub_category: NewSubCategory): Observable<SubCategory> {
     return this.http.post<SubCategory>(this.BASE_URL +"/new/subCategory", sub_category)
   }
 
-  putSubCategory(id: number, sub_category: SubCategory): Observable<SubCategory> {
+  putSubCategory(id: number, sub_category: Partial<SubCategory>): Observable<SubCategory> {
     return this.http.put<SubCategory>(this.BASE_URL + "/modify/subCategory/" + id, sub_category)
   }
 

@@ -5,6 +5,7 @@ import { MatRadioButton, MatRadioChange, MatRadioGroup } from '@angular/material
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { FoodsDragDropComponent } from '../foods-drag-drop/foods-drag-drop.component';
 import { FormsModule } from '@angular/forms';
+import { ThemeService } from '../service/theme.service';
 
 @Component({
     imports: [
@@ -27,6 +28,7 @@ export class OptionsMenuComponent {
 
   private dialogRef = inject(MatDialogRef<OptionsMenuComponent>)
   private renderer = inject(Renderer2)
+  private themeService = inject(ThemeService)
 
   // MARCADORES Y GESTION DEL STORAGE
   highlightOptions(event: MatRadioChange) {
@@ -56,36 +58,10 @@ export class OptionsMenuComponent {
 
 
   //PERSONALIZACION
-  themes = [
-    { name: 'default', colors: { primary: '#757575', accent: '#BDBDBD', warn: '#FAFAFA' } },
-    { name: 'pink', colors: { primary: '#D81B60', accent: '#FF80AB', warn: '#FCE4EC' } },
-    { name: 'red', colors: { primary: '#F44336', accent: '#FF5252', warn: '#FFEBEE' } },
-    { name: 'orange', colors: { primary: '#FB8C00', accent: '#FFD740', warn: '#FFF3E0' } },
-    { name: 'blue', colors: { primary: '#1E88E5', accent: '#448AFF', warn: '#E3F2FD' } },
-    { name: 'cyan', colors: { primary: '#00ACC1', accent: '#00E5FF', warn: '#E0F7FA' } },
-    { name: 'light-green', colors: { primary: '#7CB342', accent: '#B2FF59', warn: '#F1F8E9' } },
-  ]
+  themes = this.themeService.themes
 
-  currentTheme = localStorage.getItem('theme') || ("default")
-
-  changeButton(themeName:string) {
-    const selectedTheme = this.themes.find(t => t.name === themeName)
-
-    this.themes.forEach(t => this.renderer.removeClass(document.body, t.name))
-
-    if (selectedTheme) {
-      this.renderer.addClass(document.body, themeName);
-
-      this.renderer.setStyle(document.body, 'background-color', selectedTheme.colors.warn);
-      localStorage.setItem('background-color', selectedTheme.colors.warn)
-      document.documentElement.style.setProperty('--accent-color', selectedTheme.colors.accent);
-      document.documentElement.style.setProperty('--warn-color', selectedTheme.colors.warn);
-      document.documentElement.style.setProperty('--primary-color', selectedTheme.colors.primary);
-    }
-
-    this.currentTheme = themeName;
-    localStorage.setItem('theme', themeName);
-
+  changeButton(themeName: string) {
+    this.themeService.setTheme(this.renderer, themeName)
   }
 
   //CLOSE

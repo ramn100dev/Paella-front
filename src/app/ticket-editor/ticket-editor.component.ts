@@ -5,6 +5,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
+import { Client } from '../models/Client';
+
+interface TicketEditorData {
+  client: Client;
+  dayValue: string[];
+  multipleSchedule: boolean;
+}
 
 @Component({
     imports: [
@@ -27,7 +34,7 @@ export class TicketEditorComponent {
 
   private dialogRef = inject(MatDialogRef<TicketEditorComponent>)
   private router = inject(Router)
-  data = inject(MAT_DIALOG_DATA)
+  data = inject<TicketEditorData>(MAT_DIALOG_DATA)
 
   constructor(){
     //console.log(data.dayValue.length + " fasfaf" + data.dayValue)
@@ -73,6 +80,6 @@ export class TicketEditorComponent {
   }
 
   checkDayValue(): boolean{
-    return this.data.dayValue.some((value: any) => value !== null);
+    return this.data.dayValue.some((value) => value !== null);
   }
 }

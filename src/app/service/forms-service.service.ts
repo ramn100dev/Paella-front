@@ -7,8 +7,6 @@ import { map, Observable, tap } from 'rxjs';
 })
 export class FormsServiceService {
 
-  pedidos: any[] = []
-
   private BASE_URL = "http://localhost:8080/api/sheet/"
 
   constructor(private http: HttpClient) { }

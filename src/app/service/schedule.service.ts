@@ -18,7 +18,7 @@ export class ScheduleService {
     return this.http.get(this.BASE_URL + "/by-id/" +  + id)
   }*/
 
-  getScheduleList(id: string) {
+  getScheduleList(id: number) {
     return this.http.get<Schedule[]>(this.BASE_URL + "/" + id + "/client")
   }
 

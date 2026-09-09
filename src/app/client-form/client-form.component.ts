@@ -7,6 +7,13 @@ import { MatInput } from '@angular/material/input';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatButton } from '@angular/material/button';
 import { ClientsNotifierService } from '../service/clients-notifier.service';
+import { Client } from '../models/Client';
+
+interface ClientFormData {
+  isEditMode: boolean;
+  client?: Client;
+  isFijo?: boolean;
+}
 
 @Component({
     imports: [
@@ -32,17 +39,17 @@ export class ClientFormComponent {
   private notifier = inject(ClientsNotifierService)
   private fb =  inject(FormBuilder)
   private dialogRef = inject(MatDialogRef<ClientFormComponent>)
-  data = inject(MAT_DIALOG_DATA)
+  data = inject<ClientFormData>(MAT_DIALOG_DATA)
 
   constructor() {
     
     this.isEditMode = this.data.isEditMode;
-    this.isFijo = this.data.isFijo;
+    this.isFijo = this.data.isFijo ?? false;
 
     if(this.isEditMode){
-      if(this.data.client.observation != ""){
+      if(this.data.client!.observation != ""){
         this.hasObservation = true
-      } 
+      }
     }
 
     this.clientForm = this.fb.group({
@@ -79,7 +86,7 @@ export class ClientFormComponent {
 
     if (this.clientForm.valid) {
       if (this.isEditMode) {
-        this.service.updateClient(this.data.client.id, this.clientForm.value).subscribe({
+        this.service.updateClient(this.data.client!.id, this.clientForm.value).subscribe({
           next: (res) => {
             console.log(res)
             this.notifier.notifyClientsChanged()

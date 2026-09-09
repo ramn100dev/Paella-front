@@ -20,6 +20,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { ClientsNotifierService } from '../service/clients-notifier.service';
+import { Category } from '../models/Category';
+import { SubCategory } from '../models/SubCategory';
+import { Food } from '../models/Food';
 
 
 
@@ -81,7 +84,7 @@ export class TableClientsComponent {
     })
   }
 
-  loadSchedule(client: any){
+  loadSchedule(client: Client){
     this.router.navigate(['/schedule', client.id])
   }
 
@@ -142,9 +145,9 @@ export class TableClientsComponent {
   @ViewChild('drawer') drawer!: MatDrawer
   isDrawerOpen = false
   days: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
-  categories: any
-  subcategories: any[] = []
-  foods: any[] = []
+  categories: Category[] = []
+  subcategories: SubCategory[] = []
+  foods: Food[] = []
 
   searchValue = ""
   prefFilter = false
@@ -153,18 +156,18 @@ export class TableClientsComponent {
   isCategorySelected = false
   isSubCategorySelected = false
 
-  activeFilters: any[][] = []
-  filteredClients: any[] = []
-  selectByDayFilter: any[] | null = null
-  selectByFoodFilter: any[] | null = null
-  selectByPrefFilter: any[] | null = null
-  selectByObservationFilter: any[] | null = null
+  activeFilters: Client[][] = []
+  filteredClients: Client[] = []
+  selectByDayFilter: Client[] | null = null
+  selectByFoodFilter: Client[] | null = null
+  selectByPrefFilter: Client[] | null = null
+  selectByObservationFilter: Client[] | null = null
 
   day = ""
   food = ""
   category = ""
   subCategory = ""
-  selectedByFoodAndDayFilter: any[] | null = null
+  selectedByFoodAndDayFilter: Client[] | null = null
 
   toggleDrawer(){
     this.isDrawerOpen = !this.isDrawerOpen
@@ -202,7 +205,7 @@ export class TableClientsComponent {
     }
   }
 
-  removeActiveFilter(filter: any[] | null){
+  removeActiveFilter(filter: Client[] | null){
     if (!filter) {
       return
     }
@@ -268,14 +271,14 @@ export class TableClientsComponent {
       this.isCategorySelected = true
     }, 10)
 
-    this.subcategories = this.categories[event.value].subCategories
+    this.subcategories = this.categories[event.value].subCategories ?? []
     this.deleteFoodFilters(false)
     //console.log(this.subcategories)
   }
 
   filterBySubCategory(event: any){
     this.isSubCategorySelected = true
-    this.foods = this.subcategories[event.value].foods
+    this.foods = this.subcategories[event.value].foods ?? []
   }
 
   filterByFood(event:any){

@@ -2,7 +2,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { FoodService } from '../service/food.service';
-import { Food } from '../models/Food';
+import { NewFood } from '../models/Food';
+import { Category } from '../models/Category';
 import { CategoriesService } from '../service/categories.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -36,7 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class FoodsDragDropComponent {
 
-  data:any
+  data: Category[] = []
   //selectedTab: number = 0;
 
   categoryForm: FormGroup
@@ -89,7 +90,7 @@ export class FoodsDragDropComponent {
           copyCategory: this.data[0].name
         });
 
-        const maxSubCategoryLength = Math.max(...this.data.map((category: any) => category.subCategories.length))
+        const maxSubCategoryLength = Math.max(...this.data.map(category => category.subCategories?.length ?? 0))
         
         this.maxSubcategoryLength.emit(maxSubCategoryLength)
         console.log(maxSubCategoryLength)
@@ -125,7 +126,7 @@ export class FoodsDragDropComponent {
   saveFood(event: any, subCategoryId: number, categoryId: number): void{
     
     if(event.target.value != '') {
-      const food: Food = {
+      const food: NewFood = {
         name: event.target.value,
         category: { id:categoryId },
         sub_category: { id:subCategoryId }
@@ -214,7 +215,7 @@ export class FoodsDragDropComponent {
     this.categoriesService.postCategory(formData).subscribe(async (Response) => {
       if (formData.copySubCategories) {
         const newCategoryId = Response.id
-        const subCategories = this.data.find((category: any) => category.name === formData.copyCategory)?.subCategories || []
+        const subCategories = this.data.find(category => category.name === formData.copyCategory)?.subCategories || []
   
         console.log(subCategories, formData.copyCategory)
   

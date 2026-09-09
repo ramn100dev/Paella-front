@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Food } from '../models/Food';
+import { Food, NewFood } from '../models/Food';
 import { Observable } from 'rxjs';
 import { SubCategory } from '../models/SubCategory';
 
@@ -13,7 +13,7 @@ export class FoodService {
 
   constructor(private http: HttpClient) { }
 
-  postFood(food: Food): Observable<Food> {
+  postFood(food: NewFood): Observable<Food> {
     return this.http.post<Food>(this.BASE_URL + "new", food)
   }
 

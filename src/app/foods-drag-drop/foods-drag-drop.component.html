@@ -18,7 +18,7 @@
                   </div>
                 }
 
-                @if (subCategory.foods.length != 0) {
+                @if ((subCategory.foods?.length ?? 0) != 0) {
                   <div cdkDropList id="foodList" cdkDropListOrientation="horizontal" class="list" (cdkDropListDropped)="drop($event, subCategory.foods)">
                     @for (food of subCategory.foods; track food.id) {
                       <div class="box" cdkDrag (cdkDragStarted)="onDragStart(food.name, food.id)" (cdkDragEnded)="onDragEnd()">
@@ -30,8 +30,8 @@
                       <div class="addBox" (cdkDragEnded)="onDragEnd()" (click)="toggleAddingFood(subCategory.id)">Añadir +</div>
                     }
                     @if (addingFoodMap[subCategory.id] && edit) {
-                      <div>
-                        <input (blur)="saveFood($event, subCategory.id, category.id)" (keydown.enter)="saveFood($event, subCategory.id, category.id)"/>
+                      <div class="addFoodCell">
+                        <input class="addFoodInput" (blur)="saveFood($event, subCategory.id, category.id)" (keydown.enter)="saveFood($event, subCategory.id, category.id)"/>
                       </div>
                     }
                   </div>
@@ -45,8 +45,8 @@
                         <div class="addBox" (cdkDragEnded)="onDragEnd()" (click)="toggleAddingFood(subCategory.id)">Añadir +</div>
                       }
                       @if (addingFoodMap[subCategory.id] && edit) {
-                        <div>
-                          <input (blur)="saveFood($event, subCategory.id, category.id)" (keydown.enter)="saveFood($event, subCategory.id, category.id)"/>
+                        <div class="addFoodCell">
+                          <input class="addFoodInput" (blur)="saveFood($event, subCategory.id, category.id)" (keydown.enter)="saveFood($event, subCategory.id, category.id)"/>
                         </div>
                       }
                     </div>
@@ -68,7 +68,7 @@
             }
 
           </div>
-          @if (category.subCategories.length == 0 && !edit) {
+          @if ((category.subCategories?.length ?? 0) == 0 && !edit) {
             <div>
               No se ha añadido ninguna sub-categoria
             </div>
@@ -88,10 +88,10 @@
                 <input matInput formControlName="name" />
               </mat-form-field> <br>
 
-              @if (data != 0) {
+              @if (data.length > 0) {
                 <mat-checkbox formControlName="copySubCategories">Copiar subcategorias</mat-checkbox> <br>
               }
-              @if (categoryForm.get('copySubCategories')?.value && data != 0) {
+              @if (categoryForm.get('copySubCategories')?.value && data.length > 0) {
                 <mat-form-field appearance="fill">
                   <mat-label>Categoria a copiar</mat-label>
                   <mat-select formControlName="copyCategory">

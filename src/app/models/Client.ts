@@ -4,7 +4,7 @@ export interface Client{
   name: string;
   address: string;
   phone: string;
-  preference: 0;
+  preference: number;
   monthly: boolean;
   highlight: boolean;
   observation: string;

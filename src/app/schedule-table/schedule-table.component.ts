@@ -7,7 +7,7 @@ import { ClientFormComponent } from '../client-form/client-form.component';
 import { TicketEditorComponent } from '../ticket-editor/ticket-editor.component';
 import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
 import { Schedule } from '../models/Schedule';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { NgClass, TitleCasePipe } from '@angular/common';
@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { FoodsDragDropComponent } from '../foods-drag-drop/foods-drag-drop.component';
 import { ClientsNotifierService } from '../service/clients-notifier.service';
 import { ClientsService } from '../service/clients.service';
+import { Client } from '../models/Client';
 
 type DayKey = 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo';
 
@@ -41,8 +42,8 @@ export class ScheduleTableComponent {
 
   editingCell: { row: Schedule, column: string } | null = null;
 
-  posts:any
-  client: any
+  posts!: Schedule[][]
+  client!: Client
   multipleSchedule: boolean = false
   deleteMode: boolean = false
   isMonthly: boolean = false
@@ -81,7 +82,7 @@ export class ScheduleTableComponent {
         this.displayedColumns = this.displayedColumns.filter(column => column !== 'delete');
       }
 
-      if (this.client.monthly != 0) {
+      if (this.client.monthly) {
         this.isMonthly = true;
       }
       console.log(data)
@@ -112,7 +113,7 @@ export class ScheduleTableComponent {
     });
   }
 
-  createTicket(day: string){
+  createTicket(day: DayKey){
     const dayValue = []
     const food = this.posts[0]
 
@@ -301,7 +302,7 @@ export class ScheduleTableComponent {
   }
 
   // Registrar la comida al soltar sobre una celda. Esto funciona gracias a que (mouseup) se activa al dejar de mantener el click, registrando la comida y el estado del drag
-  onDropCell(column: string, row: any) {
+  onDropCell(column: DayKey, row: Schedule) {
     if (this.dragActivated && this.draggedFood) {
       if (row[column]) {
         row[column] += ` + ${this.draggedFood}`; // Añadir al contenido existente
@@ -315,7 +316,7 @@ export class ScheduleTableComponent {
 
   /* Observaciones */
 
-  observationSnackBar: any
+  observationSnackBar: MatSnackBarRef<TextOnlySnackBar> | null = null
 
   showObservation(){
     if (this.observationSnackBar) {
